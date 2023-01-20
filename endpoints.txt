@@ -1,0 +1,11 @@
+Country Info 
+http://api.geonames.org/countryInfoJSON?country=uk&username=murtaza1
+
+
+postCode endpoint 
+
+http://api.geonames.org/postalCodeSearchJSON?formatted=true&postalcode=ws29qt&username=murtaza1 
+
+
+TimeZone endpoint
+http://api.geonames.org/timezoneJSON?lat=47.01&lng=10.2&username=murtaza1

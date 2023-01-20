@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 8px 16px;
+  border: 1px solid #000;
+}
+.table th {
+  text-align: left;
+}
+#postcode-btn,
+#timezone-btn,
+#country-btn {
+  padding: 8px 10px;
+  font-size: 18px;
+  margin: 15px auto;
+  background-color: #4a4ae4;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+}
+
+#results {
+  margin: 20px auto;
+  border: 2px solid #000;
+}

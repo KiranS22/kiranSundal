@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetching data from API task</title>
+    <link rel="stylesheet" href="libs/css/style.css" />
+  </head>
+  <body>
+    <table id="table" class="table">
+      <tr>
+        <th>API Name</th>
+        <th>Description</th>
+        <th></th>
+      </tr>
+      <tr>
+        <td>Country Info</td>
+        <td>
+          <select id="selCountry">
+            <option value="UK">UK</option>
+          </select>
+        </td>
+        <td>
+          <button type="button" id="country-btn">Submit</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Postcode</td>
+        <td>
+          <input type="text" id="postcode" placeholder="Enter Postcode" />
+        </td>
+        <td><button type="button" id="postcode-btn">Submit</button></td>
+      </tr>
+      <tr>
+        <td>Timezone</td>
+
+        <td>
+          <input type="text" id="lat" placeholder="Enter your city's latitude" />
+          <input type="text" id="long" placeholder="Enter your city's longitude" />
+        </td>" />
+        </td>
+       
+      </td>
+        <td>
+          <butt\on type="button" id="timezone-btn">Submit</butt>
+        </td>
+      </tr>
+    </table>
+    <div id="results"></div>
+    <script src="./libs/js/jquery-3.6.3.min.js"></script>
+    <script src="./libs/js/script.js"></script>
+  </body>
+</html>

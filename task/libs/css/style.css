@@ -29,7 +29,29 @@
   border: none;
 }
 
-#results {
+.results {
   margin: 20px auto;
   border: 2px solid #000;
+  height: 300px;
+}
+.r-container {
+  margin: 20px 5px;
+}
+
+#results-1,
+#results-2,
+#results-3,
+#results-4,
+#results-5 {
+  font-size: 18px;
+  font-weight: 300;
+  font-family: sans-serif;
+}
+
+#results-1-text,
+#results-2-text,
+#results-3-text,
+#results-4-text,
+#results-5-text {
+  font-family: sans-serif;
 }

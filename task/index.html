@@ -19,6 +19,9 @@
         <td>
           <select id="selCountry">
             <option value="UK">UK</option>
+            <option value="FR">France</option>
+            <option value="DE">Germany</option>
+            <option value="US">USA</option>
           </select>
         </td>
         <td>
@@ -36,18 +39,45 @@
         <td>Timezone</td>
 
         <td>
-          <input type="text" id="lat" placeholder="Enter your city's latitude" />
-          <input type="text" id="long" placeholder="Enter your city's longitude" />
-        </td>" />
+          <input
+            type="text"
+            id="lat"
+            placeholder="Enter your city's latitude"
+          />
+          <input
+            type="text"
+            id="long"
+            placeholder="Enter your city's longitude"
+          />
         </td>
-       
-      </td>
+
         <td>
-          <butt\on type="button" id="timezone-btn">Submit</butt>
+          <button type="button" id="timezone-btn">Submit</button>
         </td>
       </tr>
     </table>
-    <div id="results"></div>
+    <div id="results" class="results">
+      <div class="r-container">
+        <span id="result-1"></span><span id="result-1-text"></span>
+      </div>
+
+      <div class="r-container">
+        <span id="result-2"></span><span id="result-2-text"></span>
+      </div>
+
+      <div class="r-container">
+        <span id="result-3"></span><span id="result-3-text"></span>
+      </div>
+
+      <div class="r-container">
+        <span id="result-4"></span><span id="result-4-text"></span>
+      </div>
+
+      <div class="r-container">
+        <span id="result-5"></span><span id="result-5-text"></span>
+      </div>
+    </div>
+
     <script src="./libs/js/jquery-3.6.3.min.js"></script>
     <script src="./libs/js/script.js"></script>
   </body>

@@ -1,5 +1,6 @@
 <?php
-$url = "https://restcountries.com/v3.1/all";
+$url = "https://api.exchangerate.host/latest?base=". $_REQUEST['currency'];
+
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -23,3 +24,4 @@ echo $result;
 
 // echo json_encode($output); 
 ?>
+

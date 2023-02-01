@@ -7,6 +7,9 @@
     <title>Gazetteer - Kiran Sundal</title>
     <link rel="stylesheet" href="./libs/css/bootstrap.min.css" />
     <link rel="stylesheet" href="./libs/css/leaflet.css" />
+    <link rel="stylesheet" href="./libs/css/leaflet-easyButtons.css" />
+    <link rel="stylesheet" href="./libs/css/fontAwesome.css" />
+
     <link rel="stylesheet" href="./libs/css/style.css" />
   </head>
   <body>
@@ -40,7 +43,7 @@
       </div>
     </nav>
 
-    <!-- Modal -->
+    <!-- How to use app modal-->
     <div
       class="modal fade"
       id="appInstructions"
@@ -61,23 +64,26 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">...</div>
+          <div class="modal-body">
+            <ul>
+              <li>
+                Select a country from the dropdown thaty is located in the
+                navigation bar.
+              </li>
+
+              <li>
+                Pressd the buttons on the side of the map. Each button will
+                trigger a modal, that will display information about the
+                selected country.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- Basic country Info modal -->
     <div class="country-info-modal">
-      <!-- Button trigger modal -->
-      <button
-        type="button"
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#countryInfo"
-      >
-        Launch demo modal
-      </button>
-
-      <!-- Modal -->
       <div
         class="modal fade"
         id="countryInfo"
@@ -100,21 +106,28 @@
             </div>
             <div class="modal-body">
               <div class="row">
-                <div class="col-md-6 col-12">
-                  <p>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Blanditiis veniam deleniti, ad officia quaerat, molestias
-                    quasi nobis, consectetur optio voluptas iste quas voluptate
-                    amet incidunt facere ipsum est quam animi!
-                  </p>
-                </div>
-                <div class="col-md-6 col-12">
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Alias eaque omnis tenetur culpa eveniet atque cum, minima at
-                    saepe quidem explicabo animi quos harum deserunt. Unde
-                    aliquid blanditiis sunt vero.
-                  </p>
+                <div class="col-12">
+                  <div class="categories">
+                    <div id="info-1">
+                      <span>Name:</span><span id="result-1"></span>
+                    </div>
+                    <div id="info-2">
+                      <span>Capital:</span><span id="result-2"></span>
+                    </div>
+                    <div id="info-3">
+                      <span>Population:</span><span id="result-3"></span>
+                    </div>
+                    <div id="info-4">
+                      <span>Flag</span>
+                      <div id="result-4"></div>
+                    </div>
+                    <div id="info-5">
+                      <span>Borders With:</span><span id="result-5"></span>
+                    </div>
+                    <div id="info-6">
+                      <span>Sub-region:</span><span id="result-6"></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -126,19 +139,144 @@
               >
                 Close
               </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ------------------------------------------- -->
+
+    <!-- Weather modal -->
+    <div class="weather-modal">
+      <div
+        class="modal fade"
+        id="weatherInfo"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Weather Information
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="categories">
+                    <div id="w-info-1">
+                      <span>Current Weather:</span><span id="w-result-1"></span>
+                    </div>
+                    <div id="w-info-2">
+                      <span>Temperature:</span><span id="w-result-2"></span>
+                    </div>
+                    <div id="w-info-3">
+                      <span>Timezone(UTC):</span><span id="w-result-3"></span>
+                    </div>
+                    <div id="w-info-4">
+                      <span>latitude :</span>
+                      <span id="w-result-4"></span>
+                    </div>
+                    <div id="w-info-5">
+                      <span>longitude:</span><span id="w-result-5"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- ------------------------------------------- -->
+
+    <!-- usefukl links  modal -->
+    <div class="country-info-modal">
+      <div
+        class="modal fade"
+        id="usefulInfo"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Useful Information
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="categories">
+                    <div id="u-info-1">
+                      <span>Exchange rate:</span><span id="u-result-1"></span>
+                    </div>
+                    <div id="u-info-2">
+                      <span>Capital:</span><span id="u-result-2"></span>
+                    </div>
+                    <div id="u-info-3">
+                      <span>Population:</span><span id="u-result-3"></span>
+                    </div>
+                    <div id="u-info-4">
+                      <span>Flag</span>
+                      <div id="u-result-4"></div>
+                    </div>
+                    <div id="u-info-5">
+                      <span>Borders With:</span><span id="u-result-5"></span>
+                    </div>
+                    <div id="u-info-6">
+                      <span>Postal Code:</span><span id="u-result-6"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ------------------------------------------- -->
     <div id="map"></div>
     <script src="./libs/js/jquery-3.6.3.min.js"></script>
     <script src="./libs/js/script.js"></script>
     <script src="./libs/js/bootstrap.bundle.min.js"></script>
     <script src="./libs/js/leaflet.js"></script>
+    <script src="./libs/js/leaflet-easyButtons.js"></script>
+    <script src="./libs/js/fontAwesome.js"></script>
     <script src="./libs/js/map.js"></script>
   </body>
 </html>

@@ -1,5 +1,7 @@
 <?php
-$url = "https://restcountries.com/v3.1/all";
+require "config.php";
+
+$url = "https://api.openweathermap.org/data/2.5/weather?lat=".$_REQUEST['lat'] . "&"."lon=".$_REQUEST['long']. "&" ."appid=" . API_KEY;
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

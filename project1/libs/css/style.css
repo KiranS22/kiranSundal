@@ -8,3 +8,41 @@
   height: 90vh;
   width: 100%;
 }
+
+#info-1,
+#info-2,
+#info-3,
+#info-4,
+#info-5,
+#info-6,
+#w-info-1,
+#w-info-2,
+#w-info-3,
+#w-info-4,
+#w-info-5,
+#u-info-1,
+#u-info-2,
+#u-info-3,
+#u-info-4,
+#u-info-5 {
+  font-weight: 900;
+}
+
+#result-1,
+#result-2,
+#result-3,
+#result-5,
+#result-6,
+#w-result-1,
+#w-result-2,
+#w-result-3,
+#w-result-4,
+#w-result-5,
+#u-result-1,
+#u-result-2,
+#u-result-3,
+#u-result-4,
+#u-result-5 {
+  margin-left: 10px;
+  font-weight: 100;
+}

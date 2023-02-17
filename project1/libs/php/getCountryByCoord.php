@@ -1,6 +1,8 @@
 <?php
-$url = "https://api.exchangerate.host/latest?base=". $_REQUEST['currency'];
+require "config.php";
 
+$url = "https://api.opencagedata.com/geocode/v1/json?q=". $_REQUEST['lat']. ",+" . $_REQUEST['long']. "&key=".OPENCAGE_API
+. "&language=en&pretty=1";
 $executionStartTime = microtime(true);
 
 $ch = curl_init();
@@ -14,6 +16,7 @@ curl_close($ch);
 // echo $result;
 
 $decode = json_decode($result,true);	
+// echo $decode;
 
 $output['status']['code'] = "200";
 $output['status']['name'] = "ok";
@@ -21,8 +24,7 @@ $output['status']['description'] = "success";
 $output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
 $output['data'] = $decode;
 
-header('Content-Type: application/json; charset=UTF-8');
+// header('Content-Type: application/json; charset=UTF-8');
 
 echo json_encode($output); 
 ?>
-

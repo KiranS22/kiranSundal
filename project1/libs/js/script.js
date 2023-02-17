@@ -5,7 +5,7 @@ $(document).ready(() => {
   let allCountries = [];
   let allRestCountries = [];
   let polygons = [];
-  let countryNameFromOpenCage = null; 
+  let countryNameFromOpenCage = null;
   // ajax request functions
   const getCountries = () => {
     $.ajax({
@@ -19,7 +19,6 @@ $(document).ready(() => {
         allCountries.sort();
         let str = "";
         countryInfo.forEach((country) => {
-          // console.log('',country);
           str += `<option value="${country.properties.name}">${country.properties.name}</option>`;
         });
         $("#selectCountries").append(str);
@@ -29,33 +28,23 @@ $(document).ready(() => {
       },
     });
   };
+
   const getRestCountries = () => {
     $.ajax({
       type: "GET",
       url: "libs/php/getRestCountries.php",
       dataType: "json",
       success: function (response) {
-        // console.log("get restCountries ");
-        console.log(response);
         allRestCountries = response.data;
-        console.log("OpenCage allRestCountries", allRestCountries);
+
         const singleRestCountry = allRestCountries.find(
           (restCountry) => restCountry.name.common === countryNameFromOpenCage
-          // response.results[0].components["ISO_3166-1_alpha-3"] ===
-          // restCountry.cca3
         );
-        //find t he name in geoCountries that matches select dropdown
-        let selectval = $("#selectCountries").val();
-        // console.log("selectVal before find ", countryNameFromOpenCage);
-        // console.log("All Countries", allCountries);
+
         const singleCountry = allCountries.find((c) => {
-          // console.log("name in find  ", c.properties.name);
           return c.properties.name == countryNameFromOpenCage;
         });
         $("#selectCountries").val(countryNameFromOpenCage);
-        // console.log("Open cage singleRestCountry ", singleRestCountry);
-        //Displayting data in basic Info modal
-        // console.log("SingleCountry from restCountry", singleRestCountry);
         if (singleRestCountry) {
           $("#result-1").html(singleRestCountry.name.common);
           $("#result-2").html(singleRestCountry.capital[0]);
@@ -65,7 +54,7 @@ $(document).ready(() => {
           );
           if (singleRestCountry.borders) {
             let str = "";
-            // console.log("borders", singleRestCountry.borders);
+
             singleRestCountry.borders.forEach((border) => {
               str += `<li>${border}</li>`;
             });
@@ -86,15 +75,9 @@ $(document).ready(() => {
           $("#w-result-4").html(lat);
           $("#w-result-5").html(long);
           let countryCurrency = Object.keys(singleRestCountry.currencies)[0];
-          // calling getExchangeRate for useful info modal
+
           getExchangeRate(countryCurrency);
           getWikiLinks(lat, long);
-          //makes maker jump to country
-          // if (marker !== null) {
-          //   map.removeLayer(marker);
-          // }
-          // map.panTo([lat, long], { animate: true, duration: 1 });
-          // marker = L.marker([lat, long]).addTo(map);
 
           drawBorders(singleCountry);
         } else {
@@ -109,15 +92,12 @@ $(document).ready(() => {
   };
 
   const getWeatherInfo = (lat, long) => {
-    // console.log("getWeatherInfo running");
     $.ajax({
       type: "GET",
       url: "libs/php/getWeather.php",
       data: { lat: lat, long: long },
       dataType: "json",
       success: function (response) {
-        console.log("weather response", response);
-        weatherInfo = response.data;
         let t = (parseFloat(response.data.main.temp) - 273.15).toFixed(2);
 
         let t_diff = parseInt(response.data.timezone) / 3600; //Converting into UTC
@@ -141,11 +121,7 @@ $(document).ready(() => {
       data: { lat: lat, long: long },
       dataType: "json",
       success: function (response) {
-        console.log("response from opencage", response);
-
-        //Fetching Country from openCage
         countryNameFromOpenCage = response.data.results[0].components.country;
-        // console.log("Open cage Country", country);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error", errorThrown, jqXHR);
@@ -187,22 +163,23 @@ $(document).ready(() => {
       data: { lat: lat, long: long },
       dataType: "json",
       success: function (response) {
-        console.log("response from getWikiLinks", response);
         if (response.data.geonames !== []) {
           let wikiInfo = response.data.geonames;
           let linksToDisplay = wikiInfo.slice(0, 3).map((url) => {
             let fullUrl = "https://" + url.wikipediaUrl;
             return fullUrl;
           });
-          console.log("links to display ", linksToDisplay);
-          //loop over returned array
+
+          let articleTitles = wikiInfo.slice(0, 3).map((url) => {
+            console.log("url:", url);
+          });
+
           let str = "";
           linksToDisplay.forEach((link) => {
-            str = `link(<li>${link}</li>)`;
+            console.log("Link", link);
+            str += `<a href="${link}>${link}</a>`;
           });
           $("#u-result-2").html(str);
-
-          // console.log("country wiki link", response.geonames[0].wikipediaUrl);
         } else {
           $("#S u-result-2").html(`<p>No articles found</p>`);
         }
@@ -213,13 +190,12 @@ $(document).ready(() => {
     });
   };
   const drawBorders = (country) => {
-    // console.log("Draw bordfers func", country);
     let countryGeometry = country.geometry;
     let type = countryGeometry.type;
     let correctCoords = [];
     if (type === "MultiPolygon") {
       let multiPolygonCoords = countryGeometry.coordinates;
-      // console.log("multiPolygonCoords inner first element", multiPolygonCoords);
+
       for (let i = 0; i < multiPolygonCoords.length; i++) {
         correctCoords = [];
         for (let j = 0; j < multiPolygonCoords[i][0].length; j++) {
@@ -228,7 +204,6 @@ $(document).ready(() => {
           let tempCords = [];
           tempCords.push(first, second);
           correctCoords.push(tempCords);
-          // console.log("multipolygon temp:", tempCords);
         }
         let polygon = L.polygon(correctCoords, {
           color: "red",
@@ -237,9 +212,7 @@ $(document).ready(() => {
         polygons.push(polygon);
       }
     } else if (type === "Polygon") {
-      // console.log(country, "I am a polygon");
       countryGeometry.coordinates[0].forEach((coord) => {
-        // console.log(coord);
         let first = coord[1];
         let second = coord[0];
         let tempCords = [];

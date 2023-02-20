@@ -1,8 +1,12 @@
 <?php
 require "config.php";
+if(isset($_REQUEST['lat'])  && isset($_REQUEST['long']) ){
 
 $url = "https://api.opencagedata.com/geocode/v1/json?q=". $_REQUEST['lat']. ",+" . $_REQUEST['long']. "&key=".OPENCAGE_API
 . "&language=en&pretty=1";
+}else{
+  $url = "https://api.opencagedata.com/geocode/v1/json?q=". $_REQUEST['country']. "&key=".OPENCAGE_API . "&language=en&pretty=1";
+}
 $executionStartTime = microtime(true);
 
 $ch = curl_init();

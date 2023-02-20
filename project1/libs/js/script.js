@@ -1,6 +1,5 @@
 // map initalisation, modal buttons and markers
 
-// Getting current location
 $(document).ready(() => {
   let allCountries = [];
   let allRestCountries = [];
@@ -16,7 +15,7 @@ $(document).ready(() => {
       success: function (response) {
         let countryInfo = response.features;
         allCountries = countryInfo;
-        allCountries.sort();
+        countryInfo.sort();
         let str = "";
         countryInfo.forEach((country) => {
           str += `<option value="${country.properties.name}">${country.properties.name}</option>`;
@@ -128,6 +127,28 @@ $(document).ready(() => {
       },
     });
   };
+  const getCountryFromOpenCageByName = (countryName) => {
+    $.ajax({
+      type: "GET",
+      url: "libs/php/getCountryByCoord.php",
+      data: { country: countryName },
+      dataType: "json",
+      success: function (response) {
+        console.log("getCountryFromOpenCageByName:", response);
+        let lat = response.data.results[0].geometry.lat;
+        let long = response.data.results[0].geometry.lng;
+        console.log("getCountryFromOpenCageByNamelatlong:", lat, long);
+        if (marker !== null) {
+          map.removeLayer(marker);
+        }
+        map.panTo([lat, long], { animate: true, duration: 1 });
+        marker = L.marker([lat, long]).addTo(map);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error", errorThrown, jqXHR);
+      },
+    });
+  };
   const getExchangeRate = (currency) => {
     $.ajax({
       type: "GET",
@@ -163,25 +184,23 @@ $(document).ready(() => {
       data: { lat: lat, long: long },
       dataType: "json",
       success: function (response) {
-        if (response.data.geonames !== []) {
+        console.log("response from  Wiki", response.data.geonames);
+        if (response.data.geonames.length > 0) {
           let wikiInfo = response.data.geonames;
           let linksToDisplay = wikiInfo.slice(0, 3).map((url) => {
             let fullUrl = "https://" + url.wikipediaUrl;
             return fullUrl;
           });
 
-          let articleTitles = wikiInfo.slice(0, 3).map((url) => {
-            console.log("url:", url);
-          });
-
           let str = "";
           linksToDisplay.forEach((link) => {
             console.log("Link", link);
-            str += `<a href="${link}>${link}</a>`;
+            str += `<li class="wikiLinks"><a href="${link}">${link}</a></li>`;
           });
           $("#u-result-2").html(str);
         } else {
-          $("#S u-result-2").html(`<p>No articles found</p>`);
+          console.log("else running");
+          $("#u-result-2").html(`<p>No articles found</p>`);
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -190,10 +209,12 @@ $(document).ready(() => {
     });
   };
   const drawBorders = (country) => {
+    console.log("Country", country);
     let countryGeometry = country.geometry;
     let type = countryGeometry.type;
     let correctCoords = [];
     if (type === "MultiPolygon") {
+      console.log("insisde multiPolygon");
       let multiPolygonCoords = countryGeometry.coordinates;
 
       for (let i = 0; i < multiPolygonCoords.length; i++) {
@@ -243,10 +264,9 @@ $(document).ready(() => {
   function getGeoeolocation() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
-        // console.log("position in geolocation", position);
         let lat = position.coords.latitude;
         let lon = position.coords.longitude;
-        // console.log(lat, lon);
+
         let location = [];
         location.push(lat, lon);
         map.setView(location, 6);
@@ -265,9 +285,9 @@ $(document).ready(() => {
       });
     }
   }
-  let view = getGeoeolocation();
+  getGeoeolocation();
 
-  var MapTilesAPI_OSMEnglish = L.tileLayer(
+  let MapTilesAPI_OSMEnglish = L.tileLayer(
     "https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f",
     {
       attribution:
@@ -308,16 +328,17 @@ $(document).ready(() => {
     }
   }).addTo(map);
 
-  // Opening modal
+  // Opening instructions modal
   $("#appInstructions").modal("show");
 
   $("#selectCountries").change(() => {
     let selectval = $("#selectCountries").val();
+    console.log("selectval:", selectval);
 
     if (polygons !== undefined) {
       removeBorders();
     }
-    //find t he name in geoCountries that matches select dropdown
+
     const singleCountry = allCountries.find((c) => {
       return c.properties.name == selectval;
     });
@@ -325,9 +346,9 @@ $(document).ready(() => {
     const singleRestCountry = allRestCountries.find(
       (restCountry) => singleCountry.properties.iso_a3 === restCountry.cca3
     );
-    //Displayting data in basic Info modal
-    // console.log("SingleCountry from restCountry", singleRestCountry);
-    // console.log("SingleCountry", singleCountry);
+
+    console.log("singleCountry", singleCountry);
+
     if (singleRestCountry) {
       $("#result-1").html(singleRestCountry.name.common);
       $("#result-2").html(singleRestCountry.capital[0]);
@@ -353,6 +374,7 @@ $(document).ready(() => {
 
       let lat = singleRestCountry.latlng[0];
       let long = singleRestCountry.latlng[1];
+      console.log("latlng", singleRestCountry);
       getWeatherInfo(lat, long);
       // Populating Weather modal
       $("#w-result-4").html(lat);
@@ -362,12 +384,7 @@ $(document).ready(() => {
       getExchangeRate(countryCurrency);
       getWikiLinks(lat, long);
       //makes maker jump to country
-      if (marker !== null) {
-        map.removeLayer(marker);
-      }
-      map.panTo([lat, long], { animate: true, duration: 1 });
-      marker = L.marker([lat, long]).addTo(map);
-
+      getCountryFromOpenCageByName(singleCountry.properties.name);
       drawBorders(singleCountry);
     } else {
       alert("Country Not Found");

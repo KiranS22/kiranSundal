@@ -57,3 +57,7 @@
   overflow: auto;
   overflow-y: auto;
 }
+
+.wikiLinks {
+  word-wrap: break-word;
+}

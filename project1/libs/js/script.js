@@ -1,5 +1,3 @@
-// map initalisation, modal buttons and markers
-
 $(document).ready(() => {
   let allCountries = [];
   let allRestCountries = [];
@@ -15,10 +13,15 @@ $(document).ready(() => {
       success: function (response) {
         let countryInfo = response.features;
         allCountries = countryInfo;
-        countryInfo.sort();
+
+        let listOfCountries = countryInfo
+          .map((country) => {
+            return country.properties.name;
+          })
+          .sort();
         let str = "";
-        countryInfo.forEach((country) => {
-          str += `<option value="${country.properties.name}">${country.properties.name}</option>`;
+        listOfCountries.forEach((country) => {
+          str += `<option value="${country}">${country}</option>`;
         });
         $("#selectCountries").append(str);
       },
@@ -36,52 +39,7 @@ $(document).ready(() => {
       success: function (response) {
         allRestCountries = response.data;
 
-        const singleRestCountry = allRestCountries.find(
-          (restCountry) => restCountry.name.common === countryNameFromOpenCage
-        );
-
-        const singleCountry = allCountries.find((c) => {
-          return c.properties.name == countryNameFromOpenCage;
-        });
-        $("#selectCountries").val(countryNameFromOpenCage);
-        if (singleRestCountry) {
-          $("#result-1").html(singleRestCountry.name.common);
-          $("#result-2").html(singleRestCountry.capital[0]);
-          $("#result-3").html(singleRestCountry.population);
-          $("#result-4").html(
-            `<img class="flag" src="${singleRestCountry.flags.png}"/>`
-          );
-          if (singleRestCountry.borders) {
-            let str = "";
-
-            singleRestCountry.borders.forEach((border) => {
-              str += `<li>${border}</li>`;
-            });
-            $("#result-5").html(str);
-          } else {
-            $("#result-5").html("Borders Not Found");
-          }
-          if (singleRestCountry.subregion) {
-            $("#result-6").html(singleRestCountry.subregion);
-          } else {
-            $("#result-6").html("Subregion Not Found");
-          }
-
-          let lat = singleRestCountry.latlng[0];
-          let long = singleRestCountry.latlng[1];
-          getWeatherInfo(lat, long);
-          // Populating Weather modal
-          $("#w-result-4").html(lat);
-          $("#w-result-5").html(long);
-          let countryCurrency = Object.keys(singleRestCountry.currencies)[0];
-
-          getExchangeRate(countryCurrency);
-          getWikiLinks(lat, long);
-
-          drawBorders(singleCountry);
-        } else {
-          alert("Country Not Found");
-        }
+        $("#selectCountries").val(countryNameFromOpenCage).change();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("err ");
@@ -128,16 +86,16 @@ $(document).ready(() => {
     });
   };
   const getCountryFromOpenCageByName = (countryName) => {
+    console.log("Inside open cage, countryName", countryName);
     $.ajax({
       type: "GET",
       url: "libs/php/getCountryByCoord.php",
       data: { country: countryName },
       dataType: "json",
       success: function (response) {
-        console.log("getCountryFromOpenCageByName:", response);
         let lat = response.data.results[0].geometry.lat;
         let long = response.data.results[0].geometry.lng;
-        console.log("getCountryFromOpenCageByNamelatlong:", lat, long);
+
         if (marker !== null) {
           map.removeLayer(marker);
         }
@@ -156,7 +114,6 @@ $(document).ready(() => {
       data: { currency: currency },
       dataType: "json",
       success: function (response) {
-        console.log("exchange rate response", response);
         let str = "";
         const usd = response.data.rates.USD;
         const gbp = response.data.rates.GBP;
@@ -194,7 +151,6 @@ $(document).ready(() => {
 
           let str = "";
           linksToDisplay.forEach((link) => {
-            console.log("Link", link);
             str += `<li class="wikiLinks"><a href="${link}">${link}</a></li>`;
           });
           $("#u-result-2").html(str);
@@ -209,54 +165,26 @@ $(document).ready(() => {
     });
   };
   const drawBorders = (country) => {
-    console.log("Country", country);
     let countryGeometry = country.geometry;
     let type = countryGeometry.type;
-    let correctCoords = [];
-    if (type === "MultiPolygon") {
-      console.log("insisde multiPolygon");
-      let multiPolygonCoords = countryGeometry.coordinates;
+    console.log("country type ", type, "country geometry", countryGeometry);
+    L.geoJSON(country).addTo(map);
+    let myStyle = {
+      color: "#ff7800",
+      weight: 5,
+      opacity: 0.65,
+    };
 
-      for (let i = 0; i < multiPolygonCoords.length; i++) {
-        correctCoords = [];
-        for (let j = 0; j < multiPolygonCoords[i][0].length; j++) {
-          let first = multiPolygonCoords[i][0][j][1];
-          let second = multiPolygonCoords[i][0][j][0];
-          let tempCords = [];
-          tempCords.push(first, second);
-          correctCoords.push(tempCords);
-        }
-        let polygon = L.polygon(correctCoords, {
-          color: "red",
-          fillColor: "#f03",
-        }).addTo(map);
-        polygons.push(polygon);
-      }
-    } else if (type === "Polygon") {
-      countryGeometry.coordinates[0].forEach((coord) => {
-        let first = coord[1];
-        let second = coord[0];
-        let tempCords = [];
-        tempCords.push(first, second);
-        correctCoords.push(tempCords);
-      });
-
-      //Drawing border
-      let polygon = L.polygon(correctCoords, {
-        color: "red",
-        fillColor: "#f03",
-      }).addTo(map);
-      polygons.push(polygon);
-    }
+    let polygon = L.geoJSON(country, {
+      style: myStyle,
+    }).addTo(map);
+    polygons.push(polygon);
   };
 
   const removeBorders = () => {
-    for (let i = 0; i < polygons.length; i++) {
-      const element = polygons[i];
-      if (element !== null) {
-        map.removeLayer(element);
-      }
-    }
+    map.eachLayer(function (layer) {
+      if (layer instanceof L.GeoJSON) map.removeLayer(layer);
+    });
   };
   // Getting current location
   let map = L.map("map");
@@ -269,7 +197,7 @@ $(document).ready(() => {
 
         let location = [];
         location.push(lat, lon);
-        map.setView(location, 6);
+        map.setView(location, 4);
         marker = L.marker(location).addTo(map);
         // call  getting country by coordinate
         //Calling getCountries to populate select
@@ -286,14 +214,15 @@ $(document).ready(() => {
     }
   }
   getGeoeolocation();
-
-  let MapTilesAPI_OSMEnglish = L.tileLayer(
+  // map initalisation, modal buttons and markers
+  L.tileLayer(
     "https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f",
     {
       attribution:
         '&copy; <a href="http://www.maptilesapi.com/">MapTiles API</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       apikey: "c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f",
       maxZoom: 19,
+      minZoom: 2,
     }
   ).addTo(map);
 
@@ -333,7 +262,6 @@ $(document).ready(() => {
 
   $("#selectCountries").change(() => {
     let selectval = $("#selectCountries").val();
-    console.log("selectval:", selectval);
 
     if (polygons !== undefined) {
       removeBorders();
@@ -346,8 +274,6 @@ $(document).ready(() => {
     const singleRestCountry = allRestCountries.find(
       (restCountry) => singleCountry.properties.iso_a3 === restCountry.cca3
     );
-
-    console.log("singleCountry", singleCountry);
 
     if (singleRestCountry) {
       $("#result-1").html(singleRestCountry.name.common);
@@ -384,6 +310,7 @@ $(document).ready(() => {
       getExchangeRate(countryCurrency);
       getWikiLinks(lat, long);
       //makes maker jump to country
+      console.log(("SingleCountry name", singleCountry.properties.name));
       getCountryFromOpenCageByName(singleCountry.properties.name);
       drawBorders(singleCountry);
     } else {

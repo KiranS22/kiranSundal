@@ -13,12 +13,11 @@ $(document).ready(() => {
       dataType: "json",
       success: function (response) {
         let countryInfo = response.features;
-        // allCountries = countryInfo;
+ 
 
-        console.log("countryImfo", countryInfo);
         let str = "";
         countryInfo.forEach((country) => {
-          // console.log("single country imfo", country);
+        
           str += `<option value="${country.properties.iso_a2}">${country.properties.name}</option>`;
         });
         $("#selectCountries").append(str);
@@ -37,8 +36,6 @@ $(document).ready(() => {
       dataType: "json",
       success: function (response) {
         allRestCountries = response.data;
-
-        $("#selectCountries").val(countryCodeFromOpenCage).change();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error", errorThrown, jqXHR);
@@ -82,6 +79,8 @@ $(document).ready(() => {
 
         countryCodeFromOpenCage =
           response.data.results[0].components["ISO_3166-1_alpha-2"];
+// Calling change event once data comes back from openCage (reverse geocode)
+        $("#selectCountries").val(countryCodeFromOpenCage).change();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error", errorThrown, jqXHR);
@@ -221,15 +220,14 @@ $(document).ready(() => {
         location.push(lat, lon);
         map.setView(location, 4);
         marker = L.marker(location).addTo(map);
-        // call  getting country by coordinate
         //Calling getCountries to populate select
         getCountries();
         //Calling getRestCountries to get more info
         getRestCountries();
-
+        
+        // call  getting country by coordinate
         getCountryByCoord(lat, lon);
-        getWeatherInfo(lat, lon);
-        getWikiLinks(lat, lon);
+      
 
         return location;
       });

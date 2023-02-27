@@ -5,7 +5,7 @@ $(document).ready(() => {
   let countryCodeFromOpenCage = null;
   // ajax request functions
   const getCountries = () => {
-    console.log("getCountries called");
+  
     $.ajax({
       type: "GET",
       url: "libs/php/getCountries.php",
@@ -27,7 +27,7 @@ $(document).ready(() => {
   };
 
   const getRestCountries = () => {
-    console.log("getRestCountries called");
+  
     $.ajax({
       type: "GET",
       url: "libs/php/getRestCountries.php",
@@ -42,7 +42,7 @@ $(document).ready(() => {
   };
 
   const getWeatherInfo = (lat, long) => {
-    console.log("getWeather call");
+   
     $.ajax({
       type: "GET",
       url: "libs/php/getWeather.php",
@@ -60,20 +60,20 @@ $(document).ready(() => {
         $("#w-result-3").html(t_utc);
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        console.log("err ");
+        
         console.log("Error", errorThrown, jqXHR);
       },
     });
   };
   const getCountryByCoord = (lat, long) => {
-    console.log("getCountryByCoord call");
+  
     $.ajax({
       type: "GET",
       url: "libs/php/getCountryByCoord.php",
       data: { lat: lat, long: long },
       dataType: "json",
       success: function (response) {
-        console.log("getCountryByCoord", response);
+ 
 
         countryCodeFromOpenCage =
           response.data.results[0].components["ISO_3166-1_alpha-2"];
@@ -87,7 +87,7 @@ $(document).ready(() => {
   };
 
   const getCountryFromOpenCageByName = (countryName) => {
-    console.log("Inside open cage, countryName", countryName);
+  
     $.ajax({
       type: "GET",
       url: "libs/php/getCountryByCoord.php",
@@ -95,7 +95,7 @@ $(document).ready(() => {
       dataType: "json",
       success: function (response) {
         if (response.data !== null) {
-          console.log("getCountryFromOpenCageByName", response);
+          
           let lat = response.data.results[0].geometry.lat;
           let long = response.data.results[0].geometry.lng;
 
@@ -141,14 +141,14 @@ $(document).ready(() => {
     });
   };
   const getWikiLinks = (lat, long) => {
-    console.log("gwtWiki call");
+    
     $.ajax({
       type: "GET",
       url: "libs/php/getWikiLinks.php",
       data: { lat: lat, long: long },
       dataType: "json",
       success: function (response) {
-        console.log("response from  Wiki", response.data.geonames);
+      
         if (response.data.geonames.length > 0) {
           let wikiInfo = response.data.geonames;
           let linksToDisplay = wikiInfo.slice(0, 3).map((url) => {
@@ -162,7 +162,7 @@ $(document).ready(() => {
           });
           $("#u-result-2").html(str);
         } else {
-          console.log("else running");
+          
           $("#u-result-2").html(`<p>No articles found</p>`);
         }
       },
@@ -181,7 +181,7 @@ $(document).ready(() => {
         drawBorders(response);
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        console.log("getSinngleCountryBorder error block");
+        
         console.log("Error", errorThrown, jqXHR);
       },
     });
@@ -189,7 +189,7 @@ $(document).ready(() => {
   const drawBorders = (country) => {
     let countryGeometry = country.geometry;
     let type = countryGeometry.type;
-    console.log("country type ", type, "country geometry", countryGeometry);
+   
     L.geoJSON(country).addTo(map);
     let myStyle = {
       color: "#ff7800",
@@ -282,7 +282,7 @@ $(document).ready(() => {
 
   $("#selectCountries").change(() => {
     let selectval = $("#selectCountries").val();
-    console.log("selectVal", selectval);
+   
 
     if (polygons !== undefined) {
       removeBorders();
@@ -322,7 +322,7 @@ $(document).ready(() => {
 
       let lat = singleRestCountry.latlng[0];
       let long = singleRestCountry.latlng[1];
-      console.log("latlng", singleRestCountry);
+     
       getWeatherInfo(lat, long);
       // Populating Weather modal
       $("#w-result-4").html(lat);

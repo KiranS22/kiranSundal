@@ -13,11 +13,9 @@ $(document).ready(() => {
       dataType: "json",
       success: function (response) {
         let countryInfo = response.features;
- 
 
         let str = "";
         countryInfo.forEach((country) => {
-        
           str += `<option value="${country.properties.iso_a2}">${country.properties.name}</option>`;
         });
         $("#selectCountries").append(str);
@@ -79,7 +77,7 @@ $(document).ready(() => {
 
         countryCodeFromOpenCage =
           response.data.results[0].components["ISO_3166-1_alpha-2"];
-// Calling change event once data comes back from openCage (reverse geocode)
+        // Calling change event once data comes back from openCage (reverse geocode)
         $("#selectCountries").val(countryCodeFromOpenCage).change();
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -87,6 +85,7 @@ $(document).ready(() => {
       },
     });
   };
+  /* the first time the app runs data comes back as null for the  selected country and some countries data is also null  */
   const getCountryFromOpenCageByName = (countryName) => {
     console.log("Inside open cage, countryName", countryName);
     $.ajax({
@@ -95,15 +94,19 @@ $(document).ready(() => {
       data: { country: countryName },
       dataType: "json",
       success: function (response) {
-        console.log("getCountryFromOpenCageByName", response);
-        let lat = response.data.results[0].geometry.lat;
-        let long = response.data.results[0].geometry.lng;
+        if (response.data !== null) {
+          console.log("getCountryFromOpenCageByName", response);
+          let lat = response.data.results[0].geometry.lat;
+          let long = response.data.results[0].geometry.lng;
 
-        if (marker !== null) {
-          map.removeLayer(marker);
+          if (marker !== null) {
+            map.removeLayer(marker);
+          }
+          map.panTo([lat, long], { animate: true, duration: 1 });
+          marker = L.marker([lat, long]).addTo(map);
+        } else {
+          console.log("Data is null");
         }
-        map.panTo([lat, long], { animate: true, duration: 1 });
-        marker = L.marker([lat, long]).addTo(map);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error", errorThrown, jqXHR);
@@ -175,8 +178,6 @@ $(document).ready(() => {
       data: { iso: isoCode },
       dataType: "json",
       success: function (response) {
-        console.log("Single Country response", response);
-        getCountryFromOpenCageByName(response.properties.name);
         drawBorders(response);
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -224,10 +225,9 @@ $(document).ready(() => {
         getCountries();
         //Calling getRestCountries to get more info
         getRestCountries();
-        
+
         // call  getting country by coordinate
         getCountryByCoord(lat, lon);
-      
 
         return location;
       });
@@ -288,10 +288,10 @@ $(document).ready(() => {
       removeBorders();
     }
 
-    // const singleCountry = allCountries.find((c) => {
-    //   return c.properties.iso_a2 == selectval;
-    // });
+    //  draws borders
     getSingleCountryBorders(selectval);
+    // brings back coords based on iso code
+    getCountryFromOpenCageByName(selectval);
 
     const singleRestCountry = allRestCountries.find(
       (restCountry) => selectval === restCountry.cca2
@@ -333,7 +333,7 @@ $(document).ready(() => {
       getWikiLinks(lat, long);
       //makes maker jump to country
     } else {
-      alert("Country Not Found");
+      console.log("Country Not Found");
     }
   });
 });

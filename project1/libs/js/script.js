@@ -85,7 +85,7 @@ $(document).ready(() => {
       },
     });
   };
-  /* the first time the app runs data comes back as null for the  selected country and some countries data is also null  */
+
   const getCountryFromOpenCageByName = (countryName) => {
     console.log("Inside open cage, countryName", countryName);
     $.ajax({

@@ -57,7 +57,7 @@ $(document).ready(() => {
       dataType: "json",
       success: function (response) {
         let countryInfo = response;
-        console.log("getCountries", response);
+      
 
         let str = "";
         for (let i = 0; i < countryInfo.length; i++) {

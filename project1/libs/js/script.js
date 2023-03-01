@@ -171,6 +171,7 @@ $(document).ready(() => {
   };
 
   const getCountryFromOpenCageByName = (countryName) => {
+    console.log("Inside getCountryCodeFromOpenCageByName", countryName);
     $.ajax({
       type: "GET",
       url: "libs/php/getCountryByCoord.php",

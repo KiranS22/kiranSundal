@@ -7,7 +7,7 @@ $(document).ready(() => {
   let map = L.map("map");
   map.setView([51.509865, -0.118092], 4);
   let marker = null;
-
+  // tile layer
   L.tileLayer(
     "https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f",
     {
@@ -49,6 +49,8 @@ $(document).ready(() => {
       usefulInfoModal.show();
     }
   }).addTo(map);
+  // ------------------------------------------
+  // Ajax request functinas
   const getCountries = () => {
     $.ajax({
       type: "GET",
@@ -57,7 +59,6 @@ $(document).ready(() => {
       dataType: "json",
       success: function (response) {
         let countryInfo = response;
-      
 
         let str = "";
         for (let i = 0; i < countryInfo.length; i++) {
@@ -88,13 +89,15 @@ $(document).ready(() => {
 
           // call  getting country by coordinate
           getCountryByCoord(lat, lon);
-          console.log("message should not appear", location);
+
           return location;
         },
         () => {
           $("#selectCountries").val("GB").change();
         }
       );
+    } else {
+      $("#selectCountries").val("GB").change();
     }
   }
 
@@ -123,6 +126,9 @@ $(document).ready(() => {
       dataType: "json",
       success: function (response) {
         allRestCountries = response.data;
+        console.log(allRestCountries);
+
+        populateModals();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error", errorThrown, jqXHR);
@@ -151,8 +157,6 @@ $(document).ready(() => {
     });
   };
   const drawBorders = (country) => {
-  
-
     L.geoJSON(country).addTo(map);
     let myStyle = {
       color: "#ff7800",
@@ -237,7 +241,6 @@ $(document).ready(() => {
         $("#u-result-1").html(str);
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        console.log("err ");
         console.log("Error", errorThrown, jqXHR);
       },
     });
@@ -270,31 +273,10 @@ $(document).ready(() => {
       },
     });
   };
-
-  // Getting current location
-
-  //Calling getCountries to populate select
-  getCountries();
-  //Calling getRestCountries to get more info
-  getRestCountries();
-  // map initalisation, modal buttons and markers
-
-  $("#selectCountries").change(() => {
-    let selectval = $("#selectCountries").val();
-
-    if (polygons !== undefined) {
-      removeBorders();
-    }
-
-    //  draws borders
-    getSingleCountryBorders(selectval);
-    // brings back coords based on iso code
-    getCountryFromOpenCageByName(selectval);
-
+  const populateModals = () => {
     const singleRestCountry = allRestCountries.find(
-      (restCountry) => selectval === restCountry.cca2
+      (restCountry) => countryCodeFromOpenCage === restCountry.cca2
     );
-
     if (singleRestCountry) {
       $("#result-1").html(singleRestCountry.name.common);
       $("#result-2").html(singleRestCountry.capital[0]);
@@ -333,5 +315,29 @@ $(document).ready(() => {
     } else {
       console.log("Country Not Found");
     }
+  };
+
+  // Getting current location
+
+  //Calling getCountries to populate select
+  getCountries();
+
+  //Calling getRestCountries to get more info
+  getRestCountries();
+
+  $("#selectCountries").change(() => {
+    let selectval = $("#selectCountries").val();
+    countryCodeFromOpenCage = selectval;
+    console.log("Code:", countryCodeFromOpenCage);
+    populateModals();
+
+    if (polygons !== undefined) {
+      removeBorders();
+    }
+
+    //  draws borders
+    getSingleCountryBorders(selectval);
+    // brings back coords based on iso code
+    getCountryFromOpenCageByName(selectval);
   });
 });

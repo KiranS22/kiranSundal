@@ -21,7 +21,7 @@ $(document).ready(() => {
 
   //easy buttons
   // Triggers basic Contry Infomatiobn Modal
-  L.easyButton("fa-globe", function (btn, map) {
+  L.easyButton("fa-globe", (btn, map) => {
     if ($("#selectCountries").val() === "") {
       alert("Please Select a Country");
     } else {
@@ -31,7 +31,7 @@ $(document).ready(() => {
   }).addTo(map);
 
   // Triggers basic Weather  Modal
-  L.easyButton("fa-cloud", function (btn, map) {
+  L.easyButton("fa-cloud", (btn, map) => {
     if ($("#selectCountries").val() === "") {
       alert("Please Select a Country");
     } else {
@@ -41,7 +41,7 @@ $(document).ready(() => {
   }).addTo(map);
 
   // Triggers useful information  Modal
-  L.easyButton("fa-circle-info", function (btn, map) {
+  L.easyButton("fa-circle-info", (btn, map) => {
     if ($("#selectCountries").val() === "") {
       alert("Please Select a Country");
     } else {
@@ -57,7 +57,7 @@ $(document).ready(() => {
       url: "libs/php/getCountries.php",
       data: "",
       dataType: "json",
-      success: function (response) {
+      success: (response) => {
         let countryInfo = response;
 
         let str = "";
@@ -69,16 +69,16 @@ $(document).ready(() => {
         $("#selectCountries").append(str);
         getGeoeolocation();
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
       },
     });
   };
 
-  function getGeoeolocation() {
+  const getGeoeolocation = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
-        function (position) {
+        (position) => {
           let lat = position.coords.latitude;
           let lon = position.coords.longitude;
 
@@ -99,7 +99,7 @@ $(document).ready(() => {
     } else {
       $("#selectCountries").val("GB").change();
     }
-  }
+  };
 
   const getCountryByCoord = (lat, long) => {
     $.ajax({
@@ -107,13 +107,13 @@ $(document).ready(() => {
       url: "libs/php/getCountryByCoord.php",
       data: { lat: lat, long: long },
       dataType: "json",
-      success: function (response) {
+      success: (response) => {
         countryCodeFromOpenCage =
           response.data.results[0].components["ISO_3166-1_alpha-2"];
         // Calling change event once data comes back from openCage (reverse geocode)
         $("#selectCountries").val(countryCodeFromOpenCage).change();
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
       },
     });
@@ -124,20 +124,20 @@ $(document).ready(() => {
       type: "GET",
       url: "libs/php/getRestCountries.php",
       dataType: "json",
-      success: function (response) {
+      success: (response) => {
         allRestCountries = response.data;
         console.log(allRestCountries);
 
         populateModals();
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
       },
     });
   };
 
   const removeBorders = () => {
-    map.eachLayer(function (layer) {
+    map.eachLayer((layer) => {
       if (layer instanceof L.GeoJSON) map.removeLayer(layer);
     });
   };
@@ -148,10 +148,10 @@ $(document).ready(() => {
       url: "libs/php/getCountries.php",
       data: { iso: isoCode },
       dataType: "json",
-      success: function (response) {
+      success: (response) => {
         drawBorders(response);
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
       },
     });
@@ -177,7 +177,7 @@ $(document).ready(() => {
       url: "libs/php/getCountryByCoord.php",
       data: { country: countryName },
       dataType: "json",
-      success: function (response) {
+      success: (response) => {
         if (response.data !== null) {
           let lat = response.data.results[0].geometry.lat;
           let long = response.data.results[0].geometry.lng;
@@ -191,7 +191,7 @@ $(document).ready(() => {
           console.log("Data is null");
         }
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
       },
     });
@@ -203,7 +203,7 @@ $(document).ready(() => {
       url: "libs/php/getWeather.php",
       data: { lat: lat, long: long },
       dataType: "json",
-      success: function (response) {
+      success:  (response)=> {
         let t = (parseFloat(response.data.main.temp) - 273.15).toFixed(2);
 
         let t_diff = parseInt(response.data.timezone) / 3600; //Converting into UTC
@@ -214,7 +214,7 @@ $(document).ready(() => {
         $("#w-result-2").html(t);
         $("#w-result-3").html(t_utc);
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error:  (jqXHR, textStatus, errorThrown)=> {
         console.log("Error", errorThrown, jqXHR);
       },
     });
@@ -226,7 +226,7 @@ $(document).ready(() => {
       url: "libs/php/getExchangeRate.php",
       data: { currency: currency },
       dataType: "json",
-      success: function (response) {
+      success:  (response) => {
         let str = "";
         const usd = response.data.rates.USD;
         const gbp = response.data.rates.GBP;
@@ -241,7 +241,7 @@ $(document).ready(() => {
           </li>`;
         $("#u-result-1").html(str);
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error:  (jqXHR, textStatus, errorThrown)=>  {
         console.log("Error", errorThrown, jqXHR);
       },
     });
@@ -252,7 +252,7 @@ $(document).ready(() => {
       url: "libs/php/getWikiLinks.php",
       data: { lat: lat, long: long },
       dataType: "json",
-      success: function (response) {
+      success:  (response)=> {
         if (response.data.geonames.length > 0) {
           let wikiInfo = response.data.geonames;
           let linksToDisplay = wikiInfo.slice(0, 3).map((url) => {
@@ -269,11 +269,16 @@ $(document).ready(() => {
           $("#u-result-2").html(`<p>No articles found</p>`);
         }
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error:  (jqXHR, textStatus, errorThrown)=> {
         console.log("Error", errorThrown, jqXHR);
       },
     });
   };
+
+  // ------------------------------------------ 
+
+
+  // Function that populates all modals 
   const populateModals = () => {
     const singleRestCountry = allRestCountries.find(
       (restCountry) => countryCodeFromOpenCage === restCountry.cca2
@@ -326,6 +331,7 @@ $(document).ready(() => {
   //Calling getRestCountries to get more info
   getRestCountries();
 
+  // .change callback function 
   $("#selectCountries").change(() => {
     let selectval = $("#selectCountries").val();
     countryCodeFromOpenCage = selectval;

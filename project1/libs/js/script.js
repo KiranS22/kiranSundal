@@ -170,26 +170,32 @@ $(document).ready(() => {
     polygons.push(polygon);
   };
 
-  const getCountryFromOpenCageByName = (countryName) => {
-    console.log("Inside getCountryCodeFromOpenCageByName", countryName);
+  const getCountryFromOpenCageByName = (countryName, latlng) => {
+    /*The secondf parameter latng is used because the bellow ajax request returns null for some values. If this is the case the second parameter will be used  */
+    console.log("CountryName", countryName);
+
     $.ajax({
       type: "GET",
       url: "libs/php/getCountryByCoord.php",
       data: { country: countryName },
       dataType: "json",
       success: (response) => {
+        let lat;
+        let long;
+        console.log("openCageByName respomse", response);
         if (response.data !== null) {
-          let lat = response.data.results[0].geometry.lat;
-          let long = response.data.results[0].geometry.lng;
-
-          if (marker !== null) {
-            map.removeLayer(marker);
-          }
-          marker = L.marker([lat, long]).addTo(map);
-          map.panTo([lat, long], { animate: true, duration: 1 });
+          lat = response.data.results[0].geometry.lat;
+          long = response.data.results[0].geometry.lng;
         } else {
-          console.log("Data is null");
+          lat = latlng[0];
+          long = latlng[1];
         }
+
+        if (marker !== null) {
+          map.removeLayer(marker);
+        }
+        marker = L.marker([lat, long]).addTo(map);
+        map.panTo([lat, long], { animate: true, duration: 1 });
       },
       error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
@@ -203,7 +209,7 @@ $(document).ready(() => {
       url: "libs/php/getWeather.php",
       data: { lat: lat, long: long },
       dataType: "json",
-      success:  (response)=> {
+      success: (response) => {
         let t = (parseFloat(response.data.main.temp) - 273.15).toFixed(2);
 
         let t_diff = parseInt(response.data.timezone) / 3600; //Converting into UTC
@@ -214,7 +220,7 @@ $(document).ready(() => {
         $("#w-result-2").html(t);
         $("#w-result-3").html(t_utc);
       },
-      error:  (jqXHR, textStatus, errorThrown)=> {
+      error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
       },
     });
@@ -226,7 +232,7 @@ $(document).ready(() => {
       url: "libs/php/getExchangeRate.php",
       data: { currency: currency },
       dataType: "json",
-      success:  (response) => {
+      success: (response) => {
         let str = "";
         const usd = response.data.rates.USD;
         const gbp = response.data.rates.GBP;
@@ -241,7 +247,7 @@ $(document).ready(() => {
           </li>`;
         $("#u-result-1").html(str);
       },
-      error:  (jqXHR, textStatus, errorThrown)=>  {
+      error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
       },
     });
@@ -252,7 +258,7 @@ $(document).ready(() => {
       url: "libs/php/getWikiLinks.php",
       data: { lat: lat, long: long },
       dataType: "json",
-      success:  (response)=> {
+      success: (response) => {
         if (response.data.geonames.length > 0) {
           let wikiInfo = response.data.geonames;
           let linksToDisplay = wikiInfo.slice(0, 3).map((url) => {
@@ -269,16 +275,15 @@ $(document).ready(() => {
           $("#u-result-2").html(`<p>No articles found</p>`);
         }
       },
-      error:  (jqXHR, textStatus, errorThrown)=> {
+      error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
       },
     });
   };
 
-  // ------------------------------------------ 
+  // ------------------------------------------
 
-
-  // Function that populates all modals 
+  // Function that populates all modals
   const populateModals = () => {
     const singleRestCountry = allRestCountries.find(
       (restCountry) => countryCodeFromOpenCage === restCountry.cca2
@@ -331,12 +336,27 @@ $(document).ready(() => {
   //Calling getRestCountries to get more info
   getRestCountries();
 
-  // .change callback function 
+  // .change callback function
   $("#selectCountries").change(() => {
     let selectval = $("#selectCountries").val();
+    let countryCapital = null;
+    let latlng = null;
     countryCodeFromOpenCage = selectval;
-    console.log("Code:", countryCodeFromOpenCage);
-    populateModals();
+    if (allRestCountries.length > 0) {
+      let singleRestCountry = allRestCountries.find(
+        (restCountry) => countryCodeFromOpenCage === restCountry.cca2
+      );
+      latlng = singleRestCountry.latlng;
+
+      console.log("latlng", latlng);
+      console.log("singleRestCountry", singleRestCountry);
+      if (singleRestCountry.capital) {
+        countryCapital = singleRestCountry.capital[0];
+      } else {
+        console.log("Capital not found");
+      }
+      populateModals();
+    }
 
     if (polygons !== undefined) {
       removeBorders();
@@ -345,6 +365,8 @@ $(document).ready(() => {
     //  draws borders
     getSingleCountryBorders(selectval);
     // brings back coords based on iso code
-    getCountryFromOpenCageByName(selectval);
+    let data = countryCapital ? countryCapital : selectval;
+
+    getCountryFromOpenCageByName(data, latlng);
   });
 });

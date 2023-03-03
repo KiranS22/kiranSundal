@@ -126,7 +126,7 @@ $(document).ready(() => {
       dataType: "json",
       success: (response) => {
         allRestCountries = response.data;
-        console.log(allRestCountries);
+      
 
         populateModals();
       },
@@ -172,7 +172,7 @@ $(document).ready(() => {
 
   const getCountryFromOpenCageByName = (countryName, latlng) => {
     /*The secondf parameter latng is used because the bellow ajax request returns null for some values. If this is the case the second parameter will be used  */
-    console.log("CountryName", countryName);
+
 
     $.ajax({
       type: "GET",
@@ -182,7 +182,7 @@ $(document).ready(() => {
       success: (response) => {
         let lat;
         let long;
-        console.log("openCageByName respomse", response);
+      
         if (response.data !== null) {
           lat = response.data.results[0].geometry.lat;
           long = response.data.results[0].geometry.lng;
@@ -285,7 +285,7 @@ $(document).ready(() => {
 
   // Function that populates all modals
   const populateModals = () => {
-    const singleRestCountry = allRestCountries.find(
+    let singleRestCountry = allRestCountries.find(
       (restCountry) => countryCodeFromOpenCage === restCountry.cca2
     );
     if (singleRestCountry) {
@@ -348,8 +348,7 @@ $(document).ready(() => {
       );
       latlng = singleRestCountry.latlng;
 
-      console.log("latlng", latlng);
-      console.log("singleRestCountry", singleRestCountry);
+;
       if (singleRestCountry.capital) {
         countryCapital = singleRestCountry.capital[0];
       } else {

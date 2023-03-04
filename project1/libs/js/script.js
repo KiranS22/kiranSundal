@@ -59,6 +59,11 @@ $(document).ready(() => {
       dataType: "json",
       success: (response) => {
         let countryInfo = response;
+        countryInfo = Object.values(countryInfo).sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+
+      
 
         let str = "";
         for (let i = 0; i < countryInfo.length; i++) {
@@ -126,7 +131,6 @@ $(document).ready(() => {
       dataType: "json",
       success: (response) => {
         allRestCountries = response.data;
-      
 
         populateModals();
       },
@@ -173,7 +177,6 @@ $(document).ready(() => {
   const getCountryFromOpenCageByName = (countryName, latlng) => {
     /*The secondf parameter latng is used because the bellow ajax request returns null for some values. If this is the case the second parameter will be used  */
 
-
     $.ajax({
       type: "GET",
       url: "libs/php/getCountryByCoord.php",
@@ -182,7 +185,7 @@ $(document).ready(() => {
       success: (response) => {
         let lat;
         let long;
-      
+
         if (response.data !== null) {
           lat = response.data.results[0].geometry.lat;
           long = response.data.results[0].geometry.lng;
@@ -348,7 +351,6 @@ $(document).ready(() => {
       );
       latlng = singleRestCountry.latlng;
 
-;
       if (singleRestCountry.capital) {
         countryCapital = singleRestCountry.capital[0];
       } else {

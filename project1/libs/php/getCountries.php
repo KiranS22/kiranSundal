@@ -18,6 +18,9 @@ if(isset($_REQUEST['iso'])){
   $countries = json_decode(file_get_contents("countryBorders.geo.json"), true);
   $countryInfo = []; 
   foreach ($countries['features'] as $country){
+    if($country['properties']['iso_a2'] == '-99'){
+      continue;
+    }  
    $properties  = array('name' => $country['properties']['name'], 'code' => $country['properties']['iso_a2']);
     array_push($countryInfo, $properties);
     

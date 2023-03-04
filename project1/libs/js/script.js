@@ -18,6 +18,10 @@ $(document).ready(() => {
       minZoom: 2,
     }
   ).addTo(map);
+  // query fitBounds
+  // const wellBounds = new L.latLngBounds([-90, -180], [90, 180]);
+  // map.fitBounds(wellBounds);
+  // var featureGroup = L.featureGroup(marker).addTo(map);
 
   //easy buttons
   // Triggers basic Contry Infomatiobn Modal
@@ -58,12 +62,11 @@ $(document).ready(() => {
       data: "",
       dataType: "json",
       success: (response) => {
+        console.log("getCountry", response);
         let countryInfo = response;
         countryInfo = Object.values(countryInfo).sort((a, b) =>
           a.name.localeCompare(b.name)
         );
-
-      
 
         let str = "";
         for (let i = 0; i < countryInfo.length; i++) {
@@ -175,7 +178,7 @@ $(document).ready(() => {
   };
 
   const getCountryFromOpenCageByName = (countryName, latlng) => {
-    /*The secondf parameter latng is used because the bellow ajax request returns null for some values. If this is the case the second parameter will be used  */
+    /*The second parameter latng is used because the bellow ajax request returns null for some values. If this is the case the second parameter will be used  */
 
     $.ajax({
       type: "GET",
@@ -197,7 +200,14 @@ $(document).ready(() => {
         if (marker !== null) {
           map.removeLayer(marker);
         }
-        marker = L.marker([lat, long]).addTo(map);
+        marker = L.ExtraMarkers.icon({
+          icon: "fa-map-marker",
+
+          prefix: "fa",
+        });
+
+        L.marker([lat, long], { icon: marker }).addTo(map);
+        // marker = L.marker([lat, long]).addTo(map);
         map.panTo([lat, long], { animate: true, duration: 1 });
       },
       error: (jqXHR, textStatus, errorThrown) => {

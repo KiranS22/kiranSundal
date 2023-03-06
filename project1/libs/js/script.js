@@ -208,13 +208,13 @@ $(document).ready(() => {
           map.removeLayer(marker);
         }
         marker = L.ExtraMarkers.icon({
-          icon: "fa-map-marker",
+          icon: "fa-location-xmark",
 
-          prefix: "fa",
+          prefix: "fa-solid",
         });
 
         L.marker([lat, long], { icon: marker }).addTo(map);
-        // marker = L.marker([lat, long]).addTo(map);
+       
         map.panTo([lat, long], { animate: true, duration: 1 });
       },
       error: (jqXHR, textStatus, errorThrown) => {

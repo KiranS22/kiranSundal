@@ -15,13 +15,9 @@ $(document).ready(() => {
         '&copy; <a href="http://www.maptilesapi.com/">MapTiles API</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       apikey: "c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f",
       maxZoom: 19,
-      minZoom: 2,
+      minZoom: 4,
     }
   ).addTo(map);
-  // query fitBounds
-  // const wellBounds = new L.latLngBounds([-90, -180], [90, 180]);
-  // map.fitBounds(wellBounds);
-  // var featureGroup = L.featureGroup(marker).addTo(map);
 
   //easy buttons
   // Triggers basic Contry Infomatiobn Modal
@@ -45,12 +41,22 @@ $(document).ready(() => {
   }).addTo(map);
 
   // Triggers useful information  Modal
-  L.easyButton("fa-circle-info", (btn, map) => {
+  L.easyButton("fa-info", (btn, map) => {
     if ($("#selectCountries").val() === "") {
       alert("Please Select a Country");
     } else {
       let usefulInfoModal = new bootstrap.Modal($("#usefulInfo"), {});
       usefulInfoModal.show();
+    }
+  }).addTo(map);
+
+  // Triggers Covid data modal
+  L.easyButton("fa-viruses", (btn, map) => {
+    if ($("#selectCountries").val() === "") {
+      alert("Please Select a Country");
+    } else {
+      let covidModal = new bootstrap.Modal($("#weatherInfo"), {});
+      covidModal.show();
     }
   }).addTo(map);
   // ------------------------------------------
@@ -164,7 +170,8 @@ $(document).ready(() => {
     });
   };
   const drawBorders = (country) => {
-    L.geoJSON(country).addTo(map);
+    let border = L.geoJSON(country).addTo(map);
+    map.fitBounds(border.getBounds());
     let myStyle = {
       color: "#ff7800",
       weight: 5,
@@ -293,6 +300,20 @@ $(document).ready(() => {
       },
     });
   };
+  const getCovidData = () => {
+    $.ajax({
+      type: "GET",
+      url: "libs/php/getCovidData.php",
+      data: "",
+      dataType: "json",
+      success: function (response) {
+        console.log("getCovidData response", response);
+      },
+      error: (jqXHR, textStatus, errorThrown) => {
+        console.log("Error", errorThrown, jqXHR);
+      },
+    });
+  };
 
   // ------------------------------------------
 
@@ -335,7 +356,6 @@ $(document).ready(() => {
       // calling getExchangeRate for useful info modal
       getExchangeRate(countryCurrency);
       getWikiLinks(lat, long);
-      //makes maker jump to country
     } else {
       console.log("Country Not Found");
     }
@@ -368,7 +388,7 @@ $(document).ready(() => {
       }
       populateModals();
     }
-
+    getCovidData();
     if (polygons !== undefined) {
       removeBorders();
     }

@@ -65,3 +65,7 @@ body {
 .wikiLinks {
   word-wrap: break-word;
 }
+
+.useful-info-button {
+  border: 10px solid black;
+}

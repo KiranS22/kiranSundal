@@ -1,4 +1,4 @@
-<?php $url =  "https://corona-virus-world-and-india-data.p.rapidapi.com/api?rapidapi-key=c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f?" ;
+<?php $url =  "https://api/v3/PublicHolidays/".$_REQUEST['year'] ."/". $_REQUEST['year'] ;
 $executionStartTime = microtime(true);
 
 
@@ -23,3 +23,4 @@ echo $result;
 // header('Content-Type: application/json; charset=UTF-8');
 
 // echo json_encode($output);
+?>

@@ -3,10 +3,14 @@ $(document).ready(() => {
   let allRestCountries = [];
   let polygons = [];
   let countryCodeFromOpenCage = null;
+  let year = new Date().getFullYear();
+  let currentYear = year.toString();
+  console.log("Year", typeof currentYear);
   // map initalisation
   let map = L.map("map");
   map.setView([51.509865, -0.118092], 4);
   let marker = null;
+
   // tile layer
   L.tileLayer(
     "https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f",
@@ -28,7 +32,9 @@ $(document).ready(() => {
       let basicCountryImfo = new bootstrap.Modal($("#countryInfo"), {});
       basicCountryImfo.show();
     }
-  }).addTo(map);
+  })
+    // .addClass(".useful-info-button")
+    .addTo(map);
 
   // Triggers basic Weather  Modal
   L.easyButton("fa-cloud", (btn, map) => {
@@ -50,13 +56,23 @@ $(document).ready(() => {
     }
   }).addTo(map);
 
-  // Triggers Covid data modal
-  L.easyButton("fa-viruses", (btn, map) => {
+  // Triggers puplic holidays modal
+  L.easyButton("fa-umbrella-beach", (btn, map) => {
     if ($("#selectCountries").val() === "") {
       alert("Please Select a Country");
     } else {
-      let covidModal = new bootstrap.Modal($("#weatherInfo"), {});
-      covidModal.show();
+      let holidaysModal = new bootstrap.Modal($("#public-holiday"), {});
+      holidaysModal.show();
+    }
+  }).addTo(map);
+
+  // Triggers news headlines modal
+  L.easyButton("fa-newspaper", (btn, map) => {
+    if ($("#selectCountries").val() === "") {
+      alert("Please Select a Country");
+    } else {
+      let newsModal = new bootstrap.Modal($("#news-headlines"), {});
+      holidaysModal.show();
     }
   }).addTo(map);
   // ------------------------------------------
@@ -208,13 +224,13 @@ $(document).ready(() => {
           map.removeLayer(marker);
         }
         marker = L.ExtraMarkers.icon({
-          icon: "fa-location-xmark",
+          icon: "fa-mzp-marker-alt",
 
           prefix: "fa-solid",
         });
 
         L.marker([lat, long], { icon: marker }).addTo(map);
-       
+
         map.panTo([lat, long], { animate: true, duration: 1 });
       },
       error: (jqXHR, textStatus, errorThrown) => {
@@ -300,14 +316,29 @@ $(document).ready(() => {
       },
     });
   };
-  const getCovidData = () => {
+  const getPublicHolidayInfo = (countryCode, currentYear) => {
     $.ajax({
       type: "GET",
-      url: "libs/php/getCovidData.php",
-      data: "",
+      url: "libs/php/getPublicHolidayInfo.php",
+      data: { countryCode: countryCode, year: currentYear },
       dataType: "json",
       success: function (response) {
-        console.log("getCovidData response", response);
+        console.log(" getHolidays", response);
+      },
+      error: (jqXHR, textStatus, errorThrown) => {
+        console.log("Error", errorThrown, jqXHR);
+      },
+    });
+  };
+
+  const getNewsHeadlines = () => {
+    $.ajax({
+      type: "GET",
+      url: "libs/php/gettNewsHeadlines.php",
+      // data: { countryCode: countryCode},
+      dataType: "json",
+      success: function (response) {
+        console.log(" gettNewsHeadlines", response);
       },
       error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
@@ -322,6 +353,7 @@ $(document).ready(() => {
     let singleRestCountry = allRestCountries.find(
       (restCountry) => countryCodeFromOpenCage === restCountry.cca2
     );
+
     if (singleRestCountry) {
       $("#result-1").html(singleRestCountry.name.common);
       $("#result-2").html(singleRestCountry.capital[0]);
@@ -356,6 +388,7 @@ $(document).ready(() => {
       // calling getExchangeRate for useful info modal
       getExchangeRate(countryCurrency);
       getWikiLinks(lat, long);
+      getPublicHolidayInfo(singleRestCountry.cca2, currentYear);
     } else {
       console.log("Country Not Found");
     }
@@ -387,8 +420,9 @@ $(document).ready(() => {
         console.log("Capital not found");
       }
       populateModals();
+      getNewsHeadlines();
     }
-    getCovidData();
+
     if (polygons !== undefined) {
       removeBorders();
     }

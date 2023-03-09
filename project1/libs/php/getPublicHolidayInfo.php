@@ -1,4 +1,6 @@
-<?php $url =  "https://api/v3/PublicHolidays/".$_REQUEST['year'] ."/". $_REQUEST['year'] ;
+<?php 
+
+$url =  "https://date.nager.at/api/v3/publicholidays/".$_REQUEST['year'] ."/". $_REQUEST['countryCode'] ;
 $executionStartTime = microtime(true);
 
 

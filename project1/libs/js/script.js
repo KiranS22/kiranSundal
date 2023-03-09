@@ -5,7 +5,7 @@ $(document).ready(() => {
   let countryCodeFromOpenCage = null;
   let year = new Date().getFullYear();
   let currentYear = year.toString();
-  console.log("Year", typeof currentYear);
+
   // map initalisation
   let map = L.map("map");
   map.setView([51.509865, -0.118092], 4);
@@ -32,9 +32,8 @@ $(document).ready(() => {
       let basicCountryImfo = new bootstrap.Modal($("#countryInfo"), {});
       basicCountryImfo.show();
     }
-  })
-    // .addClass(".useful-info-button")
-    .addTo(map);
+  }).addTo(map);
+  // .addClass("easy-button");
 
   // Triggers basic Weather  Modal
   L.easyButton("fa-cloud", (btn, map) => {
@@ -45,6 +44,7 @@ $(document).ready(() => {
       weatherModal.show();
     }
   }).addTo(map);
+  // .addClass("easy-button");
 
   // Triggers useful information  Modal
   L.easyButton("fa-info", (btn, map) => {
@@ -55,6 +55,7 @@ $(document).ready(() => {
       usefulInfoModal.show();
     }
   }).addTo(map);
+  // .addClass("easy-button");
 
   // Triggers puplic holidays modal
   L.easyButton("fa-umbrella-beach", (btn, map) => {
@@ -65,6 +66,7 @@ $(document).ready(() => {
       holidaysModal.show();
     }
   }).addTo(map);
+  // .addClass("easy-button");
 
   // Triggers news headlines modal
   L.easyButton("fa-newspaper", (btn, map) => {
@@ -72,9 +74,10 @@ $(document).ready(() => {
       alert("Please Select a Country");
     } else {
       let newsModal = new bootstrap.Modal($("#news-headlines"), {});
-      holidaysModal.show();
+      newsModal.show();
     }
   }).addTo(map);
+  // .addClass("easy-button");
   // ------------------------------------------
   // Ajax request functinas
   const getCountries = () => {
@@ -155,8 +158,8 @@ $(document).ready(() => {
       url: "libs/php/getRestCountries.php",
       dataType: "json",
       success: (response) => {
+        console.log("restCountry  success running");
         allRestCountries = response.data;
-
         populateModals();
       },
       error: (jqXHR, textStatus, errorThrown) => {
@@ -224,7 +227,7 @@ $(document).ready(() => {
           map.removeLayer(marker);
         }
         marker = L.ExtraMarkers.icon({
-          icon: "fa-mzp-marker-alt",
+          icon: "fa-map-marker-alt",
 
           prefix: "fa-solid",
         });
@@ -317,13 +320,43 @@ $(document).ready(() => {
     });
   };
   const getPublicHolidayInfo = (countryCode, currentYear) => {
+    console.log("Country Code:", countryCode, "year", currentYear);
     $.ajax({
       type: "GET",
       url: "libs/php/getPublicHolidayInfo.php",
       data: { countryCode: countryCode, year: currentYear },
       dataType: "json",
       success: function (response) {
-        console.log(" getHolidays", response);
+        // Sort through holidays and display them
+        let holidayInformation = response;
+
+        const ids = holidayInformation.map((o) => o.name);
+        const filteredHolidays = holidayInformation.filter(
+          ({ name }, index) => !ids.includes(name, index + 1)
+        );
+        console.log("filteredHolidays", filteredHolidays);
+        let content = "<table>";
+
+        for (i = 0; i < filteredHolidays.length; i++) {
+          const holiday = filteredHolidays[i];
+
+          content += `<thead>
+          <tr>
+            <th>Name</th>
+            <th>Locaslly Known As</th>
+            <th>Date (YYY/MM/DD)</th>
+          </tr>
+         </thead>
+         <tbody>
+           <tr>
+             <td>${holiday.name}</td>
+             <td>${holiday.localName}</td>
+             <td>${holiday.date}</td>
+           </tr>`;
+        }
+        content += "</table>";
+
+        $("#ph-info-1").append(content);
       },
       error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
@@ -331,14 +364,16 @@ $(document).ready(() => {
     });
   };
 
-  const getNewsHeadlines = () => {
+  const getNewsHeadlines = (countryCode) => {
+    console.log("newsHeadlines CountryCoded", countryCode);
     $.ajax({
       type: "GET",
       url: "libs/php/gettNewsHeadlines.php",
-      // data: { countryCode: countryCode},
+      data: { countryCode: countryCode.toLowerCase() },
       dataType: "json",
       success: function (response) {
         console.log(" gettNewsHeadlines", response);
+        // Sort through holidays and display them
       },
       error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
@@ -350,36 +385,55 @@ $(document).ready(() => {
 
   // Function that populates all modals
   const populateModals = () => {
+    console.log("allRestCountries", allRestCountries);
     let singleRestCountry = allRestCountries.find(
       (restCountry) => countryCodeFromOpenCage === restCountry.cca2
     );
 
     if (singleRestCountry) {
-      $("#result-1").html(singleRestCountry.name.common);
-      $("#result-2").html(singleRestCountry.capital[0]);
-      $("#result-3").html(singleRestCountry.population);
-      $("#result-4").html(
-        `<img class="flag" src="${singleRestCountry.flags.png}"/>`
-      );
-      if (singleRestCountry.borders) {
-        let str = "";
+      let content = "<table>";
+      for (let i = 0; i < singleRestCountry.length; i++) {
+        const country = singleRestCountry[i];
+        content += `<thead>
+        <tr>
+          <th>Name</th>
+          <th>Capital</th>
+          <th>Population</th>
+          <th >Borders With</th>
+          <th>Sub-region</th>
+        </tr>
+       </thead>
+       <tbody>
+         <tr>
+           <td>${country.name.common}</td>
+           <td>${country.capital[0]}</td>
+           <td>${country.population}</td>
+           <td><img class="flag" src="${country.flags.png}"/>}</td>
+         </tr>`;
 
-        singleRestCountry.borders.forEach((border) => {
-          str += `<li>${border}</li>`;
-        });
-        $("#result-5").html(str);
-      } else {
-        $("#result-5").html("Borders Not Found");
+        if (country.borders) {
+          let str = "";
+
+          country.borders.forEach((border) => {
+            content += `<td class="borders-list">${(str += `<li>${border}</li>`)}</td>`;
+          });
+          //
+        } else {
+          content += `<td class="borders-list">${(str += `<p>${"Borders Not Found"}</p>`)}</td>`;
+        }
+        if (country.subregion) {
+          content += `<td class="subregion">${country.subregion}</td>`;
+        } else {
+          content += `<td class="subregion"><p>Sub-region not found</p></td>`;
+        }
       }
-      if (singleRestCountry.subregion) {
-        $("#result-6").html(singleRestCountry.subregion);
-      } else {
-        $("#result-6").html("Subregion Not Found");
-      }
+
+      content += "</table>";
+
+      $("#info-1").html(content);
 
       let lat = singleRestCountry.latlng[0];
       let long = singleRestCountry.latlng[1];
-
       getWeatherInfo(lat, long);
       // Populating Weather modal
       $("#w-result-4").html(lat);
@@ -389,8 +443,10 @@ $(document).ready(() => {
       getExchangeRate(countryCurrency);
       getWikiLinks(lat, long);
       getPublicHolidayInfo(singleRestCountry.cca2, currentYear);
+      getNewsHeadlines(singleRestCountry.cca2);
     } else {
-      console.log("Country Not Found");
+         console.log("Country Not Found");
+      
     }
   };
 
@@ -420,7 +476,6 @@ $(document).ready(() => {
         console.log("Capital not found");
       }
       populateModals();
-      getNewsHeadlines();
     }
 
     if (polygons !== undefined) {

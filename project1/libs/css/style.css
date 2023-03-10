@@ -3,7 +3,9 @@
   margin: 0;
   box-sizing: border-box;
 }
-
+.w-100 {
+  width: 100%;
+}
 body {
   overflow: hidden;
 }
@@ -12,7 +14,9 @@ body {
   height: 93vh;
   width: 100%;
 }
-
+#info-1 {
+  overflow-x: auto;
+}
 .modal-heading {
   font-weight: 900;
 }
@@ -20,17 +24,11 @@ body {
 .result {
   margin-left: 10px;
   font-weight: 100;
+  font-size: 12px;
 }
 
-.styledmodal {
-  position: absolute;
-  top: 10px;
-  right: 100px;
-  bottom: 0;
-  left: 0;
-  z-index: 10040;
-  overflow: auto;
-  overflow-y: auto;
+.flag {
+  width: 120px;
 }
 
 .wikiLinks {
@@ -41,7 +39,29 @@ body {
   background-color: blue;
   border-radius: 50%;
 }
-
+.thead-styling {
+  border-right: 2px solid grey;
+}
 tr:nth-child(even) {
-  background-color: #d6eeee;
+  background-color: #d6eeee !important;
+}
+.svg-inline--fa {
+  font-size: 1.5em;
+  margin-top: 20%;
+}
+.fa-globe {
+  color: rgb(48, 188, 130);
+}
+.fa-cloud {
+  color: rgba(137, 114, 114, 0.807);
+}
+.fa-info {
+  color: rgb(212, 4, 4);
+}
+.fa-umbrella-beach {
+  color: rgb(241, 13, 131);
+}
+
+.fa-newspaper {
+  color: rgb(10, 10, 228);
 }

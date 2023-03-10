@@ -33,7 +33,6 @@ $(document).ready(() => {
       basicCountryImfo.show();
     }
   }).addTo(map);
-  // .addClass("easy-button");
 
   // Triggers basic Weather  Modal
   L.easyButton("fa-cloud", (btn, map) => {
@@ -44,7 +43,6 @@ $(document).ready(() => {
       weatherModal.show();
     }
   }).addTo(map);
-  // .addClass("easy-button");
 
   // Triggers useful information  Modal
   L.easyButton("fa-info", (btn, map) => {
@@ -55,7 +53,6 @@ $(document).ready(() => {
       usefulInfoModal.show();
     }
   }).addTo(map);
-  // .addClass("easy-button");
 
   // Triggers puplic holidays modal
   L.easyButton("fa-umbrella-beach", (btn, map) => {
@@ -66,7 +63,6 @@ $(document).ready(() => {
       holidaysModal.show();
     }
   }).addTo(map);
-  // .addClass("easy-button");
 
   // Triggers news headlines modal
   L.easyButton("fa-newspaper", (btn, map) => {
@@ -77,7 +73,7 @@ $(document).ready(() => {
       newsModal.show();
     }
   }).addTo(map);
-  // .addClass("easy-button");
+
   // ------------------------------------------
   // Ajax request functinas
   const getCountries = () => {
@@ -335,12 +331,12 @@ $(document).ready(() => {
           ({ name }, index) => !ids.includes(name, index + 1)
         );
         console.log("filteredHolidays", filteredHolidays);
-        let content = "<table>";
+        let content = '<table class="table table-striped">';
 
         for (i = 0; i < filteredHolidays.length; i++) {
           const holiday = filteredHolidays[i];
 
-          content += `<thead>
+          content += `<thead class ="thead-styling">
           <tr>
             <th>Name</th>
             <th>Locaslly Known As</th>
@@ -380,6 +376,42 @@ $(document).ready(() => {
       },
     });
   };
+  const getCitiesByCountryCode = (countryCode) => {
+    $.ajax({
+      type: "GET",
+      url: "libs/php/getCities.php",
+      data: { countryCode: countryCode },
+      dataType: "json",
+      success: function (response) {
+        let markers = L.markerClusterGroup();
+
+        let cityInfo = response.data;
+        for (let i = 0; i < cityInfo.length; i++) {
+          const city = cityInfo[i];
+          let cityLat = city.lat;
+          let cityLng = city.lng;
+
+          markers.addLayer(L.marker([cityLat, cityLng], {
+                icon: "fa-circle-exclamation",
+  
+                prefix: "fa-solid",
+              }));
+              map.addLayer(markers);
+
+          //   marker = L.ExtraMarkers.icon({
+          //     icon: "fa-circle-exclamation",
+
+          //     prefix: "fa-solid",
+          //   });
+
+          //   L.marker([cityLat, cityLng], { icon: marker }).addTo(map);
+        }
+      },
+      error: (jqXHR, textStatus, errorThrown) => {
+        console.log("Error", errorThrown, jqXHR);
+      },
+    });
+  };
 
   // ------------------------------------------
 
@@ -391,44 +423,42 @@ $(document).ready(() => {
     );
 
     if (singleRestCountry) {
-      let content = "<table>";
-      for (let i = 0; i < singleRestCountry.length; i++) {
-        const country = singleRestCountry[i];
-        content += `<thead>
-        <tr>
-          <th>Name</th>
-          <th>Capital</th>
-          <th>Population</th>
-          <th >Borders With</th>
-          <th>Sub-region</th>
-        </tr>
-       </thead>
-       <tbody>
+      console.log("singleRestCountry inside populate modls", singleRestCountry);
+      let content = `<table class="table table-striped w-100 " > 
+      <thead class ="thead-styling">
+      <tr>
+        <th>Name</th>
+        <th>Capital</th>
+        <th>Population</th>
+        <th> Flag</th></th>
+        <th>Borders With</th>
+        <th>Sub-region</th>
+      </tr>
+     </thead>`;
+
+      content += `<tbody>
          <tr>
-           <td>${country.name.common}</td>
-           <td>${country.capital[0]}</td>
-           <td>${country.population}</td>
-           <td><img class="flag" src="${country.flags.png}"/>}</td>
-         </tr>`;
+           <td>${singleRestCountry.name.common}</td>
+           <td>${singleRestCountry.capital[0]}</td>
+           <td>${singleRestCountry.population}</td>
+           <td><img class="flag" src="${singleRestCountry.flags.png}"/></td>
+         `;
 
-        if (country.borders) {
-          let str = "";
+      if (singleRestCountry.borders) {
+        let str = "";
 
-          country.borders.forEach((border) => {
-            content += `<td class="borders-list">${(str += `<li>${border}</li>`)}</td>`;
-          });
-          //
-        } else {
-          content += `<td class="borders-list">${(str += `<p>${"Borders Not Found"}</p>`)}</td>`;
-        }
-        if (country.subregion) {
-          content += `<td class="subregion">${country.subregion}</td>`;
-        } else {
-          content += `<td class="subregion"><p>Sub-region not found</p></td>`;
-        }
+        singleRestCountry.borders.forEach((border) => {
+          content += `<td class="borders-list">${(str += `<li>${border}</li>`)}</td>`;
+        });
+      } else {
+        content += `<td class="borders-list">${(str += `<p>${"Borders Not Found"}</p>`)}</td>`;
       }
-
-      content += "</table>";
+      if (singleRestCountry.subregion) {
+        content += `<td class="subregion">${singleRestCountry.subregion}</td>`;
+      } else {
+        content += `<td class="subregion"><p>Sub-region not found</p></td>`;
+      }
+      content += `</tr> </tbody> </table> `;
 
       $("#info-1").html(content);
 
@@ -444,9 +474,10 @@ $(document).ready(() => {
       getWikiLinks(lat, long);
       getPublicHolidayInfo(singleRestCountry.cca2, currentYear);
       getNewsHeadlines(singleRestCountry.cca2);
+      // calling getCitiesByCountryCode
+      getCitiesByCountryCode(singleRestCountry.cca2);
     } else {
-         console.log("Country Not Found");
-      
+      console.log("Country Not Found");
     }
   };
 

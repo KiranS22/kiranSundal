@@ -45,10 +45,10 @@
 }
 .extra-marker .svg-inline--fa,
 .extra-marker i {
-  color: #bd07e6 !important;
   margin-top: 7px;
   display: inline-block;
   font-size: 22px;
+  color: unset;
 }
 .extra-marker .svg-inline--fa {
   margin-top: 10px;
@@ -288,3 +288,4 @@
 .extra-marker-penta-white {
   background-position: -504px -138px;
 }
+

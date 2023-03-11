@@ -65,3 +65,11 @@ tr:nth-child(even) {
 .fa-newspaper {
   color: rgb(10, 10, 228);
 }
+
+.city-marker svg {
+  color: rgb(171, 23, 109) !important;
+}
+
+.capital-marker svg {
+  color: rgb(40, 0, 199) !important;
+}

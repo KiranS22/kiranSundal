@@ -224,7 +224,7 @@ $(document).ready(() => {
         }
         marker = L.ExtraMarkers.icon({
           icon: "fa-map-marker-alt",
-
+          className: "capital-marker",
           prefix: "fa-solid",
         });
 
@@ -383,29 +383,24 @@ $(document).ready(() => {
       data: { countryCode: countryCode },
       dataType: "json",
       success: function (response) {
+        console.log("cityInfo", response);
         let markers = L.markerClusterGroup();
 
         let cityInfo = response.data;
         for (let i = 0; i < cityInfo.length; i++) {
+          let icon = L.ExtraMarkers.icon({
+            icon: "fa-city",
+            prefix: "fa-solid",
+            className: "city-marker",
+          });
           const city = cityInfo[i];
           let cityLat = city.lat;
           let cityLng = city.lng;
+          let marker = L.marker([cityLat, cityLng], { icon: icon });
 
-          markers.addLayer(L.marker([cityLat, cityLng], {
-                icon: "fa-circle-exclamation",
-  
-                prefix: "fa-solid",
-              }));
-              map.addLayer(markers);
-
-          //   marker = L.ExtraMarkers.icon({
-          //     icon: "fa-circle-exclamation",
-
-          //     prefix: "fa-solid",
-          //   });
-
-          //   L.marker([cityLat, cityLng], { icon: marker }).addTo(map);
+          markers.addLayer(marker);
         }
+        map.addLayer(markers);
       },
       error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
@@ -513,7 +508,6 @@ $(document).ready(() => {
       removeBorders();
     }
 
-    //  draws borders
     getSingleCountryBorders(selectval);
     // brings back coords based on iso code
     let data = countryCapital ? countryCapital : selectval;

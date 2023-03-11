@@ -417,18 +417,20 @@ $(document).ready(() => {
         let markers = L.markerClusterGroup();
 
         let places = response.data;
-        for (let i = 0; i < places.length; i++) {
-          let icon = L.ExtraMarkers.icon({
-            icon: "fa-tree",
-            prefix: "fa-solid",
-            className: "park-marker",
-          });
-          const park = places[i];
-          let parkLat = park.location.lat;
-          let parkLng = park.location.lng;
-          let marker = L.marker([parkLat, parkLng], { icon: icon });
+        if (places.types[0] === "park") {
+          for (let i = 0; i < places.length; i++) {
+            let icon = L.ExtraMarkers.icon({
+              icon: "fa-tree",
+              prefix: "fa-solid",
+              className: "park-marker",
+            });
+            const park = places[i];
+            let parkLat = park.location.lat;
+            let parkLng = park.location.lng;
+            let marker = L.marker([parkLat, parkLng], { icon: icon });
 
-          markers.addLayer(marker);
+            markers.addLayer(marker);
+          }
         }
         map.addLayer(markers);
       },

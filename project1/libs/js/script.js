@@ -154,7 +154,7 @@ $(document).ready(() => {
       url: "libs/php/getRestCountries.php",
       dataType: "json",
       success: (response) => {
-        console.log("restCountry  success running");
+        console.log("restCountry Response", response);
         allRestCountries = response.data;
         populateModals();
       },
@@ -364,7 +364,7 @@ $(document).ready(() => {
     console.log("newsHeadlines CountryCoded", countryCode);
     $.ajax({
       type: "GET",
-      url: "libs/php/gettNewsHeadlines.php",
+      url: "libs/php/getNewsHeadlines.php",
       data: { countryCode: countryCode.toLowerCase() },
       dataType: "json",
       success: function (response) {
@@ -383,7 +383,6 @@ $(document).ready(() => {
       data: { countryCode: countryCode },
       dataType: "json",
       success: function (response) {
-        console.log("cityInfo", response);
         let markers = L.markerClusterGroup();
 
         let cityInfo = response.data;
@@ -407,7 +406,37 @@ $(document).ready(() => {
       },
     });
   };
+  const getNearbyPlaces = (lat, lng) => {
+    $.ajax({
+      type: "GET",
+      url: "libs/php/getNearbyPlaces.php",
+      data: { lat: lat, lng: lng },
+      dataType: "json",
+      success: function (response) {
+        console.log("getNearbyPlaces", response);
+        let markers = L.markerClusterGroup();
 
+        let places = response.data;
+        for (let i = 0; i < places.length; i++) {
+          let icon = L.ExtraMarkers.icon({
+            icon: "fa-tree",
+            prefix: "fa-solid",
+            className: "park-marker",
+          });
+          const park = places[i];
+          let parkLat = park.location.lat;
+          let parkLng = park.location.lng;
+          let marker = L.marker([parkLat, parkLng], { icon: icon });
+
+          markers.addLayer(marker);
+        }
+        map.addLayer(markers);
+      },
+      error: (jqXHR, textStatus, errorThrown) => {
+        console.log("Error", errorThrown, jqXHR);
+      },
+    });
+  };
   // ------------------------------------------
 
   // Function that populates all modals
@@ -460,6 +489,7 @@ $(document).ready(() => {
       let lat = singleRestCountry.latlng[0];
       let long = singleRestCountry.latlng[1];
       getWeatherInfo(lat, long);
+      getNearbyPlaces(lat, long);
       // Populating Weather modal
       $("#w-result-4").html(lat);
       $("#w-result-5").html(long);

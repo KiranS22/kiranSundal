@@ -406,29 +406,52 @@ $(document).ready(() => {
       },
     });
   };
-  const getNearbyPlaces = (lat, lng) => {
+  const getNearbyParksAndHospitals = (lat, lng) => {
     $.ajax({
       type: "GET",
-      url: "libs/php/getNearbyPlaces.php",
+      url: "libs/php/getNearbyParksAndHospitals.php",
       data: { lat: lat, lng: lng },
       dataType: "json",
       success: function (response) {
-        console.log("getNearbyPlaces", response);
         let markers = L.markerClusterGroup();
 
         let places = response.data;
-        if (places.types[0] === "park") {
-          for (let i = 0; i < places.length; i++) {
-            let icon = L.ExtraMarkers.icon({
+
+        let icon = null;
+        for (let i = 0; i < places.length; i++) {
+          const place = places[i];
+          console.log("place", place);
+          if (place.types.includes("parks")) {
+            console.log("TREE-MARKER");
+            icon = L.ExtraMarkers.icon({
               icon: "fa-tree",
               prefix: "fa-solid",
               className: "park-marker",
             });
-            const park = places[i];
-            let parkLat = park.location.lat;
-            let parkLng = park.location.lng;
-            let marker = L.marker([parkLat, parkLng], { icon: icon });
+          } else if (place.types.includes("hospital")) {
+            // console.log("HOSPITAL-MARKER");
+            icon = L.ExtraMarkers.icon({
+              icon: "fa-hospital",
+              prefix: "fa-solid",
+              className: "hospital-marker",
+            });
+          }
 
+          let placelat = place.location.lat;
+          let placelng = place.location.lng;
+          if (icon != null) {
+            let marker = L.marker([placelat, placelng], { icon: icon });
+            marker.bindPopup(
+              `<h4 class="popup-name">Name: ${place.name}</h4> <p class="popup-address"> Address:${place.address}</p>`
+            );
+            marker.on("click", onClick);
+
+            function onClick(e) {
+              var popup = e.target.getPopup();
+              var content = popup.getContent();
+
+              console.log(content);
+            }
             markers.addLayer(marker);
           }
         }
@@ -491,7 +514,7 @@ $(document).ready(() => {
       let lat = singleRestCountry.latlng[0];
       let long = singleRestCountry.latlng[1];
       getWeatherInfo(lat, long);
-      getNearbyPlaces(lat, long);
+      getNearbyParksAndHospitals(lat, long);
       // Populating Weather modal
       $("#w-result-4").html(lat);
       $("#w-result-5").html(long);

@@ -1,6 +1,6 @@
 <?php
 
-$url = "https://trueway-places.p.rapidapi.com/FindPlacesNearby?location=".$_REQUEST['lat']."%2C". $_REQUEST['lng']."&language=en";
+$url = "https://trueway-places.p.rapidapi.com/FindPlacesNearby?location=".$_REQUEST['lat']."%2C". $_REQUEST['lng']."&type=hospital&type=park&language=en&radius=10000";
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_RETURNTRANSFER , true);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION , true);

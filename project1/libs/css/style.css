@@ -73,3 +73,12 @@ tr:nth-child(even) {
 .capital-marker svg {
   color: rgb(40, 0, 199) !important;
 }
+.park-marker svg {
+  color: rgb(8, 92, 8) !important;
+  font-size: 1.5rem;
+}
+
+.hospital-marker svg {
+  color: rgb(255, 7, 7) !important;
+  font-size: 1.5rem;
+}

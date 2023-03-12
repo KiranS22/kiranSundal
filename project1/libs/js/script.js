@@ -340,7 +340,7 @@ $(document).ready(() => {
           });
           let wikiTitles = wikiInfo.map((article) => {
             let title = article.title;
-
+            
             return title;
           });
 

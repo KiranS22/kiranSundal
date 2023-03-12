@@ -6,6 +6,9 @@
 .w-100 {
   width: 100%;
 }
+.overflow-auto {
+  overflow: auto;
+}
 body {
   overflow: hidden;
 }
@@ -14,37 +17,24 @@ body {
   height: 93vh;
   width: 100%;
 }
-#info-1 {
-  overflow-x: auto;
-}
-.modal-heading {
-  font-weight: 900;
-}
-
-.result {
-  margin-left: 10px;
-  font-weight: 100;
-  font-size: 12px;
-}
 
 .flag {
   width: 120px;
 }
 
-.wikiLinks {
+.wikiLinks a,
+.news-link a {
   word-wrap: break-word;
+  color: #000;
 }
 
-.easy-button {
-  background-color: blue;
-  border-radius: 50%;
-}
 .thead-styling {
-  border-right: 2px solid grey;
+  font-size: 16px;
 }
-tr:nth-child(even) {
-  background-color: #d6eeee !important;
+tbody {
+  font-size: 14px;
 }
+
 .svg-inline--fa {
   font-size: 1.5em;
   margin-top: 20%;
@@ -81,4 +71,8 @@ tr:nth-child(even) {
 .hospital-marker svg {
   color: rgb(255, 7, 7) !important;
   font-size: 1.5rem;
+}
+
+.caption {
+  font-size: 14px;
 }

@@ -83,7 +83,7 @@ $(document).ready(() => {
       data: "",
       dataType: "json",
       success: (response) => {
-        console.log("getCountry", response);
+      
         let countryInfo = response;
         countryInfo = Object.values(countryInfo).sort((a, b) =>
           a.name.localeCompare(b.name)
@@ -154,7 +154,7 @@ $(document).ready(() => {
       url: "libs/php/getRestCountries.php",
       dataType: "json",
       success: (response) => {
-        console.log("restCountry Response", response);
+    
         allRestCountries = response.data;
         populateModals();
       },
@@ -245,15 +245,36 @@ $(document).ready(() => {
       data: { lat: lat, long: long },
       dataType: "json",
       success: (response) => {
+      
         let t = (parseFloat(response.data.main.temp) - 273.15).toFixed(2);
 
-        let t_diff = parseInt(response.data.timezone) / 3600; //Converting into UTC
+        let t_diff = parseInt(response.data.timezone) / 3600;
 
         let t_utc = t_diff > 0 ? `UTC +${t_diff}` : `UTC ${t_diff}`;
         // Populating weather Modal
-        $("#w-result-1").html(response.data.weather[0].description);
-        $("#w-result-2").html(t);
-        $("#w-result-3").html(t_utc);
+
+        let content = `<table class="table table-striped w-100 ">
+          <thead >
+          <tr class="bg-info text-dark">
+            <th class="thead-styling">Current Weather</th>
+            <th class="thead-styling">Temperature</th>
+            <th class="thead-styling">Timezone(UTC)</th>
+            <th class="thead-styling"> latitude</th>
+            <th class="thead-styling">longitude</th>
+
+          </tr>
+         </thead>`;
+
+        content += `<tbody>
+             <tr>
+               <td>${response.data.weather[0].description}</td>
+               <td>${t}</td>
+               <td>${t_utc}</td>
+               <td>${lat}</td>
+               <td>${long}</td>`;
+        content += "</tr></tbody></table>";
+
+        $("#w-info-1").append(content);
       },
       error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
@@ -268,19 +289,29 @@ $(document).ready(() => {
       data: { currency: currency },
       dataType: "json",
       success: (response) => {
-        let str = "";
         const usd = response.data.rates.USD;
         const gbp = response.data.rates.GBP;
         const eur = response.data.rates.EUR;
+        let content = `<h3 class="caption">Exchange Rates<h3><table class="table table-striped w-100 ">`;
 
-        str += `<li class="rate-li"><span class="currency">$(USD)</span>
-          <span id=usd">${usd}</span>
-          <li class="rate-li"><span class="currency">€(EUR)</span>
-          <span id=eur">${eur}</span>
-          <li class="rate-li"><span class="currency">£(GBP)</span>
-          <span id=gbp">${gbp}</span>
-          </li>`;
-        $("#u-result-1").html(str);
+        content += `<thead>
+          <tr class="bg-info text-dark">
+            <th class="thead-styling">USD</th>
+            <th class="thead-styling">GBP</th>
+            <th class="thead-styling">EUR</th>
+          </tr>
+         </thead>`;
+
+        content += `<tbody>
+             <tr>
+            
+               <td>${usd}</td>
+               <td>${gbp}</td>
+               <td>${eur}</td>
+               `;
+        content += "</tr></tbody></table>";
+
+        $("#u-info-1").html(content);
       },
       error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
@@ -295,19 +326,33 @@ $(document).ready(() => {
       dataType: "json",
       success: (response) => {
         if (response.data.geonames.length > 0) {
+          let content = ` <h3 class="caption">Wikipedia Links </h3> <table class="table table-striped w-100">`;
+          content += `<thead>
+          <tr class="bg-info text-dark">
+            <th class="thead-styling">Links</th> </thead`;
+
+          content += `<tbody>`;
+
           let wikiInfo = response.data.geonames;
-          let linksToDisplay = wikiInfo.slice(0, 3).map((url) => {
+          let linksToDisplay = wikiInfo.map((url) => {
             let fullUrl = "https://" + url.wikipediaUrl;
             return fullUrl;
           });
+          let wikiTitles = wikiInfo.map((article) => {
+            let title = article.title;
 
-          let str = "";
-          linksToDisplay.forEach((link) => {
-            str += `<li class="wikiLinks"><a href="${link}">${link}</a></li>`;
+            return title;
           });
-          $("#u-result-2").html(str);
+
+          linksToDisplay.forEach((link, index) => {
+            content += `<tr class="text-dark wikiLinks"> <td "><a href="${link}">${wikiTitles[index]}</a></tr>`;
+            return content;
+          });
+
+          content += "</tbody></table>";
+          $("#u-info-2").append(content);
         } else {
-          $("#u-result-2").html(`<p>No articles found</p>`);
+          $("#u-info-2").html(`<p>No articles found</p>`);
         }
       },
       error: (jqXHR, textStatus, errorThrown) => {
@@ -316,34 +361,32 @@ $(document).ready(() => {
     });
   };
   const getPublicHolidayInfo = (countryCode, currentYear) => {
-    console.log("Country Code:", countryCode, "year", currentYear);
     $.ajax({
       type: "GET",
       url: "libs/php/getPublicHolidayInfo.php",
       data: { countryCode: countryCode, year: currentYear },
       dataType: "json",
-      success: function (response) {
-        // Sort through holidays and display them
+      success: (response) => {
         let holidayInformation = response;
 
-        const ids = holidayInformation.map((o) => o.name);
+        const duplicatehols = holidayInformation.map((o) => o.name);
         const filteredHolidays = holidayInformation.filter(
-          ({ name }, index) => !ids.includes(name, index + 1)
+          ({ name }, index) => !duplicatehols.includes(name, index + 1)
         );
-        console.log("filteredHolidays", filteredHolidays);
-        let content = '<table class="table table-striped">';
+
+        let content = `<table class="table table-striped w-100 ">`;
+        content += `<thead>
+        <tr  class="bg-info text-dark">
+          <th class="thead-styling">Name</th>
+          <th class="thead-styling">Locaslly Known As</th>
+          <th class="thead-styling">Date (YYY/MM/DD)</th>
+        </tr>
+       </thead>`;
 
         for (i = 0; i < filteredHolidays.length; i++) {
           const holiday = filteredHolidays[i];
 
-          content += `<thead class ="thead-styling">
-          <tr>
-            <th>Name</th>
-            <th>Locaslly Known As</th>
-            <th>Date (YYY/MM/DD)</th>
-          </tr>
-         </thead>
-         <tbody>
+          content += `<tbody>
            <tr>
              <td>${holiday.name}</td>
              <td>${holiday.localName}</td>
@@ -361,15 +404,34 @@ $(document).ready(() => {
   };
 
   const getNewsHeadlines = (countryCode) => {
-    console.log("newsHeadlines CountryCoded", countryCode);
     $.ajax({
       type: "GET",
       url: "libs/php/getNewsHeadlines.php",
       data: { countryCode: countryCode.toLowerCase() },
       dataType: "json",
-      success: function (response) {
-        console.log(" gettNewsHeadlines", response);
-        // Sort through holidays and display them
+      success: (response) => {
+      
+        let newsHeadlines = response.data.articles;
+        let content = `<table class="table table-striped w-100 ">`;
+        content += `<thead>
+        <tr  class="bg-info text-dark">
+          <th class="thead-styling">Title</th>
+          <th class="thead-styling">Author</th>
+        </tr>
+       </thead>`;
+        for (i = 0; i < newsHeadlines.length; i++) {
+          const headline = newsHeadlines[i];
+
+          content += `<tbody>
+           <tr>
+             <td><a class="news-link" href="${headline.url}">${headline.title}</a></td>
+             <td>${headline.author}</td>
+          
+           </tr>`;
+        }
+        content += "</table>";
+
+        $("#nh-info-1").append(content);
       },
       error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
@@ -382,7 +444,7 @@ $(document).ready(() => {
       url: "libs/php/getCities.php",
       data: { countryCode: countryCode },
       dataType: "json",
-      success: function (response) {
+      success: (response) => {
         let markers = L.markerClusterGroup();
 
         let cityInfo = response.data;
@@ -412,7 +474,7 @@ $(document).ready(() => {
       url: "libs/php/getNearbyParksAndHospitals.php",
       data: { lat: lat, lng: lng },
       dataType: "json",
-      success: function (response) {
+      success: (response) => {
         let markers = L.markerClusterGroup();
 
         let places = response.data;
@@ -420,16 +482,13 @@ $(document).ready(() => {
         let icon = null;
         for (let i = 0; i < places.length; i++) {
           const place = places[i];
-          console.log("place", place);
           if (place.types.includes("parks")) {
-            console.log("TREE-MARKER");
             icon = L.ExtraMarkers.icon({
               icon: "fa-tree",
               prefix: "fa-solid",
               className: "park-marker",
             });
           } else if (place.types.includes("hospital")) {
-            // console.log("HOSPITAL-MARKER");
             icon = L.ExtraMarkers.icon({
               icon: "fa-hospital",
               prefix: "fa-solid",
@@ -444,14 +503,12 @@ $(document).ready(() => {
             marker.bindPopup(
               `<h4 class="popup-name">Name: ${place.name}</h4> <p class="popup-address"> Address:${place.address}</p>`
             );
+            const onClick = (e) => {
+              let popup = e.target.getPopup();
+              let content = popup.getContent();
+            };
             marker.on("click", onClick);
 
-            function onClick(e) {
-              var popup = e.target.getPopup();
-              var content = popup.getContent();
-
-              console.log(content);
-            }
             markers.addLayer(marker);
           }
         }
@@ -466,22 +523,20 @@ $(document).ready(() => {
 
   // Function that populates all modals
   const populateModals = () => {
-    console.log("allRestCountries", allRestCountries);
     let singleRestCountry = allRestCountries.find(
       (restCountry) => countryCodeFromOpenCage === restCountry.cca2
     );
 
     if (singleRestCountry) {
-      console.log("singleRestCountry inside populate modls", singleRestCountry);
-      let content = `<table class="table table-striped w-100 " > 
-      <thead class ="thead-styling">
-      <tr>
-        <th>Name</th>
-        <th>Capital</th>
-        <th>Population</th>
-        <th> Flag</th></th>
-        <th>Borders With</th>
-        <th>Sub-region</th>
+      let content = `<table class="table table-striped w-100 "> 
+      <thead>
+      <tr class="bg-info text-dark">
+        <th class="thead-styling">Name</th>
+        <th class="thead-styling">Capital</th>
+        <th class="thead-styling">Population</th>
+        <th class="thead-styling"> Flag</th></th>
+        <th class="thead-styling">Borders With</th>
+        <th class="thead-styling">Sub-region</th>
       </tr>
      </thead>`;
 
@@ -515,9 +570,7 @@ $(document).ready(() => {
       let long = singleRestCountry.latlng[1];
       getWeatherInfo(lat, long);
       getNearbyParksAndHospitals(lat, long);
-      // Populating Weather modal
-      $("#w-result-4").html(lat);
-      $("#w-result-5").html(long);
+
       let countryCurrency = Object.keys(singleRestCountry.currencies)[0];
       // calling getExchangeRate for useful info modal
       getExchangeRate(countryCurrency);

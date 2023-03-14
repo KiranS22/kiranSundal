@@ -1,27 +1,56 @@
+let allRestCountries = [];
+let polygons = [];
+let countryCodeFromOpenCage = null;
+let year = new Date().getFullYear();
+let currentYear = year.toString();
+// tile layer
+let streets = L.tileLayer(
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+  {
+    attribution:
+      "Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012",
+  }
+);
+
+let satellite = L.tileLayer(
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+  {
+    attribution:
+      "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+  }
+);
+
+let basemaps = {
+  Streets: streets,
+  Satellite: satellite,
+};
+let map = L.map("map", {
+  layers: [streets],
+}).setView([51.509865, -0.118092], 4);
+// map initalisation
+
+let marker = null;
+let placesMarkers = L.markerClusterGroup({
+  polygonOptions: {
+    fillColor: "#fff",
+    color: "#000",
+    weight: 2,
+    opacity: 1,
+    fillOpacity: 0.5,
+  },
+}).addTo(map);
+let cityMarkers = L.markerClusterGroup({
+  polygonOptions: {
+    fillColor: "#fff",
+    color: "#000",
+    weight: 2,
+    opacity: 1,
+    fillOpacity: 0.5,
+  },
+}).addTo(map);
+
 $(document).ready(() => {
   // variable definitions
-  let allRestCountries = [];
-  let polygons = [];
-  let countryCodeFromOpenCage = null;
-  let year = new Date().getFullYear();
-  let currentYear = year.toString();
-
-  // map initalisation
-  let map = L.map("map");
-  map.setView([51.509865, -0.118092], 4);
-  let marker = null;
-
-  // tile layer
-  L.tileLayer(
-    "https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f",
-    {
-      attribution:
-        '&copy; <a href="http://www.maptilesapi.com/">MapTiles API</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      apikey: "c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f",
-      maxZoom: 19,
-      minZoom: 4,
-    }
-  ).addTo(map);
 
   //easy buttons
   // Triggers basic Contry Infomatiobn Modal
@@ -83,7 +112,6 @@ $(document).ready(() => {
       data: "",
       dataType: "json",
       success: (response) => {
-      
         let countryInfo = response;
         countryInfo = Object.values(countryInfo).sort((a, b) =>
           a.name.localeCompare(b.name)
@@ -154,7 +182,6 @@ $(document).ready(() => {
       url: "libs/php/getRestCountries.php",
       dataType: "json",
       success: (response) => {
-    
         allRestCountries = response.data;
         populateModals();
       },
@@ -224,7 +251,7 @@ $(document).ready(() => {
         }
         marker = L.ExtraMarkers.icon({
           icon: "fa-map-marker-alt",
-          className: "capital-marker",
+          markerColor: "red",
           prefix: "fa-solid",
         });
 
@@ -245,7 +272,6 @@ $(document).ready(() => {
       data: { lat: lat, long: long },
       dataType: "json",
       success: (response) => {
-      
         let t = (parseFloat(response.data.main.temp) - 273.15).toFixed(2);
 
         let t_diff = parseInt(response.data.timezone) / 3600;
@@ -340,7 +366,7 @@ $(document).ready(() => {
           });
           let wikiTitles = wikiInfo.map((article) => {
             let title = article.title;
-            
+
             return title;
           });
 
@@ -378,19 +404,20 @@ $(document).ready(() => {
         content += `<thead>
         <tr  class="bg-info text-dark">
           <th class="thead-styling">Name</th>
-          <th class="thead-styling">Locaslly Known As</th>
-          <th class="thead-styling">Date (YYY/MM/DD)</th>
+          <th class="thead-styling">Date</th>
         </tr>
        </thead>`;
 
         for (i = 0; i < filteredHolidays.length; i++) {
           const holiday = filteredHolidays[i];
+          console.log(Date.parse(holiday.date).toString("ddd dS MMM"));
 
           content += `<tbody>
            <tr>
              <td>${holiday.name}</td>
-             <td>${holiday.localName}</td>
-             <td>${holiday.date}</td>
+             
+             <td>${Date.parse(holiday.date).toString("ddd dS MMM")}</td>
+
            </tr>`;
         }
         content += "</table>";
@@ -410,7 +437,6 @@ $(document).ready(() => {
       data: { countryCode: countryCode.toLowerCase() },
       dataType: "json",
       success: (response) => {
-      
         let newsHeadlines = response.data.articles;
         let content = `<table class="table table-striped w-100 ">`;
         content += `<thead>
@@ -445,23 +471,20 @@ $(document).ready(() => {
       data: { countryCode: countryCode },
       dataType: "json",
       success: (response) => {
-        let markers = L.markerClusterGroup();
-
         let cityInfo = response.data;
         for (let i = 0; i < cityInfo.length; i++) {
           let icon = L.ExtraMarkers.icon({
             icon: "fa-city",
             prefix: "fa-solid",
-            className: "city-marker",
           });
           const city = cityInfo[i];
           let cityLat = city.lat;
           let cityLng = city.lng;
           let marker = L.marker([cityLat, cityLng], { icon: icon });
 
-          markers.addLayer(marker);
+          cityMarkers.addLayer(marker);
         }
-        map.addLayer(markers);
+        map.addLayer(cityMarkers);
       },
       error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
@@ -475,8 +498,6 @@ $(document).ready(() => {
       data: { lat: lat, lng: lng },
       dataType: "json",
       success: (response) => {
-        let markers = L.markerClusterGroup();
-
         let places = response.data;
 
         let icon = null;
@@ -485,14 +506,14 @@ $(document).ready(() => {
           if (place.types.includes("parks")) {
             icon = L.ExtraMarkers.icon({
               icon: "fa-tree",
+              markerColor: "green",
               prefix: "fa-solid",
-              className: "park-marker",
             });
           } else if (place.types.includes("hospital")) {
             icon = L.ExtraMarkers.icon({
               icon: "fa-hospital",
+              markerColor: "red",
               prefix: "fa-solid",
-              className: "hospital-marker",
             });
           }
 
@@ -509,10 +530,10 @@ $(document).ready(() => {
             };
             marker.on("click", onClick);
 
-            markers.addLayer(marker);
+            placesMarkers.addLayer(marker);
           }
         }
-        map.addLayer(markers);
+        map.addLayer(placesMarkers);
       },
       error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
@@ -579,12 +600,8 @@ $(document).ready(() => {
       getNewsHeadlines(singleRestCountry.cca2);
       // calling getCitiesByCountryCode
       getCitiesByCountryCode(singleRestCountry.cca2);
-    } else {
-      console.log("Country Not Found");
     }
   };
-
-  // Getting current location
 
   //Calling getCountries to populate select
   getCountries();

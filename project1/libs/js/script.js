@@ -24,21 +24,23 @@ let basemaps = {
   Streets: streets,
   Satellite: satellite,
 };
-let map = L.map("map", {
-  layers: [streets],
-}).setView([51.509865, -0.118092], 4);
-// map initalisation
 
+let map = L.map("map");
+map.setView([51.509865, -0.118092], 4);
+
+// tile layer
+L.tileLayer(
+  "https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f",
+  {
+    attribution:
+      '&copy; <a href="http://www.maptilesapi.com/">MapTiles API</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    apikey: "c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f",
+    maxZoom: 19,
+    minZoom: 4,
+  }
+).addTo(map);
 let marker = null;
-let placesMarkers = L.markerClusterGroup({
-  polygonOptions: {
-    fillColor: "#fff",
-    color: "#000",
-    weight: 2,
-    opacity: 1,
-    fillOpacity: 0.5,
-  },
-}).addTo(map);
+// clusterMarkers
 let cityMarkers = L.markerClusterGroup({
   polygonOptions: {
     fillColor: "#fff",
@@ -47,8 +49,17 @@ let cityMarkers = L.markerClusterGroup({
     opacity: 1,
     fillOpacity: 0.5,
   },
-}).addTo(map);
+});
 
+let placesMarkers = L.markerClusterGroup({
+  polygonOptions: {
+    fillColor: "#fff",
+    color: "#000",
+    weight: 2,
+    opacity: 1,
+    fillOpacity: 0.5,
+  },
+});
 $(document).ready(() => {
   // variable definitions
 
@@ -102,7 +113,6 @@ $(document).ready(() => {
       newsModal.show();
     }
   }).addTo(map);
-
   // ------------------------------------------
   // Ajax request functinas
   const getCountries = () => {
@@ -410,7 +420,6 @@ $(document).ready(() => {
 
         for (i = 0; i < filteredHolidays.length; i++) {
           const holiday = filteredHolidays[i];
-          console.log(Date.parse(holiday.date).toString("ddd dS MMM"));
 
           content += `<tbody>
            <tr>
@@ -472,6 +481,7 @@ $(document).ready(() => {
       dataType: "json",
       success: (response) => {
         let cityInfo = response.data;
+
         for (let i = 0; i < cityInfo.length; i++) {
           let icon = L.ExtraMarkers.icon({
             icon: "fa-city",
@@ -640,3 +650,4 @@ $(document).ready(() => {
     getCountryFromOpenCageByName(data, latlng);
   });
 });
+console.log("All good uptil here");

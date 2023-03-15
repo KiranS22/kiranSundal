@@ -32,11 +32,11 @@ body {
 .news-link a {
   word-wrap: break-word;
   color: #000;
+  
 }
 
-.thead-styling {
+.row-styling {
   font-size: 16px;
-  
 }
 tbody {
   font-size: 14px;

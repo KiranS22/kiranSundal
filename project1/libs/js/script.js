@@ -577,41 +577,57 @@ $(document).ready(() => {
     );
 
     if (singleRestCountry) {
-      let content = `<table class="table table-striped w-100 "> 
-      <thead>
-      <tr class="bg-info text-dark">
-        <th class="thead-styling">Name</th>
-        <th class="thead-styling">Capital</th>
-        <th class="thead-styling">Population</th>
-        <th class="thead-styling"> Flag</th></th>
-        <th class="thead-styling">Borders With</th>
-        <th class="thead-styling">Sub-region</th>
-      </tr>
-     </thead>`;
+      let content = `<table class="table table-striped w-100 ">`;
 
       content += `<tbody>
          <tr>
+         <td class="fw-bold">Name</td>
            <td>${singleRestCountry.name.common}</td>
-           <td>${singleRestCountry.capital[0]}</td>
-           <td>${singleRestCountry.population}</td>
+           </tr>
+           <tr class="row-styling bg-info text-dark"> 
+           <td class="fw-bold">Capital</td>  
+            <td>${singleRestCountry.capital[0]}</td>
+            </tr>
+            <tr>
+            <td class="fw-bold">Population</td>
+           <td>${singleRestCountry.population.toFixed(1)}million</td>
+           </tr>
+           <tr class="row-styling bg-info text-dark">
+           <td class="fw-bold">Flag</td>
            <td><img class="flag" src="${singleRestCountry.flags.png}"/></td>
+           
+           </tr>
          `;
 
       if (singleRestCountry.borders) {
         let str = "";
-
+        content += `
+<tr>
+<td class="sw-bold"> Borders With</td>`;
         singleRestCountry.borders.forEach((border) => {
           content += `<td class="borders-list">${(str += `<li>${border}</li>`)}</td>`;
         });
+
+        content += `</tr>`;
       } else {
-        content += `<td class="borders-list">${(str += `<p>${"Borders Not Found"}</p>`)}</td>`;
+        content += `<tr><td class="fw-bold">Borders With </td><td class="borders-list">${(str += `<p>${"Borders Not Found"}</p>`)}</td></tr>`;
       }
+
       if (singleRestCountry.subregion) {
-        content += `<td class="subregion">${singleRestCountry.subregion}</td>`;
+        content += `
+        <tr class="row-styling bg-info text-dark">
+        <td class="fw-bold">Sub-region</td>
+        <td class="subregion">${singleRestCountry.subregion}</td>;
+        </tr>
+        `;
       } else {
-        content += `<td class="subregion"><p>Sub-region not found</p></td>`;
+        content += `
+        <tr class="row-styling bg-info text-dark"><td>Sub-region</td>
+        <td class="subregion"><p>Sub-region not found</p></td>
+        </tr>
+        `;
       }
-      content += `</tr> </tbody> </table> `;
+      content += `</tbody> </table> `;
 
       $("#info-1").html(content);
 
@@ -668,4 +684,3 @@ $(document).ready(() => {
     getCountryFromOpenCageByName(data, latlng);
   });
 });
-

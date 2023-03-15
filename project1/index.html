@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=scr, initial-scale=1.0" />
     <title>Gazetteer - Kiran Sundal</title>
+    <title>Gazetteer - Kiran Sundal</title>
     <link rel="stylesheet" href="./libs/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./">
     <link rel="stylesheet" href="./libs/css/leaflet.css" />
     <link rel="stylesheet" href="./libs/css/leaflet-easyButtons.css" />
     <link rel="stylesheet" href="./libs/css/fontAwesome.css" />
@@ -15,8 +17,14 @@
 
     <link rel="stylesheet" href="./libs/css/extraMarkers.min.css" />
     <link rel="stylesheet" href="./libs/css/style.css" />
+    <link rel="stylesheet" href="./libs/css/style.css" />
   </head>
   <body>
+    <div class="select-container">
+      <select name="countries" id="selectCountries" class="form-control">
+        <option value="">Select Country</option>
+      </select>
+    </div>
     <div class="select-container">
       <select name="countries" id="selectCountries" class="form-control">
         <option value="">Select Country</option>
@@ -187,6 +195,7 @@
                 <div class="col-12">
                   <div class="categories">
                     <div id="ph-info-1" class="overflow-auto"></div>
+                    <div id="ph-info-1" class="overflow-auto"></div>
                   </div>
                 </div>
               </div>
@@ -260,6 +269,8 @@
     <script src="./libs/js/leaflet.markercluster.js"></script>
     <script src="./libs/js/leaflet.markercluster-src.js"></script>
     <script src="./libs/js/fontAwesome.js"></script>
+    <script src="./libs/js/date.js"></script>
+    <script src="./libs/js/script.js"></script>
     <script src="./libs/js/date.js"></script>
     <script src="./libs/js/script.js"></script>
   </body>

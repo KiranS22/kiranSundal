@@ -50,7 +50,7 @@ let cityMarkers = L.markerClusterGroup({
     fillOpacity: 0.5,
   },
 });
-
+// placesmarker
 let placesMarkers = L.markerClusterGroup({
   polygonOptions: {
     fillColor: "#fff",
@@ -262,6 +262,7 @@ $(document).ready(() => {
         marker = L.ExtraMarkers.icon({
           icon: "fa-map-marker-alt",
           markerColor: "red",
+          markerColor: "red",
           prefix: "fa-solid",
         });
 
@@ -377,6 +378,7 @@ $(document).ready(() => {
           let wikiTitles = wikiInfo.map((article) => {
             let title = article.title;
 
+
             return title;
           });
 
@@ -415,15 +417,20 @@ $(document).ready(() => {
         <tr  class="bg-info text-dark">
           <th class="thead-styling">Name</th>
           <th class="thead-styling">Date</th>
+          <th class="thead-styling">Date</th>
         </tr>
        </thead>`;
 
         for (i = 0; i < filteredHolidays.length; i++) {
           const holiday = filteredHolidays[i];
+          console.log(Date.parse(holiday.date).toString("ddd dS MMM"));
 
           content += `<tbody>
            <tr>
              <td>${holiday.name}</td>
+             
+             <td>${Date.parse(holiday.date).toString("ddd dS MMM")}</td>
+
              
              <td>${Date.parse(holiday.date).toString("ddd dS MMM")}</td>
 
@@ -493,7 +500,9 @@ $(document).ready(() => {
           let marker = L.marker([cityLat, cityLng], { icon: icon });
 
           cityMarkers.addLayer(marker);
+          cityMarkers.addLayer(marker);
         }
+        map.addLayer(cityMarkers);
         map.addLayer(cityMarkers);
       },
       error: (jqXHR, textStatus, errorThrown) => {
@@ -517,11 +526,13 @@ $(document).ready(() => {
             icon = L.ExtraMarkers.icon({
               icon: "fa-tree",
               markerColor: "green",
+              markerColor: "green",
               prefix: "fa-solid",
             });
           } else if (place.types.includes("hospital")) {
             icon = L.ExtraMarkers.icon({
               icon: "fa-hospital",
+              markerColor: "red",
               markerColor: "red",
               prefix: "fa-solid",
             });
@@ -541,8 +552,10 @@ $(document).ready(() => {
             marker.on("click", onClick);
 
             placesMarkers.addLayer(marker);
+            placesMarkers.addLayer(marker);
           }
         }
+        map.addLayer(placesMarkers);
         map.addLayer(placesMarkers);
       },
       error: (jqXHR, textStatus, errorThrown) => {

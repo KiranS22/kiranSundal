@@ -4,48 +4,24 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=scr, initial-scale=1.0" />
-    <title>GeoAtlas - Kiran Sundal</title>
+    <title>Gazetteer - Kiran Sundal</title>
     <link rel="stylesheet" href="./libs/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./">
     <link rel="stylesheet" href="./libs/css/leaflet.css" />
     <link rel="stylesheet" href="./libs/css/leaflet-easyButtons.css" />
     <link rel="stylesheet" href="./libs/css/fontAwesome.css" />
     <link rel="icon" type="image/png" href="./images/favicon.png" />
     <link rel="stylesheet" href="./libs/css/MarkerCluster.css" />
     <link rel="stylesheet" href="./libs/css/MarkerCluster.Default.css" />
-
-    <link rel="stylesheet" href="./libs/css/style.css" />
     <link rel="stylesheet" href="./libs/css/extraMarkers.min.css" />
+    <link rel="stylesheet" href="./libs/css/style.css" />
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand text-light" href="#">GeoAtlas </a>
-        <button
-          class="navbar-toggler bg-secondary"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <select
-                name="countries"
-                id="selectCountries"
-                class="form-control"
-              >
-                <option value="">Select Country</option>
-              </select>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <div class="select-container">
+      <select name="countries" id="selectCountries" class="form-control">
+        <option value="">Select Country</option>
+      </select>
+    </div>
 
     <!-- Basic country Info modal -->
     <div class="country-info-modal">
@@ -210,7 +186,7 @@
               <div class="row">
                 <div class="col-12">
                   <div class="categories">
-                    <div id="ph-info-1"class="overflow-auto"></div>
+                    <div id="ph-info-1" class="overflow-auto"></div>
                   </div>
                 </div>
               </div>
@@ -283,7 +259,8 @@
     <script src="./libs/js/leaflet-easyButtons.js"></script>
     <script src="./libs/js/leaflet.markercluster.js"></script>
     <script src="./libs/js/leaflet.markercluster-src.js"></script>
-    <script src="./libs/js/script.js"></script>
     <script src="./libs/js/fontAwesome.js"></script>
+    <script src="./libs/js/date.js"></script>
+    <script src="./libs/js/script.js"></script>
   </body>
 </html>

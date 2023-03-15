@@ -9,12 +9,18 @@
 .overflow-auto {
   overflow: auto;
 }
+.select-container {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 1000;
+}
 body {
   overflow: hidden;
 }
 
 #map {
-  height: 93vh;
+  height: 100vh;
   width: 100%;
 }
 
@@ -58,19 +64,6 @@ tbody {
 
 .city-marker svg {
   color: rgb(171, 23, 109) !important;
-}
-
-.capital-marker svg {
-  color: rgb(40, 0, 199) !important;
-}
-.park-marker svg {
-  color: rgb(8, 92, 8) !important;
-  font-size: 1.5rem;
-}
-
-.hospital-marker svg {
-  color: rgb(255, 7, 7) !important;
-  font-size: 1.5rem;
 }
 
 .caption {

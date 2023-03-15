@@ -20,11 +20,6 @@ let satellite = L.tileLayer(
   }
 );
 
-let basemaps = {
-  Streets: streets,
-  Satellite: satellite,
-};
-
 let map = L.map("map");
 map.setView([51.509865, -0.118092], 4);
 
@@ -39,6 +34,10 @@ L.tileLayer(
     minZoom: 4,
   }
 ).addTo(map);
+let basemaps = {
+  Streets: streets,
+  Satellite: satellite,
+};
 let marker = null;
 // clusterMarkers
 let cityMarkers = L.markerClusterGroup({
@@ -60,9 +59,23 @@ let placesMarkers = L.markerClusterGroup({
     fillOpacity: 0.5,
   },
 });
-$(document).ready(() => {
-  // variable definitions
 
+let overlays = {
+  Places: placesMarkers,
+  Cities: cityMarkers,
+};
+// layer control
+let layerControl = L.control.layers(basemaps, overlays).addTo(map);
+
+// Extra markers
+
+let currentLocationMarker = L.ExtraMarkers.icon({
+  icon: "fa-map-marker-alt",
+  markerColor: "red",
+  markerColor: "red",
+  prefix: "fa-solid",
+});
+$(document).ready(() => {
   //easy buttons
   // Triggers basic Contry Infomatiobn Modal
   L.easyButton("fa-globe", (btn, map) => {
@@ -259,14 +272,9 @@ $(document).ready(() => {
         if (marker !== null) {
           map.removeLayer(marker);
         }
-        marker = L.ExtraMarkers.icon({
-          icon: "fa-map-marker-alt",
-          markerColor: "red",
-          markerColor: "red",
-          prefix: "fa-solid",
-        });
 
-        L.marker([lat, long], { icon: marker }).addTo(map);
+        marker = currentLocationMarker;
+        L.marker([lat, long], { icon: currentLocationMarker }).addTo(map);
 
         map.panTo([lat, long], { animate: true, duration: 1 });
       },
@@ -378,7 +386,6 @@ $(document).ready(() => {
           let wikiTitles = wikiInfo.map((article) => {
             let title = article.title;
 
-
             return title;
           });
 
@@ -417,19 +424,17 @@ $(document).ready(() => {
         <tr  class="bg-info text-dark">
           <th class="thead-styling">Name</th>
           <th class="thead-styling">Date</th>
-          <th class="thead-styling">Date</th>
+        
         </tr>
        </thead>`;
 
         for (i = 0; i < filteredHolidays.length; i++) {
           const holiday = filteredHolidays[i];
-          console.log(Date.parse(holiday.date).toString("ddd dS MMM"));
 
           content += `<tbody>
            <tr>
              <td>${holiday.name}</td>
-             
-             <td>${Date.parse(holiday.date).toString("ddd dS MMM")}</td>
+
 
              
              <td>${Date.parse(holiday.date).toString("ddd dS MMM")}</td>
@@ -663,4 +668,4 @@ $(document).ready(() => {
     getCountryFromOpenCageByName(data, latlng);
   });
 });
-console.log("All good uptil here");
+

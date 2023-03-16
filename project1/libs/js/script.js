@@ -147,7 +147,15 @@ $(document).ready(() => {
       newsModal.show();
     }
   }).addTo(map);
+
   // ------------------------------------------
+  $(document)
+    .ajaxStart(() => {
+      $(".lds-dual-ring").show();
+    })
+    .ajaxStop(() => {
+      $(".lds-dual-ring").hide();
+    });
   // Ajax request functinas
   const getCountries = () => {
     $.ajax({
@@ -373,7 +381,7 @@ $(document).ready(() => {
 
         // // Icons
         let iconBaseUrl = "http://openweathermap.org/img/wn/";
-        let iconFormat = ".webp";
+        let iconFormat = ".png";
 
         // // Today
         let iconCodeToday = data.list[0].weather[0].icon;
@@ -548,7 +556,7 @@ $(document).ready(() => {
           });
 
           content += "</tbody></table>";
-          $("#u-info-2").append(content);
+          $("#u-info-2").html(content);
         } else {
           $("#u-info-2").html(`<p>No articles found</p>`);
         }

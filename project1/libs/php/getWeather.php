@@ -1,7 +1,7 @@
 <?php
 require "config.php";
-
-$url = "https://api.openweathermap.org/data/2.5/weather?lat=".$_REQUEST['lat'] . "&"."lon=".$_REQUEST['long']. "&" ."appid=" . API_KEY;
+// 
+$url = "http://api.openweathermap.org/data/2.5/forecast?lat=".$_REQUEST['lat'] . "&"."lon=".$_REQUEST['long']. "&" ."appid=e37dcbdbb7ab46945197d7d733a7e68c";
 $executionStartTime = microtime(true);
 
 $ch = curl_init();

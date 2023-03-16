@@ -71,6 +71,27 @@ let layerControl = L.control.layers(basemaps, overlays).addTo(map);
 
 let currentLocationMarker = L.ExtraMarkers.icon({
   icon: "fa-map-marker-alt",
+  markerColor: "white",
+  iconColor: "red",
+  prefix: "fa-solid",
+  shape: "star",
+});
+
+let cityLocationMarkers = L.ExtraMarkers.icon({
+  icon: "fa-city",
+  prefix: "fa-solid",
+  markerColor: "black",
+});
+
+let parkLocationMarkers = L.ExtraMarkers.icon({
+  icon: "fa-tree",
+  iconColor: "lightgreen",
+  markerColor: "darkgreen",
+  prefix: "fa-solid",
+});
+
+let hospitalLocaionMarkers = L.ExtraMarkers.icon({
+  icon: "fa-hospital",
   markerColor: "red",
   markerColor: "red",
   prefix: "fa-solid",
@@ -274,7 +295,9 @@ $(document).ready(() => {
         }
 
         marker = currentLocationMarker;
-        L.marker([lat, long], { icon: currentLocationMarker }).addTo(map);
+        L.marker([lat, long], { icon: currentLocationMarker })
+          .bindTooltip("Current Location", { direction: "top", sticky: true })
+          .addTo(map);
 
         map.panTo([lat, long], { animate: true, duration: 1 });
       },
@@ -291,35 +314,165 @@ $(document).ready(() => {
       data: { lat: lat, long: long },
       dataType: "json",
       success: (response) => {
-        let t = (parseFloat(response.data.main.temp) - 273.15).toFixed(2);
+        const { data } = response;
+        console.log("Weather data", data);
+        let todayWeather = data.list[0];
+        let tomorrowWeather = data.list[8];
+        let dayAfterTomorrowWeather = data.list[15];
+        let main = todayWeather.weather[0].main;
+        let description = todayWeather.weather[0].description;
+        let temp = Math.round(todayWeather.main.temp - 273.15);
+        let pressure = todayWeather.main.pressure;
+        let humidity = todayWeather.main.humidity;
+        let name = data.city.name;
 
-        let t_diff = parseInt(response.data.timezone) / 3600;
+        $("#wrapper-description").html(description);
+        $("#wrapper-temp").html(`${temp}°C`);
+        $("#wrapper-pressure").html(pressure);
+        $("#wrapper-humidity").html(`${humidity}%`);
+        $("#wrapper-name").html(name);
 
-        let t_utc = t_diff > 0 ? `UTC +${t_diff}` : `UTC ${t_diff}`;
-        // Populating weather Modal
+        let hourNow = Math.round(todayWeather.main.temp - 273.15);
+        let hour1 = Math.round(data.list[1].main.temp - 273.15);
+        let hour2 = Math.round(data.list[2].main.temp - 273.15);
+        let hour3 = Math.round(data.list[3].main.temp - 273.15);
+        let hour4 = Math.round(data.list[4].main.temp - 273.15);
+        let hour5 = Math.round(data.list[5].main.temp - 273.15);
 
-        let content = `<table class="table table-striped w-100 ">
-          <thead >
-          <tr class="bg-info text-dark">
-            <th class="thead-styling">Current Weather</th>
-            <th class="thead-styling">Temperature</th>
-            <th class="thead-styling">Timezone(UTC)</th>
-            <th class="thead-styling"> latitude</th>
-            <th class="thead-styling">longitude</th>
+        $("#wrapper-hour-now").html(`${hourNow}°`);
+        $("#wrapper-hour1").html(`${hour1}°`);
+        $("#wrapper-hour2").html(`${hour2}°`);
+        $("#wrapper-hour3").html(`${hour3}°`);
+        $("#wrapper-hour4").html(`${hour4}°`);
+        $("#wrapper-hour5").html(`${hour5}°`);
 
-          </tr>
-         </thead>`;
+        // // Time
+        let timeNow = new Date().getHours();
+        let time1 = timeNow + 3;
+        let time2 = time1 + 3;
+        let time3 = time2 + 3;
+        let time4 = time3 + 3;
+        let time5 = time4 + 3;
 
-        content += `<tbody>
-             <tr>
-               <td>${response.data.weather[0].description}</td>
-               <td>${t}</td>
-               <td>${t_utc}</td>
-               <td>${lat}</td>
-               <td>${long}</td>`;
-        content += "</tr></tbody></table>";
+        $("#wrapper-time1").html(time1);
+        $("#wrapper-time2").html(time2);
+        $("#wrapper-time3").html(time3);
+        $("#wrapper-time4").html(time4);
+        $("#wrapper-time5").html(time5);
 
-        $("#w-info-1").append(content);
+        // // Weather daily data
+        let tomorrowTemp = Math.round(tomorrowWeather.main.temp - 273.15);
+        let dATTemp = Math.round(
+          Math.round(dayAfterTomorrowWeather.main.temp - 273.15)
+        );
+
+        $("#wrapper-forecast-temp-today").html(`${temp}°`);
+
+        $("#wrapper-forecast-temp-tomorrow").html(`${tomorrowTemp}°`);
+        $("#wrapper-forecast-temp-dAT").html(`${dATTemp}°`);
+
+        // // Icons
+        let iconBaseUrl = "http://openweathermap.org/img/wn/";
+        let iconFormat = ".webp";
+
+        // // Today
+        let iconCodeToday = data.list[0].weather[0].icon;
+        let iconFullyUrlToday = iconBaseUrl + iconCodeToday + iconFormat;
+        $("#wrapper-icon-today").attr("src", iconFullyUrlToday);
+
+        // // Tomorrow
+        let iconCodeTomorrow = data.list[8].weather[0].icon;
+        let iconFullyUrlTomorrow = iconBaseUrl + iconCodeTomorrow + iconFormat;
+        $("#wrapper-icon-tomorrow").attr("src", iconFullyUrlTomorrow);
+
+        // // Day after tomorrow
+        let iconCodeDAT = data.list[15].weather[0].icon;
+        let iconFullyUrlDAT = iconBaseUrl + iconCodeDAT + iconFormat;
+        $("#wrapper-icon-dAT").attr("src", iconFullyUrlDAT);
+
+        // // Icons hourly
+
+        // // Hour now
+        let iconHourNow = data.list[0].weather[0].icon;
+        let iconFullyUrlHourNow = iconBaseUrl + iconHourNow + iconFormat;
+        $("#wrapper-icon-hour-now").attr("src", iconFullyUrlHourNow);
+
+        // // Hour1
+        let iconHour1 = data.list[1].weather[0].icon;
+        let iconFullyUrlHour1 = iconBaseUrl + iconHour1 + iconFormat;
+        document.getElementById("wrapper-icon-hour1").src = iconFullyUrlHour1;
+
+        // // Hour2
+        let iconHour2 = data.list[2].weather[0].icon;
+        let iconFullyUrlHour2 = iconBaseUrl + iconHour2 + iconFormat;
+        $("#wrapper-icon-hour2").attr("src", iconFullyUrlHour2);
+
+        // // Hour3
+        let iconHour3 = data.list[3].weather[0].icon;
+        let iconFullyUrlHour3 = iconBaseUrl + iconHour3 + iconFormat;
+        $("#wrapper-icon-hour3").attr("src", iconFullyUrlHour3);
+
+        // // Hour4
+        let iconHour4 = data.list[4].weather[0].icon;
+        let iconFullyUrlHour4 = iconBaseUrl + iconHour4 + iconFormat;
+        $("#wrapper-icon-hour4").attr("src", iconFullyUrlHour4);
+
+        // // Hour5
+        let iconHour5 = data.list[5].weather[0].icon;
+        let iconFullyUrlHour5 = iconBaseUrl + iconHour5 + iconFormat;
+        $("#wrapper-icon-hour5").src = iconFullyUrlHour5;
+
+        // Backgrounds
+        switch (main) {
+          case "Snow":
+            $("#wrapper-bg").css(
+              "backgroundImage",
+              "url('https://mdbgo.io/ascensus/mdb-advanced/img/snow.gif')"
+            );
+
+            break;
+          case "Clouds":
+            $("#wrapper-bg").css(
+              "backgroundImage",
+              "url('https://mdbgo.io/ascensus/mdb-advanced/img/clouds.gif')"
+            );
+            break;
+          case "Fog":
+            $("#wrapper-bg").css(
+              "backgroundImage",
+              "url('https://mdbgo.io/ascensus/mdb-advanced/img/fog.gif')"
+            );
+
+            break;
+          case "Rain":
+            $("#wrapper-bg").css(
+              "backgroundImage",
+              "url('https://mdbgo.io/ascensus/mdb-advanced/img/rain.gif')"
+            );
+
+            break;
+          case "Clear":
+            $("#wrapper-bg").css(
+              "backgroundImage",
+              "url('https://mdbgo.io/ascensus/mdb-advanced/img/clear.gif')"
+            );
+
+            break;
+          case "Thunderstorm":
+            $("#wrapper-bg").css(
+              "backgroundImage",
+              "url('https://mdbgo.io/ascensus/mdb-advanced/img/thunderstorm.gif')"
+            );
+
+            break;
+          default:
+            $("#wrapper-bg").css(
+              "backgroundImage",
+              "url('https://mdbgo.io/ascensus/mdb-advanced/img/clear.gif')"
+            );
+
+            break;
+        }
       },
       error: (jqXHR, textStatus, errorThrown) => {
         console.log("Error", errorThrown, jqXHR);
@@ -495,19 +648,17 @@ $(document).ready(() => {
         let cityInfo = response.data;
 
         for (let i = 0; i < cityInfo.length; i++) {
-          let icon = L.ExtraMarkers.icon({
-            icon: "fa-city",
-            prefix: "fa-solid",
-          });
+          let icon = cityLocationMarkers;
           const city = cityInfo[i];
           let cityLat = city.lat;
           let cityLng = city.lng;
-          let marker = L.marker([cityLat, cityLng], { icon: icon });
+          let marker = L.marker([cityLat, cityLng], { icon: icon }).bindTooltip(
+            "City",
+            { direction: "top", sticky: true }
+          );
 
           cityMarkers.addLayer(marker);
-          cityMarkers.addLayer(marker);
         }
-        map.addLayer(cityMarkers);
         map.addLayer(cityMarkers);
       },
       error: (jqXHR, textStatus, errorThrown) => {
@@ -528,28 +679,24 @@ $(document).ready(() => {
         for (let i = 0; i < places.length; i++) {
           const place = places[i];
           if (place.types.includes("parks")) {
-            icon = L.ExtraMarkers.icon({
-              icon: "fa-tree",
-              markerColor: "green",
-              markerColor: "green",
-              prefix: "fa-solid",
-            });
+            icon = parkLocationMarkers;
           } else if (place.types.includes("hospital")) {
-            icon = L.ExtraMarkers.icon({
-              icon: "fa-hospital",
-              markerColor: "red",
-              markerColor: "red",
-              prefix: "fa-solid",
-            });
+            icon = hospitalLocaionMarkers;
           }
 
           let placelat = place.location.lat;
           let placelng = place.location.lng;
           if (icon != null) {
-            let marker = L.marker([placelat, placelng], { icon: icon });
+            let marker = L.marker([placelat, placelng], {
+              icon: icon,
+            }).bindTooltip(
+              place.types.includes("parks") ? "Park" : "Hospital",
+              { direction: "top", sticky: true }
+            );
             marker.bindPopup(
               `<h4 class="popup-name">Name: ${place.name}</h4> <p class="popup-address"> Address:${place.address}</p>`
             );
+
             const onClick = (e) => {
               let popup = e.target.getPopup();
               let content = popup.getContent();
@@ -557,10 +704,8 @@ $(document).ready(() => {
             marker.on("click", onClick);
 
             placesMarkers.addLayer(marker);
-            placesMarkers.addLayer(marker);
           }
         }
-        map.addLayer(placesMarkers);
         map.addLayer(placesMarkers);
       },
       error: (jqXHR, textStatus, errorThrown) => {
@@ -577,6 +722,7 @@ $(document).ready(() => {
     );
 
     if (singleRestCountry) {
+      console.log("single rest ", singleRestCountry);
       let content = `<table class="table table-striped w-100 ">`;
 
       content += `<tbody>

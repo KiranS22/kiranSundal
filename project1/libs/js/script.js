@@ -149,13 +149,6 @@ $(document).ready(() => {
   }).addTo(map);
 
   // ------------------------------------------
-  $(document)
-    .ajaxStart(() => {
-      $(".lds-dual-ring").show();
-    })
-    .ajaxStop(() => {
-      $(".lds-dual-ring").hide();
-    });
   // Ajax request functinas
   const getCountries = () => {
     $.ajax({
@@ -178,8 +171,16 @@ $(document).ready(() => {
         $("#selectCountries").append(str);
         getGeoeolocation();
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
+      error: () => {
+        Toastify({
+          text: "A problem occured whilst getting countries",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
       },
     });
   };
@@ -203,6 +204,15 @@ $(document).ready(() => {
         },
         () => {
           $("#selectCountries").val("GB").change();
+          Toastify({
+            text: "Could not get your location",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top",
+            positionLeft: true,
+            backgroundColor: "red",
+          }).showToast();
         }
       );
     } else {
@@ -222,8 +232,16 @@ $(document).ready(() => {
         // Calling change event once data comes back from openCage (reverse geocode)
         $("#selectCountries").val(countryCodeFromOpenCage).change();
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
+      error: () => {
+        Toastify({
+          text: "Something went wrong",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
       },
     });
   };
@@ -237,8 +255,17 @@ $(document).ready(() => {
         allRestCountries = response.data;
         populateModals();
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
+      error: () => {
+        Toastify({
+          text: "Could not road Rest Countries",
+          duration: 3000,
+
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
       },
     });
   };
@@ -258,8 +285,16 @@ $(document).ready(() => {
       success: (response) => {
         drawBorders(response);
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
+      error: () => {
+        Toastify({
+          text: "Borders not found",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
       },
     });
   };
@@ -309,8 +344,16 @@ $(document).ready(() => {
 
         map.panTo([lat, long], { animate: true, duration: 1 });
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
+      error: () => {
+        Toastify({
+          text: "country not found",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top", // `top` or `bottom`
+          positionLeft: true, // `true` or `false`
+          backgroundColor: "red",
+        }).showToast();
       },
     });
   };
@@ -323,7 +366,6 @@ $(document).ready(() => {
       dataType: "json",
       success: (response) => {
         const { data } = response;
-        console.log("Weather data", data);
         let todayWeather = data.list[0];
         let tomorrowWeather = data.list[8];
         let dayAfterTomorrowWeather = data.list[15];
@@ -428,8 +470,7 @@ $(document).ready(() => {
         // // Hour5
         let iconHour5 = data.list[5].weather[0].icon;
         let iconFullyUrlHour5 = iconBaseUrl + iconHour5 + iconFormat;
-        $("#wrapper-icon-hour5").src = iconFullyUrlHour5;
-
+        $("#wrapper-icon-hour5").attr("src", iconFullyUrlHour5);
         // Backgrounds
         switch (main) {
           case "Snow":
@@ -482,8 +523,16 @@ $(document).ready(() => {
             break;
         }
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
+      error: () => {
+        Toastify({
+          text: "Could not load weather ",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
       },
     });
   };
@@ -519,8 +568,16 @@ $(document).ready(() => {
 
         $("#u-info-1").html(content);
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
+      error: () => {
+        Toastify({
+          text: "Could not load exchange rates ",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
       },
     });
   };
@@ -561,8 +618,16 @@ $(document).ready(() => {
           $("#u-info-2").html(`<p>No articles found</p>`);
         }
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
+      error: () => {
+        Toastify({
+          text: "Could not load Wikipedia Links ",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
       },
     });
   };
@@ -606,8 +671,16 @@ $(document).ready(() => {
 
         $("#ph-info-1").append(content);
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
+      error: () => {
+        Toastify({
+          text: "Could not load public holidays",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
       },
     });
   };
@@ -619,6 +692,8 @@ $(document).ready(() => {
       data: { countryCode: countryCode.toLowerCase() },
       dataType: "json",
       success: (response) => {
+        $("#news-pre-loader").fadeOut("slow");
+
         let newsHeadlines = response.data.articles;
         let content = `<table class="table table-striped w-100 ">`;
         content += `<thead>
@@ -641,8 +716,16 @@ $(document).ready(() => {
 
         $("#nh-info-1").append(content);
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
+      error: () => {
+        Toastify({
+          text: "Could not load news headlines",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
       },
     });
   };
@@ -669,8 +752,16 @@ $(document).ready(() => {
         }
         map.addLayer(cityMarkers);
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
+      error: () => {
+        Toastify({
+          text: "Could not load cities",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
       },
     });
   };
@@ -716,8 +807,16 @@ $(document).ready(() => {
         }
         map.addLayer(placesMarkers);
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
+      error: () => {
+        Toastify({
+          text: "Could not load places",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
       },
     });
   };
@@ -725,12 +824,23 @@ $(document).ready(() => {
 
   // Function that populates all modals
   const populateModals = () => {
+    if (!allRestCountries) {
+      Toastify({
+        text: "Could not load rest countries",
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "top",
+        positionLeft: true,
+        backgroundColor: "red",
+      }).showToast();
+      return;
+    }
     let singleRestCountry = allRestCountries.find(
       (restCountry) => countryCodeFromOpenCage === restCountry.cca2
     );
 
     if (singleRestCountry) {
-      console.log("single rest ", singleRestCountry);
       let content = `<table class="table table-striped w-100 ">`;
 
       content += `<tbody>
@@ -813,6 +923,18 @@ $(document).ready(() => {
     let countryCapital = null;
     let latlng = null;
     countryCodeFromOpenCage = selectval;
+    if (!allRestCountries) {
+      Toastify({
+        text: "Could not load rest countries",
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "top",
+        positionLeft: true,
+        backgroundColor: "red",
+      }).showToast();
+      return;
+    }
     if (allRestCountries.length > 0) {
       let singleRestCountry = allRestCountries.find(
         (restCountry) => countryCodeFromOpenCage === restCountry.cca2
@@ -822,7 +944,15 @@ $(document).ready(() => {
       if (singleRestCountry.capital) {
         countryCapital = singleRestCountry.capital[0];
       } else {
-        console.log("Capital not found");
+        Toastify({
+          text: "Capital not found ",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
       }
       populateModals();
     }

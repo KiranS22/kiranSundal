@@ -1,48 +1,83 @@
-#vanilla-toast-container {
-  text-align: center;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+/**
+ * Minified by jsDelivr using clean-css v5.3.0.
+ * Original file: /npm/toastify-js@1.12.0/src/toastify.css
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+/*!
+ * Toastify js 1.12.0
+ * https://github.com/apvarun/toastify-js
+ * @license MIT licensed
+ *
+ * Copyright (C) 2018 Varun A P
+ */
+.toastify {
+  padding: 12px 20px;
+  color: #fff;
+  display: inline-block;
+  box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.12),
+    0 10px 36px -4px rgba(77, 96, 232, 0.3);
+  background: -webkit-linear-gradient(315deg, #73a5ff, #5477f5);
+  background: linear-gradient(135deg, #73a5ff, #5477f5);
   position: fixed;
-}
-
-#vanilla-toast {
-  display: none;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  border-radius: 2px;
   cursor: pointer;
-  padding: 15px;
-  border-radius: 15px;
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-bottom: 30px;
-
-  background: rgba(0, 0, 0, 0.76);
-  color: #ffffff;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1rem;
+  text-decoration: none;
+  max-width: calc(50% - 20px);
+  z-index: 2147483647;
 }
-
-#vanilla-toast-text {
-  display: inline;
+.toastify.on {
+  opacity: 1;
 }
-
-#vanilla-toast-close-button {
-  display: none;
-  margin-left: 15px;
-  font-size: 15px;
+.toast-close {
+  background: 0 0;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1em;
+  opacity: 0.4;
+  padding: 0 5px;
 }
-
-#vanilla-toast.success {
-  background: rgba(92, 184, 92, 0.76);
+.toastify-right {
+  right: 15px;
 }
-
-#vanilla-toast.info {
-  background: rgba(91, 192, 222, 0.76);
+.toastify-left {
+  left: 15px;
 }
-
-#vanilla-toast.warning {
-  background: rgba(236, 151, 31, 0.76);
+.toastify-top {
+  top: -150px;
 }
-
-#vanilla-toast.error {
-  background: rgba(201, 48, 44, 0.76);
+.toastify-bottom {
+  bottom: -150px;
 }
+.toastify-rounded {
+  border-radius: 25px;
+}
+.toastify-avatar {
+  width: 1.5em;
+  height: 1.5em;
+  margin: -7px 5px;
+  border-radius: 2px;
+}
+.toastify-center {
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  max-width: fit-content;
+  max-width: -moz-fit-content;
+}
+@media only screen and (max-width: 360px) {
+  .toastify-left,
+  .toastify-right {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    max-width: fit-content;
+  }
+}
+/*# sourceMappingURL=/sm/cb4335d1b03e933ed85cb59fffa60cf51f07567ed09831438c60f59afd166464.map */

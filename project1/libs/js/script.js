@@ -96,6 +96,16 @@ let hospitalLocaionMarkers = L.ExtraMarkers.icon({
   markerColor: "red",
   prefix: "fa-solid",
 });
+
+$(window).on("load", function () {
+  if ($("#preloader").length) {
+    $("#preloader")
+      .delay(1000)
+      .fadeOut("slow", function () {
+        $(this).remove();
+      });
+  }
+});
 $(document).ready(() => {
   //easy buttons
   // Triggers basic Contry Infomatiobn Modal
@@ -252,9 +262,20 @@ $(document).ready(() => {
       url: "libs/php/getRestCountries.php",
       dataType: "json",
       success: (response) => {
-        $("#country-info-pre-loader").fadeOut("slow");
         allRestCountries = response.data;
-        populateModals();
+        if (!allRestCountries) {
+          Toastify({
+            text: "Rest countries empty",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top",
+            positionLeft: true,
+            backgroundColor: "red",
+          }).showToast();
+          return;
+        }
+        //populateModals();
       },
       error: () => {
         Toastify({
@@ -366,7 +387,6 @@ $(document).ready(() => {
       data: { lat: lat, long: long },
       dataType: "json",
       success: (response) => {
-        $("#weather-pre-loader").fadeOut("slow");
         const { data } = response;
         let todayWeather = data.list[0];
         let tomorrowWeather = data.list[8];
@@ -546,7 +566,6 @@ $(document).ready(() => {
       data: { currency: currency },
       dataType: "json",
       success: (response) => {
-        $("#useful-info-pre-loader").fadeOut("slow");
         const usd = response.data.rates.USD;
         const gbp = response.data.rates.GBP;
         const eur = response.data.rates.EUR;
@@ -591,7 +610,6 @@ $(document).ready(() => {
       data: { lat: lat, long: long },
       dataType: "json",
       success: (response) => {
-        $("#useful-info-pre-loader").fadeOut("slow");
         if (response.data.geonames.length > 0) {
           let content = ` <h3 class="caption">Wikipedia Links </h3> <table class="table table-striped w-100">`;
           content += `<thead>
@@ -642,7 +660,6 @@ $(document).ready(() => {
       data: { countryCode: countryCode, year: currentYear },
       dataType: "json",
       success: (response) => {
-        $("#public-holiday-pre-loader").fadeOut("slow");
         let holidayInformation = response;
 
         const duplicatehols = holidayInformation.map((o) => o.name);
@@ -697,8 +714,6 @@ $(document).ready(() => {
       data: { countryCode: countryCode.toLowerCase() },
       dataType: "json",
       success: (response) => {
-        $("#news-pre-loader").fadeOut("slow");
-
         let newsHeadlines = response.data.articles;
         let content = `<table class="table table-striped w-100 ">`;
         content += `<thead>
@@ -827,20 +842,77 @@ $(document).ready(() => {
   };
   // ------------------------------------------
 
+  const getGeoInfo = (countryCode) => {
+    return $.ajax({
+      type: "GET",
+      url: "libs/php/getGeonameCountryInfo.php",
+      data: { code: countryCode },
+      dataType: "json",
+      success: (response) => {
+        return response;
+      },
+      error: () => {
+        Toastify({
+          text: "Could not load country info",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
+      },
+    });
+  };
+
+  const getCountrySearch = (countryCode, placeName) => {
+    return $.ajax({
+      type: "GET",
+      url: "libs/php/getCapital.php",
+      data: { code: countryCode, place: placeName },
+      dataType: "json",
+      success: (response) => {
+        return response;
+      },
+      error: () => {
+        Toastify({
+          text: "Could not load Capital info",
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          positionLeft: true,
+          backgroundColor: "red",
+        }).showToast();
+      },
+    });
+  };
+
   // Function that populates all modals
-  const populateModals = () => {
+  const populateModals = async (countryCode) => {
+    let info = await getGeoInfo(countryCode);
+    info = info.data[0];
+
+    getExchangeRate(info.currencyCode);
+    getPublicHolidayInfo(countryCode, currentYear);
+    getNewsHeadlines(countryCode);
+    // calling getCitiesByCountryCode
+    getCitiesByCountryCode(countryCode);
+
+    let capitalInfo = await getCountrySearch(countryCode, info.capital);
+    capitalInfo = capitalInfo.data[0];
+
+    let lat = capitalInfo.lat;
+    let long = capitalInfo.lng;
+
+    getWeatherInfo(lat, long);
+    getNearbyParksAndHospitals(lat, long);
+    getWikiLinks(lat, long);
+
     if (!allRestCountries) {
-      Toastify({
-        text: "Could not load rest countries",
-        duration: 3000,
-        newWindow: true,
-        close: true,
-        gravity: "top",
-        positionLeft: true,
-        backgroundColor: "red",
-      }).showToast();
       return;
     }
+
     let singleRestCountry = allRestCountries.find(
       (restCountry) => countryCodeFromOpenCage === restCountry.cca2
     );
@@ -899,20 +971,6 @@ $(document).ready(() => {
       content += `</tbody> </table> `;
 
       $("#info-1").html(content);
-
-      let lat = singleRestCountry.latlng[0];
-      let long = singleRestCountry.latlng[1];
-      getWeatherInfo(lat, long);
-      getNearbyParksAndHospitals(lat, long);
-
-      let countryCurrency = Object.keys(singleRestCountry.currencies)[0];
-      // calling getExchangeRate for useful info modal
-      getExchangeRate(countryCurrency);
-      getWikiLinks(lat, long);
-      getPublicHolidayInfo(singleRestCountry.cca2, currentYear);
-      getNewsHeadlines(singleRestCountry.cca2);
-      // calling getCitiesByCountryCode
-      getCitiesByCountryCode(singleRestCountry.cca2);
     }
   };
 
@@ -928,19 +986,10 @@ $(document).ready(() => {
     let countryCapital = null;
     let latlng = null;
     countryCodeFromOpenCage = selectval;
-    if (!allRestCountries) {
-      Toastify({
-        text: "Could not load rest countries",
-        duration: 3000,
-        newWindow: true,
-        close: true,
-        gravity: "top",
-        positionLeft: true,
-        backgroundColor: "red",
-      }).showToast();
-      return;
-    }
-    if (allRestCountries.length > 0) {
+
+    populateModals(selectval);
+
+    if (allRestCountries?.length > 0) {
       let singleRestCountry = allRestCountries.find(
         (restCountry) => countryCodeFromOpenCage === restCountry.cca2
       );
@@ -959,7 +1008,6 @@ $(document).ready(() => {
           backgroundColor: "red",
         }).showToast();
       }
-      populateModals();
     }
 
     if (polygons !== undefined) {

@@ -173,7 +173,7 @@ $(document).ready(() => {
       },
       error: () => {
         Toastify({
-          text: "A problem occured whilst getting countries",
+          text: "Could not load countries",
           duration: 3000,
           newWindow: true,
           close: true,
@@ -205,7 +205,7 @@ $(document).ready(() => {
         () => {
           $("#selectCountries").val("GB").change();
           Toastify({
-            text: "Could not get your location",
+            text: "Could not get location",
             duration: 3000,
             newWindow: true,
             close: true,
@@ -234,7 +234,7 @@ $(document).ready(() => {
       },
       error: () => {
         Toastify({
-          text: "Something went wrong",
+          text: "Could not find country",
           duration: 3000,
           newWindow: true,
           close: true,
@@ -258,7 +258,7 @@ $(document).ready(() => {
       },
       error: () => {
         Toastify({
-          text: "Could not road Rest Countries",
+          text: "Could not load rest Countries",
           duration: 3000,
 
           newWindow: true,
@@ -347,12 +347,12 @@ $(document).ready(() => {
       },
       error: () => {
         Toastify({
-          text: "country not found",
+          text: "Country not found",
           duration: 3000,
           newWindow: true,
           close: true,
-          gravity: "top", // `top` or `bottom`
-          positionLeft: true, // `true` or `false`
+          gravity: "top",
+          positionLeft: true,
           backgroundColor: "red",
         }).showToast();
       },
@@ -452,7 +452,7 @@ $(document).ready(() => {
         // // Hour1
         let iconHour1 = data.list[1].weather[0].icon;
         let iconFullyUrlHour1 = iconBaseUrl + iconHour1 + iconFormat;
-        document.getElementById("wrapper-icon-hour1").src = iconFullyUrlHour1;
+        $("wrapper-icon-hour1").attr("src", iconFullyUrlHour1);
 
         // // Hour2
         let iconHour2 = data.list[2].weather[0].icon;
@@ -586,7 +586,6 @@ $(document).ready(() => {
   };
   const getWikiLinks = (lat, long) => {
     $.ajax({
-      
       type: "GET",
       url: "libs/php/getWikiLinks.php",
       data: { lat: lat, long: long },

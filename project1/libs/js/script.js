@@ -252,6 +252,7 @@ $(document).ready(() => {
       url: "libs/php/getRestCountries.php",
       dataType: "json",
       success: (response) => {
+        $("#country-info-pre-loader").fadeOut("slow");
         allRestCountries = response.data;
         populateModals();
       },
@@ -365,6 +366,7 @@ $(document).ready(() => {
       data: { lat: lat, long: long },
       dataType: "json",
       success: (response) => {
+        $("#weather-pre-loader").fadeOut("slow");
         const { data } = response;
         let todayWeather = data.list[0];
         let tomorrowWeather = data.list[8];
@@ -544,6 +546,7 @@ $(document).ready(() => {
       data: { currency: currency },
       dataType: "json",
       success: (response) => {
+        $("#useful-info-pre-loader").fadeOut("slow");
         const usd = response.data.rates.USD;
         const gbp = response.data.rates.GBP;
         const eur = response.data.rates.EUR;
@@ -583,11 +586,13 @@ $(document).ready(() => {
   };
   const getWikiLinks = (lat, long) => {
     $.ajax({
+      
       type: "GET",
       url: "libs/php/getWikiLinks.php",
       data: { lat: lat, long: long },
       dataType: "json",
       success: (response) => {
+        $("#useful-info-pre-loader").fadeOut("slow");
         if (response.data.geonames.length > 0) {
           let content = ` <h3 class="caption">Wikipedia Links </h3> <table class="table table-striped w-100">`;
           content += `<thead>
@@ -638,6 +643,7 @@ $(document).ready(() => {
       data: { countryCode: countryCode, year: currentYear },
       dataType: "json",
       success: (response) => {
+        $("#public-holiday-pre-loader").fadeOut("slow");
         let holidayInformation = response;
 
         const duplicatehols = holidayInformation.map((o) => o.name);

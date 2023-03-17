@@ -275,7 +275,7 @@ $(document).ready(() => {
           }).showToast();
           return;
         }
-        //populateModals();
+     
       },
       error: () => {
         Toastify({

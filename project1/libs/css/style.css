@@ -74,7 +74,7 @@ tbody {
 #wrapper-bg {
   background-image: url("img/clouds.gif");
   width: 100%;
-  height: 100%;
+  background-size: cover;
 }
 .modal-body {
   height: 100%;

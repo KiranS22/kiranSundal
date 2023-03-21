@@ -14,7 +14,9 @@
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
@@ -46,13 +48,14 @@
     <div class="d-flex flex-column">
 
       <div class="profile">
-        <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
+        <img src="assets\img\profile-img.jpeg" alt="" class="img-fluid rounded-circle">
         <h1 class="text-light"><a href="index.php">Kiran Sundal</a></h1>
         <div class="social-links mt-3 text-center">
           <a href="https://twitter.com/home" class="twitter"><i class="bx bxl-twitter"></i></a>
           <a href="https://github.com/KiranS22" class="github"><i class="bx bxl-github"></i></a>
           <a href="mailto:krnsundal@gmail.com" class="gmail"><i class="bx bxl-gmail"></i></a>
-          <a href="https://www.linkedin.com/in/kiran-sundal-ba3672212/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+          <a href="https://www.linkedin.com/in/kiran-sundal-ba3672212/" class="linkedin"><i
+              class="bx bxl-linkedin"></i></a>
         </div>
       </div>
 
@@ -61,7 +64,8 @@
           <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
           <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
           <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
-          <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a></li>
+          <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i>
+              <span>Portfolio</span></a></li>
           <!-- <li><a href="#services" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Services</span></a></li> -->
           <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
         </ul>
@@ -85,27 +89,34 @@
 
         <div class="section-title">
           <h2>About</h2>
-          <p> Welcome to my portfolio! As a current student of IT Career Switch's  program, I am passionate about web development and excited to showcase my skills and projects to potential employers. My focus is on the PERN stack, which includes PostgreSQL, Express, React, and Node.js, and I am currently honing my skills in these areas to become a proficient full-stack web developer.</p>
+          <p> Welcome to my portfolio! As a current student of IT Career Switch's program, I am passionate about web
+            development and excited to showcase my skills and projects to potential employers. My focus is on the PERN
+            stack, which includes PostgreSQL, Express, React, and Node.js, and I am currently honing my skills in these
+            areas to become a proficient full-stack web developer.</p>
           <br>
 
-        <p>Throughout my bootcamp experience, I have worked on a range of projects using React and Express, demonstrating my ability to work collaboratively as part of a team, as well as my strong problem-solving skills.
+          <p>Throughout my bootcamp experience, I have worked on a range of projects using React and Express,
+            demonstrating my ability to work collaboratively as part of a team, as well as my strong problem-solving
+            skills.
           </p>
         </div>
 
         <div class="row">
           <div class="col-lg-4" data-aos="fade-right">
-            <img src="assets/img/profile-img.jpg" class="img-fluid" alt="">
+            <img src="./assets/img/profile-img.jpeg" class="img-fluid" alt="">
           </div>
           <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
             <p class="fst-italic">
-            Passionate, dedicated, and hard-working are qualities that define me as an aspiring web developer. I am committed to learning continuously and tackling any challenges that I may face.
+              Passionate, dedicated, and hard-working are qualities that define me as an aspiring web developer. I am
+              committed to learning continuously and tackling any challenges that I may face.
             </p>
             <div class="row">
               <div class="col-lg-6">
                 <ul>
                   <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>19 February 2000</span></li>
                   <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>+44 773 2190 028</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Walsall, West Midlands</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Walsall, West Midlands</span>
+                  </li>
                 </ul>
               </div>
               <div class="col-lg-6">
@@ -116,7 +127,7 @@
                 </ul>
               </div>
             </div>
-            
+
           </div>
         </div>
 
@@ -132,72 +143,75 @@
 
         <div class="section-title">
           <h2>Skills</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p>These are the skills that I have aquired over the course of my IT Career Switch journey</p>
         </div>
 
         <div class="row skills-content">
 
-          <div class="col-lg-3" data-aos="fade-up">
+          <div class="col-lg-4" data-aos="fade-up">
 
             <div class="skill">
               <span class="skill">HTML</span>
-            
+
             </div>
 
             <div class="skill">
-              <span class="skill">CSS</span> 
+              <span class="skill">CSS</span>
             </div>
 
             <div class="skill">
               <span class="skill">JavaScript </span>
-              
+
+            </div>
+            <div class="skill">
+              <span class="skill">JQuery </span>
+
             </div>
 
           </div>
 
-          <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
 
             <div class="skill">
               <span class="skill">PostgresQL</span>
-           
+
             </div>
 
             <div class="skill">
               <span class="skill">Express</span>
-           
+
             </div>
             <div class="skill">
               <span class="skill">React</span>
-           
+
             </div>
-            
 
-           
 
-        
+
+
+
+
+
 
           </div>
 
-          <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
 
             <div class="skill">
               <span class="skill">Redux</span>
-           
+
             </div>
 
             <div class="skill">
               <span class="skill">Nodejs</span>
-           
-            </div>
-            <div class="skill">
-              <span class="skill">PHP</span>
-           
-            </div>
-            
 
-           
+            </div>
 
-        
+
+
+
+
+
 
           </div>
 
@@ -212,7 +226,7 @@
 
         <div class="section-title">
           <h2>Resume</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p>Now let's have a deep-dive into my skills, experience and education.</p>
         </div>
 
         <div class="row">
@@ -220,52 +234,101 @@
             <h3 class="resume-title">Sumary</h3>
             <div class="resume-item pb-0">
               <h4>Kiran Sundal</h4>
-              <p><em>Innovative and deadline-driven Graphic Designer with 3+ years of experience designing and developing user-centered digital/print marketing material from initial concept to final, polished deliverable.</em></p>
+              <p><em>I am a focused and hard-working individual, who is currently training to be a software-engineer
+                  through a coding traineeship with IT career Switch . I enjoy learning new concepts, working
+                  collaboratively with others and problem solving. I love being challenged and being brought out of my
+                  comfort-zone.
+                  .</em></p>
               <ul>
-                <li>Portland par 127,Orlando, FL</li>
-                <li>(123) 456-7891</li>
-                <li>alice.barkley@example.com</li>
+                <li>49-53 Darlaston Road Walsall West Midlands,</li>
+                <li>(+44) 773 219 0028</li>
+                <li>krnsundal@gmail.com</li>
               </ul>
             </div>
 
             <h3 class="resume-title">Education</h3>
             <div class="resume-item">
-              <h4>Master of Fine Arts &amp; Graphic Design</h4>
-              <h5>2015 - 2016</h5>
-              <p><em>Rochester Institute of Technology, Rochester, NY</em></p>
-              <p>Qui deserunt veniam. Et sed aliquam labore tempore sed quisquam iusto autem sit. Ea vero voluptatum qui ut dignissimos deleniti nerada porti sand markend</p>
+              <h4>GCSE Mathematics (double award)</h4>
+              <h5>2015</h5>
+              <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
             </div>
             <div class="resume-item">
-              <h4>Bachelor of Fine Arts &amp; Graphic Design</h4>
-              <h5>2010 - 2014</h5>
-              <p><em>Rochester Institute of Technology, Rochester, NY</em></p>
-              <p>Quia nobis sequi est occaecati aut. Repudiandae et iusto quae reiciendis et quis Eius vel ratione eius unde vitae rerum voluptates asperiores voluptatem Earum molestiae consequatur neque etlon sader mart dila</p>
-            </div>
-          </div>
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <h3 class="resume-title">Professional Experience</h3>
-            <div class="resume-item">
-              <h4>Senior graphic design specialist</h4>
-              <h5>2019 - Present</h5>
-              <p><em>Experion, New York, NY </em></p>
-              <ul>
-                <li>Lead in the design, development, and implementation of the graphic, layout, and production communication materials</li>
-                <li>Delegate tasks to the 7 members of the design team and provide counsel on all aspects of the project. </li>
-                <li>Supervise the assessment of all graphic materials in order to ensure quality and accuracy of the design</li>
-                <li>Oversee the efficient use of production project budgets ranging from $2,000 - $25,000</li>
-              </ul>
+              <h4>GCSE Science (double award)</h4>
+              <h5>2015</h5>
+              <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
             </div>
             <div class="resume-item">
-              <h4>Graphic design specialist</h4>
-              <h5>2017 - 2018</h5>
-              <p><em>Stepping Stone Advertising, New York, NY</em></p>
-              <ul>
-                <li>Developed numerous marketing programs (logos, brochures,infographics, presentations, and advertisements).</li>
-                <li>Managed up to 5 projects or tasks at a given time while under pressure</li>
-                <li>Recommended and consulted with clients on the most appropriate graphic design</li>
-                <li>Created 4+ design presentations and proposals a month for clients and account managers</li>
-              </ul>
+              <h4>GCSE English Literature</h4>
+              <h5>2015</h5>
+              <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
             </div>
+            <div class="resume-item">
+              <h4>
+                GCSE Leisure and Tourism</h4>
+              <h5>2015</h5>
+              <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
+            </div>
+            <div class="resume-item">
+              <h4>GCSE History
+              </h4>
+              <h5>2015</h5>
+              <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
+            </div>
+
+
+            <div class="resume-item">
+              <h4>BTEC Dip Health and Social Care Level 2</h4>
+              <h5>2015</h5>
+              <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
+            </div>
+
+            <div class="resume-item">
+              <h4>BTEC Extended Dip Health and Social Care Level 3</h4>
+              <h5>2016</h5>
+              <p><em>Walsall College, Wisemore Campus, unit 10 Day St, Walsall WS2 8EJ</em></p>
+            </div>
+
+            <div class="resume-item">
+              <h4>GCSE English Language</h4>
+              <h5>2018</h5>
+              <p><em>Walsall College, Wisemore Campus, unit 10 Day St, Walsall WS2 8EJ</em></p>
+            </div>
+            <div class="resume-item">
+              <h4>QCF Business Administration
+              </h4>
+              <h5>2019</h5>
+              <p><em>Walsall College, Wisemore Campus, unit 10 Day St, Walsall WS2 8EJ</em></p>
+            </div>
+</div>
+
+<div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+              <h3 class="resume-title">Professional Experience</h3>
+              <div class="resume-item">
+                <h4>Senior graphic design specialist</h4>
+                <h5>2019 - Present</h5>
+                <p><em>Experion, New York, NY </em></p>
+                <ul>
+                  <li>Lead in the design, development, and implementation of the graphic, layout, and production
+                    communication materials</li>
+                  <li>Delegate tasks to the 7 members of the design team and provide counsel on all aspects of the
+                    project. </li>
+                  <li>Supervise the assessment of all graphic materials in order to ensure quality and accuracy of the
+                    design</li>
+                  <li>Oversee the efficient use of production project budgets ranging from $2,000 - $25,000</li>
+                </ul>
+              </div>
+              <div class="resume-item">
+                <h4>Graphic design specialist</h4>
+                <h5>2017 - 2018</h5>
+                <p><em>Stepping Stone Advertising, New York, NY</em></p>
+                <ul>
+                  <li>Developed numerous marketing programs (logos, brochures,infographics, presentations, and
+                    advertisements).</li>
+                  <li>Managed up to 5 projects or tasks at a given time while under pressure</li>
+                  <li>Recommended and consulted with clients on the most appropriate graphic design</li>
+                  <li>Created 4+ design presentations and proposals a month for clients and account managers</li>
+                </ul>
+              </div>
           </div>
         </div>
 
@@ -278,10 +341,10 @@
 
         <div class="section-title">
           <h2>Portfolio</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p>Here are some of the projects that I completed as part of IT Career Switch's program</p>
         </div>
 
-        <div class="row" data-aos="fade-up">
+        <!-- <div class="row" data-aos="fade-up">
           <div class="col-lg-12 d-flex justify-content-center">
             <ul id="portfolio-flters">
               <li data-filter="*" class="filter-active">All</li>
@@ -290,192 +353,37 @@
               <li data-filter=".filter-web">Web</li>
             </ul>
           </div>
-        </div>
+        </div> -->
 
-        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
 
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+          <div class="col-lg-4 col-md-6 portfolio-item">
             <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
+              <img src="assets\img\profile-img.jpeg" class="img-fluid" alt="">
               <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
+                <a href="" data-gallery="portfolioGallery"
+                  class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
                 <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+          <div class="col-lg-4 col-md-6 portfolio-item">
             <div class="portfolio-wrap">
               <img src="assets/img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
               <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>
+                <a href="assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery"
+                  class="portfolio-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>
                 <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
               </div>
             </div>
           </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 2"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-4.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 2"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-5.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 2"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-6.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 3"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 1"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-8.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-8.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 3"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-9.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
+        </div>
         </div>
 
-      </div>
+      
     </section><!-- End Portfolio Section -->
 
-
-    <!-- ======= Testimonials Section ======= -->
-    <!-- <section id="testimonials" class="testimonials section-bg">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Testimonials</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-        </div>
-
-        <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-                <h3>Saul Goodman</h3>
-                <h4>Ceo &amp; Founder</h4>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="100">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                <h3>Sara Wilsson</h3>
-                <h4>Designer</h4>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="200">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                <h3>Jena Karlis</h3>
-                <h4>Store Owner</h4>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="300">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                <h3>Matt Brandon</h3>
-                <h4>Freelancer</h4>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="400">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-                <h3>John Larson</h3>
-                <h4>Entrepreneur</h4>
-              </div>
-            </div>
-
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
-
-      </div>
-    </section> -->
-    
-    
-    <!-- End Testimonials Section -->
 
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
@@ -483,7 +391,9 @@
 
         <div class="section-title">
           <h2>Contact</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint
+            consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit
+            in iste officiis commodi quidem hic quas.</p>
         </div>
 
         <div class="row" data-aos="fade-in">
@@ -508,7 +418,9 @@
                 <p>+1 5589 55488 55s</p>
               </div>
 
-              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621"
+                frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
             </div>
 
           </div>
@@ -565,7 +477,8 @@
     </div>
   </footer><!-- End  Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>

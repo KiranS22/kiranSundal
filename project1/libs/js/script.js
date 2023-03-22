@@ -69,14 +69,6 @@ let layerControl = L.control.layers(basemaps, overlays).addTo(map);
 
 // Extra markers
 
-let currentLocationMarker = L.ExtraMarkers.icon({
-  icon: "fa-map-marker-alt",
-  markerColor: "white",
-  iconColor: "red",
-  prefix: "fa-solid",
-  shape: "star",
-});
-
 let cityLocationMarkers = L.ExtraMarkers.icon({
   icon: "fa-city",
   prefix: "fa-solid",
@@ -168,6 +160,7 @@ $(document).ready(() => {
       dataType: "json",
       success: (response) => {
         let countryInfo = response;
+
         countryInfo = Object.values(countryInfo).sort((a, b) =>
           a.name.localeCompare(b.name)
         );
@@ -275,7 +268,6 @@ $(document).ready(() => {
           }).showToast();
           return;
         }
-     
       },
       error: () => {
         Toastify({
@@ -358,11 +350,6 @@ $(document).ready(() => {
         if (marker !== null) {
           map.removeLayer(marker);
         }
-
-        marker = currentLocationMarker;
-        L.marker([lat, long], { icon: currentLocationMarker })
-          .bindTooltip("Current Location", { direction: "top", sticky: true })
-          .addTo(map);
 
         map.panTo([lat, long], { animate: true, duration: 1 });
       },
@@ -691,7 +678,7 @@ $(document).ready(() => {
         }
         content += "</table>";
 
-        $("#ph-info-1").append(content);
+        $("#ph-info-1").html(content);
       },
       error: () => {
         Toastify({
@@ -703,6 +690,7 @@ $(document).ready(() => {
           positionLeft: true,
           backgroundColor: "red",
         }).showToast();
+        $("#ph-info-1").html("<p>Holidays not found</p>");
       },
     });
   };
@@ -716,12 +704,6 @@ $(document).ready(() => {
       success: (response) => {
         let newsHeadlines = response.data.articles;
         let content = `<table class="table table-striped w-100 ">`;
-        content += `<thead>
-        <tr  class="bg-info text-dark">
-          <th class="thead-styling">Title</th>
-          <th class="thead-styling">Author</th>
-        </tr>
-       </thead>`;
         for (i = 0; i < newsHeadlines.length; i++) {
           const headline = newsHeadlines[i];
 
@@ -941,24 +923,25 @@ $(document).ready(() => {
          `;
 
       if (singleRestCountry.borders) {
-        let str = "";
         content += `
 <tr>
-<td class="sw-bold"> Borders With</td>`;
+<td class="sw-bold"> Borders With</td>
+<td class="borders-list">`;
         singleRestCountry.borders.forEach((border) => {
-          content += `<td class="borders-list">${(str += `<li>${border}</li>`)}</td>`;
+          content += `<li>${border}</li>`;
         });
+        content += `</td>`;
 
         content += `</tr>`;
       } else {
-        content += `<tr><td class="fw-bold">Borders With </td><td class="borders-list">${(str += `<p>${"Borders Not Found"}</p>`)}</td></tr>`;
+        content += `<tr><td class="fw-bold">Borders With </td><td class="borders-list"> <p>Borders Not Found </p> </td></tr>`;
       }
 
       if (singleRestCountry.subregion) {
         content += `
         <tr class="row-styling bg-info text-dark">
         <td class="fw-bold">Sub-region</td>
-        <td class="subregion">${singleRestCountry.subregion}</td>;
+        <td class="subregion">${singleRestCountry.subregion}</td>
         </tr>
         `;
       } else {
@@ -979,6 +962,8 @@ $(document).ready(() => {
 
   //Calling getRestCountries to get more info
   getRestCountries();
+  // clear tables before slect change
+  $("tr").remove();
 
   // .change callback function
   $("#selectCountries").change(() => {

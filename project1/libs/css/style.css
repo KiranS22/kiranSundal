@@ -79,6 +79,7 @@ tbody {
 .modal-body {
   height: 100%;
   overflow: auto;
+  padding: 0 0.75rem;
 }
 #preloader {
   position: fixed;

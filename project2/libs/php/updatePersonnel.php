@@ -1,8 +1,7 @@
 <?php
 
 	// example use from browser
-	// use insertDepartment.php first to create new dummy record and then specify it's id in the command below
-	// http://localhost/companydirectory/libs/php/deleteDepartmentByID.php?id=<id>
+	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=<id>
 
 	// remove next two lines for production
 	
@@ -10,7 +9,9 @@
 	error_reporting(E_ALL);
 
 	$executionStartTime = microtime(true);
-
+	
+	// this includes the login details
+	
 	include("config.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
@@ -34,11 +35,20 @@
 	}	
 
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
-	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
+	// $_PUT used for development / debugging. Remember to change to $_POST for production
+$first_name = $_REQUEST['firstName'];
+$last_name = $_REQUEST['lastName'];
+$job_title = $_REQUEST['jobTitle'];
+$email = $_REQUEST['email'];
+$dept_id = $_REQUEST['departmentID'];
+$id = $_REQUEST['id'];
 
-	$query = $conn->prepare('DELETE FROM department WHERE id = ?');
-	
-	$query->bind_param("i", $POST['id']);
+	$query = $conn->prepare('UPDATE personnel SET firstName =?, lastName=?, jobTitle  =?, email=?, departmentID=? WHERE id =?');
+
+  // $query = $conn->prepare('UPDATE personnel SET firstName ="TOM", lastName="Ace", jobTitle  ="CEO", email="abc@email.com", departmentID=11 WHERE id =23');
+
+	$query->bind_param("ssssii", $first_name, $last_name, $job_title,$email, $dept_id, $id);
+
 
 	$query->execute();
 	

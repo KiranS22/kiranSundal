@@ -1,3 +1,4 @@
+// Populating tables functions
 const populateEmployeeData = (data) => {
   let content = "";
   for (let i = 0; i < data.length; i++) {
@@ -6,11 +7,59 @@ const populateEmployeeData = (data) => {
     content += `<td class="listItem" id="${employee.id}"> ${employee.firstName} ${employee.lastName}</td>`;
     content += `<td>${employee.department}</td>`;
 
-    content += `<td><button class="btn btn-dark edit-btn btn-sm" id="${employee.id}">Edit</button> <button class=" btn btn-danger btn-sm">Delete</button></td>`;
+    content += `<td><button class="btn btn-dark employee-edit-btn btn-sm" id="${employee.id}">Edit</button> <button class=" btn btn-danger btn-sm employee-del-btn">Delete</button></td>`;
     content += `</tr>`;
   }
   $("#employeesList").html(content);
 };
+const populateDepartmentDropdownForEmployeeData = (data) => {
+  let content = "<option value='' >Choose Department</option>";
+  for (let i = 0; i < data.length; i++) {
+    const dep = data[i];
+    content += `<option value="${dep.id}">${dep.name}</option>`;
+  }
+  $("#add-Department").html(content);
+  $("#edit-Department").html(content);
+  $("#Department").html(content);
+};
+
+const populateLocationDropdownForDepartment = (data) => {
+  console.log("locationDropdownData", data);
+  let content = "<option value='' >Choose Locatiom </option>";
+  for (let i = 0; i < data.length; i++) {
+    const location = data[i];
+    content += `<option value="${location.id}">${location.name}</option>`;
+  }
+  $("#add-department-location").html(content);
+  $("#edit-department-location").html(content);
+};
+const populateDepartmentData = (data) => {
+  let content = "";
+  for (let i = 0; i < data.length; i++) {
+    const department = data[i];
+    content += `<tr>`;
+    content += `<td class="listItem" id="${department.id}"> ${department.name}</td>`;
+    content += `<td>${department.location}</td>`;
+    content += `<td><button class="btn btn-dark dep-edit-btn  btn-sm" id="${department.id}">Edit</button> <button class=" btn btn-danger btn-sm dep-del-btn">Delete</button></td>`;
+    content += `</tr>`;
+  }
+  $("#departmentsList").html(content);
+};
+const populateLocationData = (data) => {
+  let content = "";
+  for (let i = 0; i < data.length; i++) {
+    const location = data[i];
+    content += `<tr>`;
+    content += `<td class="listItem" id="${location.id}"> ${location.name}</td>`;
+    content += `<td>${location.id}</td>`;
+    content += `<td><button class="btn btn-dark location-edit-btn btn-sm" id="${location.id}">Edit</button> <button class=" btn btn-danger btn-sm location-del-btn">Delete</button></td>`;
+    content += `</tr>`;
+  }
+  $("#locationsList").html(content);
+};
+// -----------------------------------------
+
+// Employee CREATE, READ UPDATE & DELETE functions
 const getAllEmployeeInfo = () => {
   $.ajax({
     type: "GET",
@@ -114,16 +163,9 @@ const deleteAnEmployeeById = (id) => {
     },
   });
 };
-const populateDepartmentDropdown = (data) => {
-  let content = "<option value='' >Choose Department</option>";
-  for (let i = 0; i < data.length; i++) {
-    const dep = data[i];
-    content += `<option value="${dep.id}">${dep.name}</option>`;
-  }
-  $("#add-Department").html(content);
-  $("#edit-Department").html(content);
-  $("#Department").html(content);
-};
+// -----------------------------------------
+
+// Department CREATE, READ UPDATE & DELETE functions
 const getAllDepartments = () => {
   $.ajax({
     type: "GET",
@@ -132,7 +174,8 @@ const getAllDepartments = () => {
     dataType: "json",
     success: (response) => {
       console.log("All Departents", response);
-      populateDepartmentDropdown(response.data);
+      populateDepartmentData(response.data);
+      populateDepartmentDropdownForEmployeeData(response.data);
     },
     error: (jqXHR, textStatus, errorThrown) => {
       console.log("Error", errorThrown, jqXHR);
@@ -164,6 +207,7 @@ const getDepartmentById = () => {
     },
   });
 };
+const updateDepartmentInformation = () => {};
 const deleteDepartmentsById = () => {
   $.ajax({
     type: "DELETE",
@@ -176,29 +220,110 @@ const deleteDepartmentsById = () => {
     },
   });
 };
+// ----------------------------------------
+
+// Location CREATE, READ UPDATE & DELETE functions
+const getLocationInformation = () => {
+  $.ajax({
+    type: "GET",
+    url: "libs/php/getLocation.php",
+    data: "",
+    dataType: "json",
+    success: function (response) {
+      console.log("location Response", response);
+      populateLocationData(response.data);
+      populateLocationDropdownForDepartment(response.data);
+    },
+    error: (jqXHR, textStatus, errorThrown) => {
+      console.log("Error", errorThrown, jqXHR);
+    },
+  });
+};
+
+const getLocationById = () => {};
+const createLocation = () => {};
+const updateLocationInformation = () => {};
+const deleteLocation = () => {};
+// --------------------------------------
 
 $(document).ready(() => {
   getAllEmployeeInfo();
   getAllDepartments();
-  // Button clicks using document.on -> because icons generated by ajax
-  $(document).on("click", ".edit-btn", (e) => {
-    e.stopPropagation();
-    let editId = e.target.getAttribute("id");
-    getEmployeeById(editId, "edit");
-    $("#editForm").modal("show");
+  getLocationInformation();
+
+  //Opening add form functions
+  $("#employee-add-btn").click((e) => {
+    $("#addForm").modal("show");
   });
+
+  $("#department-add-btn").click((e) => {
+    $("#addDepartmentForm").modal("show");
+  });
+  $("#location-add-btn").click((e) => {
+    $("#addLocationForm").modal("show");
+  });
+  // ------------------------------------------------
+
+  // Read more Employee info
+
   $(document).on("click", ".listItem", (e) => {
     let personId = e.target.getAttribute("id");
     getEmployeeById(personId, "read");
     $("#readOnlyForm").modal("show");
   });
-  $(document).on("click", ".del-btn", (e) => {
+  // ------------------------------------------------
+  // Edit form Functions
+  $(document).on("click", ".employee-edit-btn", (e) => {
+    e.stopPropagation();
+    let editId = e.target.getAttribute("id");
+    getEmployeeById(editId, "edit");
+    $("#editForm").modal("show");
+  });
+  $(document).on("click", ".dep-edit-btn", (e) => {
+    e.stopPropagation();
+    let editId = e.target.getAttribute("id");
+    // getEmployeeById(editId, "edit");
+    $("#editDepartmentForm").modal("show");
+  });
+  $(document).on("click", ".location-edit-btn", (e) => {
+    e.stopPropagation();
+    let editId = e.target.getAttribute("id");
+    // getEmployeeById(editId, "edit");
+    $("#editLocationForm").modal("show");
+  });
+  // --------------------------------------------
+
+  // Delete functions
+
+  $(document).on("click", ".employee-del-btn", (e) => {
     e.stopPropagation();
     e.preventDefault();
     const confirmation = confirm("Are you sure you want to delete this user?");
     let delID = e.target.getAttribute("id");
     if (confirmation) {
-      deleteAnEmployeeById(delID);
+      // deleteAnEmployeeById(delID);
+      location.reload();
+    }
+  });
+
+  $(document).on("click", ".dep-del-btn", (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const confirmation = confirm("Are you sure you want to delete this user?");
+    let delID = e.target.getAttribute("id");
+    if (confirmation) {
+      // deleteAnEmployeeById(delID);
+      location.reload();
+    }
+  });
+
+  $(document).on("click", ".location-del-btn", (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const confirmation = confirm("Are you sure you want to delete this user?");
+    let delID = e.target.getAttribute("id");
+    if (confirmation) {
+      // deleteAnEmployeeById(delID);
       location.reload();
     }
   });
@@ -235,9 +360,4 @@ $(document).ready(() => {
     location.reload();
   });
   // -------------------------------------------------
-  // shows Add New Staff Form
-  $(".add").click((e) => {
-    $("#addForm").modal("show");
-  });
-  // ------------------------------------------------
 });

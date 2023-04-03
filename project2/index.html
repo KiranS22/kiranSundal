@@ -16,6 +16,7 @@
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Company Directory</a>
+
         <button
           class="navbar-toggler"
           type="button"
@@ -39,14 +40,143 @@
               aria-label="Search"
             />
           </form>
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <i class="fa-solid fa-plus add"></i>
             </li>
-          </ul>
+          </ul> -->
         </div>
       </div>
     </nav>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link active"
+          id="employee-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#employee-data"
+          type="button"
+          role="tab"
+          aria-controls="home"
+          aria-selected="true"
+        >
+          Employee Data
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="profile-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#department-data"
+          type="button"
+          role="tab"
+          aria-controls="profile"
+          aria-selected="false"
+        >
+          Departments
+        </button>
+      </li>
+
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="profile-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#location-data"
+          type="button"
+          role="tab"
+          aria-controls="profile"
+          aria-selected="false"
+        >
+          Locations
+        </button>
+      </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div
+        class="tab-pane active"
+        id="employee-data"
+        role="tabpanel"
+        aria-labelledby="home-tab"
+      >
+        <!-- Employee Data table -->
+        <div class="container wrapper">
+          <i class="fa-solid fa-plus add mt-4" id="employee-add-btn"></i>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="employeesList"></tbody>
+          </table>
+          <div class="control-buttons flex justify-content-between">
+            <button type="button" class="btn btn-secondary">Previous</button>
+            <button type="button" class="btn btn-dark">Next</button>
+          </div>
+        </div>
+        <!-- --------------------------` -->
+      </div>
+      <div
+        class="tab-pane"
+        id="department-data"
+        role="tabpanel"
+        aria-labelledby="profile-tab"
+      >
+        <!-- Department Data table -->
+        <div class="container wrapper">
+          <i class="fa-solid fa-plus add mt-4" id="department-add-btn"></i>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="departmentsList"></tbody>
+          </table>
+          <div class="control-buttons flex justify-content-between">
+            <button type="button" class="btn btn-secondary">Previous</button>
+            <button type="button" class="btn btn-dark">Next</button>
+          </div>
+        </div>
+        <!-- --------------------------` -->
+      </div>
+      <div
+        class="tab-pane"
+        id="location-data"
+        role="tabpanel"
+        aria-labelledby="messages-tab"
+      >
+        <!-- Location Data table -->
+        <div class="container wrapper">
+          <i class="fa-solid fa-plus add mt-4" id="location-add-btn"></i>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Location ID</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="locationsList"></tbody>
+          </table>
+          <div class="control-buttons flex justify-content-between">
+            <button type="button" class="btn btn-secondary">Previous</button>
+            <button type="button" class="btn btn-dark">Next</button>
+          </div>
+        </div>
+        <!-- --------------------------` -->
+      </div>
+    </div>
 
     <!-- READONLY Employee information Form -->
     <div
@@ -129,16 +259,6 @@
                       disabled
                     ></select>
                   </div>
-                  <div class="form-group mt-2">
-                    <label for="location">Location:</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="location"
-                      placeholder="Location"
-                      disabled
-                    />
-                  </div>
                 </div>
               </div>
             </form>
@@ -155,6 +275,7 @@
         </div>
       </div>
     </div>
+    <!-- --------------------------- -->
 
     <!-- Editable Employee Information form -->
     <div
@@ -233,15 +354,6 @@
                       id="edit-Department"
                     ></select>
                   </div>
-                  <div class="form-group mt-2">
-                    <label for="location">Location:</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="edit-location"
-                      placeholder="Location"
-                    />
-                  </div>
                 </div>
               </div>
               <div class="mt-2">
@@ -254,7 +366,7 @@
         </div>
       </div>
     </div>
-
+    <!-- --------------------------- -->
     <!-- Add Employee  form -->
     <div
       class="modal fade"
@@ -331,13 +443,237 @@
                       id="add-Department"
                     ></select>
                   </div>
+                </div>
+              </div>
+              <div class="mt-2">
+                <button type="submit" class="btn btn-outline-info">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- --------------------------- -->
+
+    <!-- Editable department Information form -->
+    <div
+      class="modal fade"
+      id="editDepartmentForm"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              Edit Department Information
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <input
+                type="hidden"
+                class="form-control"
+                id="edit-dep-id"
+                value=""
+              />
+              <div class="row">
+                <div class="col-md-6">
                   <div class="form-group mt-2">
-                    <label for="location">Location:</label>
+                    <label for="edit-Department-name">Department Name:</label>
                     <input
                       type="text"
                       class="form-control"
-                      id="add-location"
-                      placeholder="Location"
+                      id="edit-Department-name"
+                      placeholder="Department Name"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group mt-2">
+                    <label for="edit-department-location">Location:</label>
+                    <select
+                      class="form-control"
+                      name="departments"
+                      id="edit-department-location"
+                    ></select>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-2">
+                <button type="submit" class="btn btn-outline-info">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- --------------------------- -->
+    <!-- Add Department  form -->
+    <div
+      class="modal fade"
+      id="addDepartmentForm"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              Add New Department
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <input type="hidden" class="form-control" id="edit-id" value="" />
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group mt-2">
+                    <label for="add-Department-name">Department Name:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="add-Department-name"
+                      placeholder="Department Name"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group mt-2">
+                    <label for="add-department-location">Location:</label>
+                    <select
+                      class="form-control"
+                      name="departments"
+                      id="add-department-location"
+                    ></select>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-2">
+                <button type="submit" class="btn btn-outline-info">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- --------------------------- -->
+
+    <!-- Editable Location Information form -->
+    <div
+      class="modal fade"
+      id="editLocationForm"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              Edit Location Information
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <input
+                type="hidden"
+                class="form-control"
+                id="edit-location-id"
+                value=""
+              />
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group mt-2">
+                    <label for="edit-location-name">Location Name:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="edit-location-name"
+                      placeholder="Location Name"
+                    />
+                  </div>
+                </div>
+                
+              </div>
+              <div class="mt-2">
+                <button type="submit" class="btn btn-outline-info">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- --------------------------- -->
+    <!-- Add location  form -->
+    <div
+      class="modal fade"
+      id="addLocationForm"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              Add New Location
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <input type="hidden" class="form-control" id="edit-id" value="" />
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group mt-2">
+                    <label for="add-location-name">Location Name:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="add-location-name"
+                      placeholder="Location Name"
                     />
                   </div>
                 </div>
@@ -352,22 +688,7 @@
         </div>
       </div>
     </div>
-    <div class="container wrapper">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Department</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="employeesList"></tbody>
-      </table>
-      <div class="contyrol-buttons flex justify-content-between">
-        <button type="button" class="btn btn-secondary">Previous</button>
-        <button type="button" class="btn btn-dark">Next</button>
-      </div>
-    </div>
+    <!-- --------------------------- -->
 
     <script src="./libs/js/jquery-3.6.3.min.js"></script>
     <script src="./libs/js/fontAwesome.js"></script>

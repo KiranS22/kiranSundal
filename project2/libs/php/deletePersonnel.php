@@ -1,7 +1,8 @@
 <?php
 
 	// example use from browser
-	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=<id>
+	// use insertDepartment.php first to create new dummy record and then specify it's id in the command below
+	// http://localhost/companydirectory/libs/php/deleteDepartmentByID.php?id=<id>
 
 	// remove next two lines for production
 	
@@ -9,9 +10,7 @@
 	error_reporting(E_ALL);
 
 	$executionStartTime = microtime(true);
-	
-	// this includes the login details
-	
+
 	include("config.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
@@ -34,21 +33,11 @@
 
 	}	
 
-	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
-	// $_PUT used for development / debugging. Remember to change to $_POST for production
-$first_name = $_POST['firstName'];
-$last_name = $_POST['lastName'];
-$job_title = $_POST['jobTitle'];
-$email = $_POST['email'];
-$dept_id = $_POST['departmentID'];
-$id = $_POST['id'];
+	
 
-	$query = $conn->prepare('UPDATE personnel SET firstName =?, lastName=?, jobTitle  =?, email=?, departmentID=? WHERE id =?');
+		$query = $conn->prepare('DELETE FROM `personnel` WHERE `id` = ?');
 
-
-
-	$query->bind_param("ssssii", $first_name, $last_name, $job_title,$email, $dept_id, $id);
-
+	$query->bind_param("i", $_POST['id']);
 
 	$query->execute();
 	

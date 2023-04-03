@@ -15,7 +15,7 @@
   <body>
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Comany Directory</a>
+        <a class="navbar-brand" href="#">Company Directory</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -41,7 +41,7 @@
           </form>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <i class="fa-solid fa-plus"></i>
+              <i class="fa-solid fa-plus add"></i>
             </li>
           </ul>
         </div>
@@ -122,13 +122,12 @@
                   </div>
                   <div class="form-group mt-2">
                     <label for="department">Department:</label>
-                    <input
-                      type="text"
+                    <select
                       class="form-control"
+                      name="departments"
                       id="Department"
-                      placeholder="Department"
                       disabled
-                    />
+                    ></select>
                   </div>
                   <div class="form-group mt-2">
                     <label for="location">Location:</label>
@@ -142,7 +141,6 @@
                   </div>
                 </div>
               </div>
-              <div class="mt-2"></div>
             </form>
           </div>
           <div class="modal-footer">
@@ -229,12 +227,11 @@
                   </div>
                   <div class="form-group mt-2">
                     <label for="department">Department:</label>
-                    <input
-                      type="text"
+                    <select
                       class="form-control"
+                      name="departments"
                       id="edit-Department"
-                      placeholder="Department"
-                    />
+                    ></select>
                   </div>
                   <div class="form-group mt-2">
                     <label for="location">Location:</label>
@@ -254,22 +251,12 @@
               </div>
             </form>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save</button>
-          </div>
         </div>
       </div>
     </div>
 
     <!-- Add Employee  form -->
-    <!-- <div
+    <div
       class="modal fade"
       id="addForm"
       data-bs-backdrop="static"
@@ -300,7 +287,7 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="lastName"
+                      id="add-lastName"
                       aria-describedby="emailHelp"
                       placeholder="Last Name"
                     />
@@ -310,7 +297,7 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="firstName"
+                      id="add-firstName"
                       placeholder="First Name"
                     />
                   </div>
@@ -319,7 +306,7 @@
                     <input
                       type="email"
                       class="form-control"
-                      id="email"
+                      id="add-email"
                       placeholder="Email"
                     />
                   </div>
@@ -331,26 +318,25 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="jobTitle"
+                      id="add-jobTitle"
                       aria-describedby="emailHelp"
                       placeholder="Job Title"
                     />
                   </div>
                   <div class="form-group mt-2">
                     <label for="department">Department:</label>
-                    <input
-                      type="text"
+                    <select
                       class="form-control"
-                      id="Department"
-                      placeholder="Department"
-                    />
+                      name="departments"
+                      id="add-Department"
+                    ></select>
                   </div>
                   <div class="form-group mt-2">
                     <label for="location">Location:</label>
                     <input
                       type="text"
                       class="form-control"
-                      id="location"
+                      id="add-location"
                       placeholder="Location"
                     />
                   </div>
@@ -363,19 +349,9 @@
               </div>
             </form>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save</button>
-          </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <div class="container wrapper">
       <table class="table">
         <thead>

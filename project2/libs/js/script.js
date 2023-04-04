@@ -7,7 +7,7 @@ const populateEmployeeData = (data) => {
     content += `<td class="listItem" id="${employee.id}"> ${employee.firstName} ${employee.lastName}</td>`;
     content += `<td>${employee.department}</td>`;
 
-    content += `<td><button class="btn btn-dark employee-edit-btn btn-sm" id="${employee.id}">Edit</button> <button class=" btn btn-danger btn-sm employee-del-btn">Delete</button></td>`;
+    content += `<td><button class="btn btn-dark employee-edit-btn btn-sm" id="${employee.id}">Edit</button> <button class=" btn btn-danger btn-sm employee-del-btn" id="${employee.id}">Delete</button></td>`;
     content += `</tr>`;
   }
   $("#employeesList").html(content);
@@ -40,7 +40,7 @@ const populateDepartmentData = (data) => {
     content += `<tr>`;
     content += `<td class="listItem" id="${department.id}"> ${department.name}</td>`;
     content += `<td>${department.location}</td>`;
-    content += `<td><button class="btn btn-dark dep-edit-btn  btn-sm" id="${department.id}">Edit</button> <button class=" btn btn-danger btn-sm dep-del-btn">Delete</button></td>`;
+    content += `<td><button class="btn btn-dark dep-edit-btn  btn-sm" id="${department.id}">Edit</button> <button class=" btn btn-danger btn-sm dep-del-btn" id="${department.id}">Delete</button></td>`;
     content += `</tr>`;
   }
   $("#departmentsList").html(content);
@@ -52,7 +52,7 @@ const populateLocationData = (data) => {
     content += `<tr>`;
     content += `<td class="listItem" id="${location.id}"> ${location.name}</td>`;
     content += `<td>${location.id}</td>`;
-    content += `<td><button class="btn btn-dark location-edit-btn btn-sm" id="${location.id}">Edit</button> <button class=" btn btn-danger btn-sm location-del-btn">Delete</button></td>`;
+    content += `<td><button class="btn btn-dark location-edit-btn btn-sm" id="${location.id}">Edit</button> <button class=" btn btn-danger btn-sm location-del-btn"  id="${location.id}" >Delete</button></td>`;
     content += `</tr>`;
   }
   $("#locationsList").html(content);
@@ -149,7 +149,6 @@ const updateEmployeeInformation = (
   });
 };
 const deleteAnEmployeeById = (id) => {
-  console.log("delID in AJAX", id);
   $.ajax({
     type: "POST",
     url: "libs/php/deletePersonnel.php",
@@ -181,40 +180,72 @@ const getAllDepartments = () => {
       console.log("Error", errorThrown, jqXHR);
     },
   });
-
-  const CreateDepartment = () => {
-    $.ajax({
-      type: "POST",
-      url: "url",
-      data: "data",
-      dataType: "json",
-      success: (response) => {},
-      error: (jqXHR, textStatus, errorThrown) => {
-        console.log("Error", errorThrown, jqXHR);
-      },
-    });
-  };
 };
-const getDepartmentById = () => {
+const getDepartmentById = (id) => {
+  console.log(id);
   $.ajax({
     type: "GET",
-    url: "url",
-    data: "data",
+    url: "libs/php/getDepartmentByID.php",
+    data: { id: Number(id) },
     dataType: "json",
-    success: (response) => {},
+    success: (response) => {
+      if (response.status.name === "ok") {
+        console.log("getDepartmentById", response);
+        let department = response.data;
+
+        if (department.length > 0) {
+          department = department[0];
+
+          $("#edit-Department-name").val(department.name);
+          $("#edit-dep-id").val(department.id);
+        } else {
+          alert("Could not load departments ");
+        }
+      }
+    },
     error: (jqXHR, textStatus, errorThrown) => {
       console.log("Error", errorThrown, jqXHR);
     },
   });
 };
-const updateDepartmentInformation = () => {};
-const deleteDepartmentsById = () => {
+const createDepartment = (name, locationID) => {
   $.ajax({
-    type: "DELETE",
-    url: "url",
-    data: "data",
-    dataType: "dataType",
-    success: (response) => {},
+    type: "POST",
+    url: "libs/php/insertDepartment.php",
+    data: { name, locationID },
+    dataType: "json",
+    success: (response) => {
+      console.log("New department", response);
+    },
+    error: (jqXHR, textStatus, errorThrown) => {
+      console.log("Error", errorThrown, jqXHR);
+    },
+  });
+};
+const updateDepartmentInformation = (departmentName, locationID, id) => {
+  $.ajax({
+    type: "POST",
+    url: "libs/php/updateDepartment.php",
+    data: { departmentName, locationID, id },
+    dataType: "json",
+    success: (response) => {
+      console.log("updated employee", response);
+    },
+    error: (jqXHR, textStatus, errorThrown) => {
+      console.log("Error", errorThrown, jqXHR);
+    },
+  });
+};
+const deleteDepartmentsById = (id) => {
+  console.log("delete func running");
+  $.ajax({
+    type: "POST",
+    url: "libs/php/deleteDepartmentByID.php",
+    data: { id: id },
+    dataType: "json",
+    success: (response) => {
+      console.log("response from delete query", response);
+    },
     error: (jqXHR, textStatus, errorThrown) => {
       console.log("Error", errorThrown, jqXHR);
     },
@@ -281,8 +312,8 @@ $(document).ready(() => {
   });
   $(document).on("click", ".dep-edit-btn", (e) => {
     e.stopPropagation();
-    let editId = e.target.getAttribute("id");
-    // getEmployeeById(editId, "edit");
+    let depId = e.target.getAttribute("id");
+    getDepartmentById(depId);
     $("#editDepartmentForm").modal("show");
   });
   $(document).on("click", ".location-edit-btn", (e) => {
@@ -301,7 +332,7 @@ $(document).ready(() => {
     const confirmation = confirm("Are you sure you want to delete this user?");
     let delID = e.target.getAttribute("id");
     if (confirmation) {
-      // deleteAnEmployeeById(delID);
+      deleteAnEmployeeById(delID);
       location.reload();
     }
   });
@@ -309,11 +340,14 @@ $(document).ready(() => {
   $(document).on("click", ".dep-del-btn", (e) => {
     e.stopPropagation();
     e.preventDefault();
-    const confirmation = confirm("Are you sure you want to delete this user?");
     let delID = e.target.getAttribute("id");
+    console.log("delTarget", delID);
+    const confirmation = confirm(
+      "Are you sure you want to delete this department? This will impact on other tables "
+    );
     if (confirmation) {
-      // deleteAnEmployeeById(delID);
-      location.reload();
+      deleteDepartmentsById(delID);
+  
     }
   });
 
@@ -329,8 +363,33 @@ $(document).ready(() => {
   });
   // --------------------------------------------------
   // FORM SUBMITTIONS
+  // Submitting the Add new staff form
+  $("#addForm").on("submit", (e) => {
+    e.preventDefault();
+    createEmployee(
+      $("#add-firstName").val(),
+      $("#add-lastName").val(),
+      $("#add-jobTitle").val(),
+      $("#add-email").val(),
+      $("#add-Department").val()
+    );
+    location.reload();
+  });
 
-  // Submitting the edit Employee Information form
+  // -------------------------------------------------
+
+  // Submitting the Add new department form
+  $("#addDepartmentForm").on("submit", (e) => {
+    e.preventDefault();
+    createDepartment(
+      $("#add-Department-name").val(),
+      $("#add-department-location").val()
+    );
+  });
+
+  // -------------------------------------------------
+
+  // Submitting employee edit form
   $("#editForm").on("submit", (e) => {
     e.preventDefault();
     const confirmation = confirm("Are you sure you want to update this user?");
@@ -346,18 +405,23 @@ $(document).ready(() => {
     }
     $("#editForm").modal("hide");
   });
+  //-----------------------------------
 
-  // Submitting the Add new staff form
-  $("#addForm").on("submit", (e) => {
+  // Submitting department edit form
+  $("#editDepartmentForm").on("submit", (e) => {
     e.preventDefault();
-    createEmployee(
-      $("#add-firstName").val(),
-      $("#add-lastName").val(),
-      $("#add-jobTitle").val(),
-      $("#add-email").val(),
-      $("#add-Department").val()
+    const confirmation = confirm(
+      "Are you sure you want to update this department?"
     );
-    location.reload();
+    if (confirmation) {
+      console.log("dep location ID", $("#edit-department-location").val());
+      updateDepartmentInformation(
+        $("#edit-Department-name").val(),
+        $("#edit-department-location").val(),
+        $("#edit-dep-id").val()
+      );
+    }
+    $("#editDepartmentForm").modal("hide");
   });
-  // -------------------------------------------------
+  //-----------------------------------
 });

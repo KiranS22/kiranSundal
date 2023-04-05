@@ -206,7 +206,7 @@ const getAllDepartments = () => {
       if (code == "200") {
         populateDepartmentData(response.data);
         populateDepartmentDropdownForEmployeeData(response.data);
-        generateToast("Departmentdata loaded Sucessfully!", "green");
+        generateToast("Department data loaded Sucessfully!", "green");
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {

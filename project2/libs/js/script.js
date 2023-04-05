@@ -52,7 +52,7 @@ const populateDepartmentData = (data) => {
   for (let i = 0; i < data.length; i++) {
     const department = data[i];
     content += `<tr>`;
-    content += `<td class="listItem" id="${department.id}"> ${department.name}</td>`;
+    content += `<td  id="${department.id}"> ${department.name}</td>`;
     content += `<td>${department.location}</td>`;
     content += `<td><button class="btn btn-dark dep-edit-btn  btn-sm" id="${department.id}">Edit</button> <button class=" btn btn-danger btn-sm dep-del-btn" id="${department.id}">Delete</button></td>`;
     content += `</tr>`;
@@ -64,7 +64,7 @@ const populateLocationData = (data) => {
   for (let i = 0; i < data.length; i++) {
     const location = data[i];
     content += `<tr>`;
-    content += `<td class="listItem" id="${location.id}"> ${location.name}</td>`;
+    content += `<td  id="${location.id}"> ${location.name}</td>`;
     content += `<td>${location.id}</td>`;
     content += `<td><button class="btn btn-dark location-edit-btn btn-sm" id="${location.id}">Edit</button> <button class=" btn btn-danger btn-sm location-del-btn"  id="${location.id}" >Delete</button></td>`;
     content += `</tr>`;
@@ -172,7 +172,7 @@ const updateEmployeeInformation = (
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      generateToast("Could not update employee!", "red");;
+      generateToast("Could not update employee!", "red");
     },
   });
 };
@@ -208,11 +208,11 @@ const getAllDepartments = () => {
       if (code == "200") {
         populateDepartmentData(response.data);
         populateDepartmentDropdownForEmployeeData(response.data);
-        dataLoadedSuccessfullyMsg.showToast();
+        generateToast("Data loaded Sucessfully!", "green");
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      cannotLoadData.showToast();
+      generateToast("Could not load data", "red");
     },
   });
 };
@@ -224,7 +224,8 @@ const getDepartmentById = (id) => {
     data: { id: Number(id) },
     dataType: "json",
     success: (response) => {
-      if (response.status.name === "ok") {
+      const code = response.status.code;
+      if (code === "200") {
         console.log("getDepartmentById", response);
         let department = response.data;
 
@@ -233,13 +234,14 @@ const getDepartmentById = (id) => {
 
           $("#edit-Department-name").val(department.name);
           $("#edit-dep-id").val(department.id);
+          generateToast("Data fetched sucessfully", "green");
         } else {
-          alert("Could not load departments ");
+          generateToast("Could not load departments", "red");
         }
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      console.log("Error", errorThrown, jqXHR);
+      generateToast("Could not load departments", "red");
     },
   });
 };
@@ -250,10 +252,14 @@ const createDepartment = (name, locationID) => {
     data: { name, locationID },
     dataType: "json",
     success: (response) => {
-      console.log("New department", response);
+      const code = response.status.code;
+      if (code == "200") {
+        generateToast("department added  successfully", "green");
+        getAllDepartments(response.data);
+      }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      console.log("Error", errorThrown, jqXHR);
+      generateToast("cannot add departmwnt", "red");
     },
   });
 };
@@ -280,12 +286,19 @@ const deleteDepartmentsById = (id) => {
     dataType: "json",
     success: (response) => {
       console.log("response from delete query", response);
-      if (response.status.code == "500") {
-        //TosterLibrarry.alert('Cannot delete department. Employees exist ')
+      const code = response.status.code;
+      if ((code = "200")) {
+        generateToast("Department deleted successfully", "green");
+        getAllDepartments(response.data);
+      } else if (code == "500") {
+        generateToast(
+          "Sorry, you cannot delete this department as employees are assigned to it",
+          "red"
+        );
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      console.log("Error", errorThrown, jqXHR);
+   generateToast("connot delete department")
     },
   });
 };

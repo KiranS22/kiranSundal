@@ -1,5 +1,5 @@
 // -------TOAST NOTIFICATION FUNCTION -------
-const generateToast = ({ text, backgroundColor }) => {
+const generateToast = (text, backgroundColor) => {
   Toastify({
     text: text,
     duration: 3000,
@@ -38,7 +38,6 @@ const populateDepartmentDropdownForEmployeeData = (data) => {
 };
 
 const populateLocationDropdownForDepartment = (data) => {
-  console.log("locationDropdownData", data);
   let content = "<option value='' >Choose Locatiom </option>";
   for (let i = 0; i < data.length; i++) {
     const location = data[i];
@@ -76,32 +75,31 @@ const populateLocationData = (data) => {
 // Employee CREATE, READ UPDATE & DELETE functions
 const getAllEmployeeInfo = () => {
   $.ajax({
-    type: "GET",
+    type: "POST",
     url: "libs/php/getAll.php",
     data: "data",
     dataType: "json",
     success: (response) => {
-      const code = response.status.code;
+      let code = response.status.code;
       if (code == "200") {
         populateEmployeeData(response.data);
-        generateToast("Data loaded sucessfully!", "green");
+        generateToast("Employee Data loaded sucessfully!", "green");
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      generateToast("Unable to load data", "red");
+      generateToast("Could load employee data", "red");
     },
   });
 };
 
 const getEmployeeById = (id, modalType) => {
-  console.log(modalType, id);
   $.ajax({
-    type: "GET",
+    type: "POST",
     url: "libs/php/getPersonnelByID.php",
     data: { id: Number(id) },
     dataType: "json",
     success: (response) => {
-      const code = response.status.code;
+      let code = response.status.code;
       if (code == "200") {
         let person = response.data.personnel;
 
@@ -115,7 +113,7 @@ const getEmployeeById = (id, modalType) => {
             $("#edit-id").val(person.id);
             $("#edit-Department").val(person.departmentID);
             generateToast("Data fetched Sucessfully!", "green");
-            getAllEmployeeInfo(response.data);
+            getAllEmployeeInfo();
           } else {
             $("#lastName").val(person.lastName);
             $("#firstName").val(person.firstName);
@@ -140,10 +138,10 @@ const createEmployee = (firstName, lastName, jobTitle, email, departmentID) => {
     data: { firstName, lastName, jobTitle, email, departmentID },
     dataType: "json",
     success: (response) => {
-      const code = response.status.code;
+      let code = response.status.code;
       if (code == "200") {
         generateToast("Employee Added  Sucessfully!", "green");
-        getAllEmployeeInfo(response.data);
+        getAllEmployeeInfo();
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
@@ -165,10 +163,10 @@ const updateEmployeeInformation = (
     data: { firstName, lastName, jobTitle, email, departmentID, id },
     dataType: "json",
     success: (response) => {
-      const code = response.status.code;
+      let code = response.status.code;
       if ((code = "200")) {
-        generateToast("Employee Information Sucessfully!", "green");
-        getAllEmployeeInfo(response.data);
+        generateToast("Employee Information Updated  Sucessfully!", "green");
+        getAllEmployeeInfo();
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
@@ -183,10 +181,10 @@ const deleteAnEmployeeById = (id) => {
     data: { id: id },
     dataType: "json",
     success: (response) => {
-      const code = response.status.code;
+      let code = response.status.code;
       if (code == "200") {
         generateToast("Employee Deleted Sucessfully!", "red");
-        getAllEmployeeInfo(response.data);
+        getAllEmployeeInfo();
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
@@ -199,34 +197,32 @@ const deleteAnEmployeeById = (id) => {
 // Department CREATE, READ UPDATE & DELETE functions
 const getAllDepartments = () => {
   $.ajax({
-    type: "GET",
+    type: "POST",
     url: "libs/php/getAllDepartments.php",
     data: "",
     dataType: "json",
     success: (response) => {
-      const code = response.status.code;
+      let code = response.status.code;
       if (code == "200") {
         populateDepartmentData(response.data);
         populateDepartmentDropdownForEmployeeData(response.data);
-        generateToast("Data loaded Sucessfully!", "green");
+        generateToast("Departmentdata loaded Sucessfully!", "green");
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      generateToast("Could not load data", "red");
+      generateToast("Could not load department data", "red");
     },
   });
 };
 const getDepartmentById = (id) => {
-  console.log(id);
   $.ajax({
-    type: "GET",
+    type: "POST",
     url: "libs/php/getDepartmentByID.php",
     data: { id: Number(id) },
     dataType: "json",
     success: (response) => {
-      const code = response.status.code;
+      let code = response.status.code;
       if (code === "200") {
-        console.log("getDepartmentById", response);
         let department = response.data;
 
         if (department.length > 0) {
@@ -252,14 +248,14 @@ const createDepartment = (name, locationID) => {
     data: { name, locationID },
     dataType: "json",
     success: (response) => {
-      const code = response.status.code;
+      let code = response.status.code;
       if (code == "200") {
         generateToast("department added  successfully", "green");
-        getAllDepartments(response.data);
+        getAllDepartments();
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      generateToast("cannot add departmwnt", "red");
+      generateToast("cannot add department", "red");
     },
   });
 };
@@ -270,27 +266,31 @@ const updateDepartmentInformation = (departmentName, locationID, id) => {
     data: { departmentName, locationID, id },
     dataType: "json",
     success: (response) => {
-      console.log("updated employee", response);
+      let code = response.status.code;
+      if (code == "200") {
+        generateToast("Department Updated Successfully!", "green");
+        getAllDepartments();
+      }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      console.log("Error", errorThrown, jqXHR);
+      generateToast("Could not update department", "red");
     },
   });
 };
-const deleteDepartmentsById = (id) => {
-  console.log("delete func running");
+const deleteDepartmentById = (id) => {
+  console.log("del department running");
   $.ajax({
     type: "POST",
     url: "libs/php/deleteDepartmentByID.php",
     data: { id: id },
     dataType: "json",
     success: (response) => {
-      console.log("response from delete query", response);
-      const code = response.status.code;
+      let code = response.status.code;
       if ((code = "200")) {
         generateToast("Department deleted successfully", "green");
-        getAllDepartments(response.data);
-      } else if (code == "500") {
+        getAllDepartments();
+      }
+      if (code == "500") {
         generateToast(
           "Sorry, you cannot delete this department as employees are assigned to it",
           "red"
@@ -298,7 +298,7 @@ const deleteDepartmentsById = (id) => {
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-   generateToast("connot delete department")
+      generateToast("connot delete department");
     },
   });
 };
@@ -307,25 +307,113 @@ const deleteDepartmentsById = (id) => {
 // Location CREATE, READ UPDATE & DELETE functions
 const getLocationInformation = () => {
   $.ajax({
-    type: "GET",
+    type: "POST",
     url: "libs/php/getLocation.php",
     data: "",
     dataType: "json",
     success: function (response) {
-      console.log("location Response", response);
       populateLocationData(response.data);
       populateLocationDropdownForDepartment(response.data);
+      generateToast("Location data Loaded  Successfully", "green");
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      console.log("Error", errorThrown, jqXHR);
+      generateToast("Could not load location data", "red");
     },
   });
 };
 
-const getLocationById = () => {};
-const createLocation = () => {};
-const updateLocationInformation = () => {};
-const deleteLocation = () => {};
+const getLocationById = (id) => {
+  $.ajax({
+    type: "POST",
+    url: "libs/php/getLocationByID.php",
+    data: { id: Number(id) },
+    dataType: "json",
+    success: (response) => {
+      let code = response.status.code;
+      if (code === "200") {
+        let location = response.data;
+
+        if (location.length > 0) {
+          location = location[0];
+
+          $("#edit-location-name").val(location.name);
+          $("#edit-location-id").val(location.id);
+          generateToast("Data fetched sucessfully", "green");
+          getLocationInformation();
+        } else {
+          generateToast("Could not load locations", "red");
+        }
+      }
+    },
+    error: (jqXHR, textStatus, errorThrown) => {
+      generateToast("Could not load locations", "red");
+    },
+  });
+};
+const createLocation = (name) => {
+  console.log("create location Running");
+  $.ajax({
+    type: "POST",
+    url: "libs/php/insertLocation.php",
+    data: { name },
+    dataType: "json",
+    success: (response) => {
+      console.log("new location", response.data);
+      let code = response.status.code;
+      if (code == "200") {
+        generateToast("Location added  successfully", "green");
+        getAllDepartments(response.data);
+      }
+    },
+    error: (jqXHR, textStatus, errorThrown) => {
+      generateToast("cannot add location", "red");
+    },
+  });
+};
+
+const updateLocationInformation = (name, id) => {
+  $.ajax({
+    type: "POST",
+    url: "libs/php/updateLocationByID.php",
+    data: { name, id },
+    dataType: "json",
+    success: (response) => {
+      let code = response.status.code;
+      if (code == "200") {
+        getLocationInformation();
+        generateToast("Location Updated Successfully!", "green");
+      }
+    },
+    error: (jqXHR, textStatus, errorThrown) => {
+      generateToast("Could not update location", "red");
+    },
+  });
+};
+
+const deleteLocationById = (id) => {
+  $.ajax({
+    type: "POST",
+    url: "libs/php/deleteLocationById.php",
+    data: { id: id },
+    dataType: "json",
+    success: (response) => {
+      let code = response.status.code;
+      if ((code = "200")) {
+        generateToast("Department deleted successfully", "green");
+        getLocationInformation();
+      } else if (code == "500") {
+        generateToast(
+          "Sorry, you cannot delete this location as it is assigned to departments",
+          "red"
+        );
+      }
+    },
+    error: (jqXHR, textStatus, errorThrown) => {
+      generateToast("connot delete department");
+    },
+  });
+};
+
 // --------------------------------------
 
 $(document).ready(() => {
@@ -370,7 +458,7 @@ $(document).ready(() => {
   $(document).on("click", ".location-edit-btn", (e) => {
     e.stopPropagation();
     let editId = e.target.getAttribute("id");
-    // getEmployeeById(editId, "edit");
+    getLocationById(editId);
     $("#editLocationForm").modal("show");
   });
   // --------------------------------------------
@@ -384,7 +472,6 @@ $(document).ready(() => {
     let delID = e.target.getAttribute("id");
     if (confirmation) {
       deleteAnEmployeeById(delID);
-      location.reload();
     }
   });
 
@@ -392,12 +479,12 @@ $(document).ready(() => {
     e.stopPropagation();
     e.preventDefault();
     let delID = e.target.getAttribute("id");
-    console.log("delTarget", delID);
+
     const confirmation = confirm(
-      "Are you sure you want to delete this department? This will impact on other tables "
+      "Are you sure you want to delete this department?"
     );
     if (confirmation) {
-      deleteDepartmentsById(delID);
+      deleteDepartmentById(delID);
     }
   });
 
@@ -407,8 +494,7 @@ $(document).ready(() => {
     const confirmation = confirm("Are you sure you want to delete this user?");
     let delID = e.target.getAttribute("id");
     if (confirmation) {
-      // deleteAnEmployeeById(delID);
-      location.reload();
+      deleteLocationById(delID);
     }
   });
   // --------------------------------------------------
@@ -423,7 +509,7 @@ $(document).ready(() => {
       $("#add-email").val(),
       $("#add-Department").val()
     );
-    location.reload();
+    $("#addForm").modal("hide");
   });
 
   // -------------------------------------------------
@@ -435,10 +521,19 @@ $(document).ready(() => {
       $("#add-Department-name").val(),
       $("#add-department-location").val()
     );
+    $("#addDepartmentForm").modal("hide");
   });
 
   // -------------------------------------------------
 
+  // Submitting the Add new Location form
+  $("#addLocationForm").on("submit", (e) => {
+    e.preventDefault();
+    createLocation($("#add-location-name").val());
+    $("addLocationForm").modal("hide");
+  });
+
+  // -------------------------------------------------
   // Submitting employee edit form
   $("#editForm").on("submit", (e) => {
     e.preventDefault();
@@ -464,7 +559,6 @@ $(document).ready(() => {
       "Are you sure you want to update this department?"
     );
     if (confirmation) {
-      console.log("dep location ID", $("#edit-department-location").val());
       updateDepartmentInformation(
         $("#edit-Department-name").val(),
         $("#edit-department-location").val(),
@@ -474,4 +568,18 @@ $(document).ready(() => {
     $("#editDepartmentForm").modal("hide");
   });
   //-----------------------------------
+  // Submitting edit location form
+  $("#editLocationForm").on("submit", (e) => {
+    e.preventDefault();
+    const confirmation = confirm(
+      "Are you sure you want to update this location?"
+    );
+    if (confirmation) {
+      updateLocationInformation(
+        $("#edit-location-name").val(),
+        $("#edit-location-id").val()
+      );
+    }
+    $("#editLocationForm").modal("hide");
+  });
 });

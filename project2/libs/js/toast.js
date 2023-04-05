@@ -26,7 +26,7 @@
         : o.offset[t] + "px"
       : "0px";
   }
-  function s(t, o) {
+  function s(t, o, text) {
     return (
       !(!t || "string" != typeof o) &&
       !!(t.className && t.className.trim().split(/\s+/gi).indexOf(o) > -1)
@@ -35,7 +35,7 @@
   return (
     (o.defaults = {
       oldestFirst: !0,
-      text: "Toastify is awesome!",
+      text:"Toastify Is Awsesome!",
       node: void 0,
       duration: 3e3,
       selector: void 0,

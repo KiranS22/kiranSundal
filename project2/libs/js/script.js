@@ -1,3 +1,233 @@
+// -------TOAST NOTIFICATION VARIABLES -------
+
+const dataLoadedSuccessfullyMsg = Toastify({
+  text: "Employee Added Sucessfully",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "green",
+});
+// Sucessfull Employee  CRUD notifications
+const employeeAddedSuccessfullyMsg = Toastify({
+  text: "Employee Added Sucessfully",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "green",
+});
+
+const employeeUpdatedSuccessfullyMsg = Toastify({
+  text: "Employee Updated Sucessfully",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "green",
+});
+
+const employeeDeletedSuccessfullyMsg = Toastify({
+  text: "Employee Deleted Sucessfully",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "green",
+});
+// ----------------------------------------------------
+
+// failed Employee CRUD opretaions
+const couldNotAddEmployeeMsg = Toastify({
+  text: "Could Not Add Employee",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "red",
+});
+
+const couldNotUpdateEmployeeMsg = Toastify({
+  text: "Could Not Update Employee",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "red",
+});
+
+const couldNotDeleteEmployeeMsg = Toastify({
+  text: "Could Not Add Employee",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "red",
+});
+// ------------------------------------------------------
+
+// Successfull department CRUD operations
+const departmentAddedSuccessfullyMsg = Toastify({
+  text: "Department Added Sucessfully",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "green",
+});
+
+const departmentUpdatedSuccessfullyMsg = Toastify({
+  text: "Department Updated Sucessfully",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "green",
+});
+
+const departmentDeletedSuccessfullyMsg = Toastify({
+  text: "Department Deleted Sucessfully",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "green",
+});
+// ----------------------------------------------------
+
+// failed Department CRUD opretaions
+const couldNotAddDepartmentMsg = Toastify({
+  text: "Could Not Add Department",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "red",
+});
+const couldNotUpdateDepartmentMsg = Toastify({
+  text: "Could not update department",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "red",
+});
+
+const cannotDeleteDepartmentDueToDependenciesMsg = Toastify({
+  text: "Could not delete this department as there are employees in it",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "red",
+});
+// ----------------------------------
+// Successfull location CRUD operations
+const locationAddedSuccessfullyMsg = Toastify({
+  text: "Location Added Sucessfully",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "green",
+});
+
+const locationUpdatedSuccessfullyMsg = Toastify({
+  text: "Location Updated Sucessfully",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "green",
+});
+
+const locationDeletedSuccessfullyMsg = Toastify({
+  text: "Location Deleted Sucessfully",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "green",
+});
+// ----------------------------------------------------
+
+// failed location CRUD opretaions
+const couldNotAddLocationMsg = Toastify({
+  text: "Could Not Add location",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "red",
+});
+const couldNotUpdateLocationMsg = Toastify({
+  text: "Could Not Update Location",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "red",
+});
+
+const cannotDeleteLocationDueToDependenciesMsg = Toastify({
+  text: "Could not delete this location as it has departments asigned to it",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "red",
+});
+// -------------------------------------------------------------
+// general err messages
+const cannotLoadData = Toastify({
+  text: "Could not load data",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "red",
+});
+
+const personelNotFound = Toastify({
+  text: "Personnel Not Found",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "red",
+});
+const somethingWentWrong = Toastify({
+  text: "So",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top",
+  positionLeft: true,
+  backgroundColor: "red",
+});
+
+// -------ENXD OF TOAST NOTIFICATION VARIABLES -------
 // Populating tables functions
 const populateEmployeeData = (data) => {
   let content = "";
@@ -67,10 +297,15 @@ const getAllEmployeeInfo = () => {
     data: "data",
     dataType: "json",
     success: (response) => {
-      populateEmployeeData(response.data);
+      console.log(response);
+      const code = response.status.code;
+      if (code == "200") {
+        populateEmployeeData(response.data);
+        dataLoadedSuccessfullyMsg.showToast();
+      }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      console.log("Error", errorThrown, jqXHR);
+      cannotLoadData.showToast();
     },
   });
 };
@@ -83,11 +318,11 @@ const getEmployeeById = (id, modalType) => {
     data: { id: Number(id) },
     dataType: "json",
     success: (response) => {
-      if (response.status.name === "ok") {
+      const code = response.status.code;
+      if (code == "200") {
         let person = response.data.personnel;
 
         if (person.length > 0) {
-          console.log("person", person);
           person = person[0];
           if (modalType === "edit") {
             $("#edit-lastName").val(person.lastName);
@@ -96,6 +331,8 @@ const getEmployeeById = (id, modalType) => {
             $("#edit-jobTitle").val(person.jobTitle);
             $("#edit-id").val(person.id);
             $("#edit-Department").val(person.departmentID);
+            employeeUpdatedSuccessfullyMsg.showToast();
+            getAllEmployeeInfo(response.data);
           } else {
             $("#lastName").val(person.lastName);
             $("#firstName").val(person.firstName);
@@ -104,12 +341,12 @@ const getEmployeeById = (id, modalType) => {
             $("#Department").val(person.departmentID);
           }
         } else {
-          alert("Person not found");
+          personelNotFound.showToast();
         }
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      console.log("Error", errorThrown, jqXHR);
+      somethingWentWrong.showToast();
     },
   });
 };
@@ -120,10 +357,14 @@ const createEmployee = (firstName, lastName, jobTitle, email, departmentID) => {
     data: { firstName, lastName, jobTitle, email, departmentID },
     dataType: "json",
     success: (response) => {
-      console.log("New employee", response);
+      const code = response.status.code;
+      if (code == "200") {
+        employeeAddedSuccessfullyMsg.showToast();
+        getAllEmployeeInfo(response.data);
+      }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      console.log("Error", errorThrown, jqXHR);
+      couldNotAddEmployeeMsg.showToast();
     },
   });
 };
@@ -141,10 +382,14 @@ const updateEmployeeInformation = (
     data: { firstName, lastName, jobTitle, email, departmentID, id },
     dataType: "json",
     success: (response) => {
-      console.log("updated employee", response);
+      const code = response.status.code;
+      if ((code = "200")) {
+        employeeUpdatedSuccessfullyMsg.showToast();
+        getAllEmployeeInfo(response.data);
+      }
     },
     error: (jqXHR, textStatus, errorThrown) => {
-      console.log("Error", errorThrown, jqXHR);
+      couldNotUpdateEmployeeMsg.showToast();
     },
   });
 };
@@ -155,7 +400,11 @@ const deleteAnEmployeeById = (id) => {
     data: { id: id },
     dataType: "json",
     success: (response) => {
-      console.log("response from delete query", response);
+      const code = response.status.code;
+      if (code == "200") {
+        employeeDeletedSuccessfullyMsg.showToast();
+        getAllEmployeeInfo(response.data);
+      }
     },
     error: (jqXHR, textStatus, errorThrown) => {
       console.log("Error", errorThrown, jqXHR);
@@ -245,6 +494,9 @@ const deleteDepartmentsById = (id) => {
     dataType: "json",
     success: (response) => {
       console.log("response from delete query", response);
+      if (response.status.code == "500") {
+        //TosterLibrarry.alert('Cannot delete department. Employees exist ')
+      }
     },
     error: (jqXHR, textStatus, errorThrown) => {
       console.log("Error", errorThrown, jqXHR);
@@ -347,7 +599,6 @@ $(document).ready(() => {
     );
     if (confirmation) {
       deleteDepartmentsById(delID);
-  
     }
   });
 

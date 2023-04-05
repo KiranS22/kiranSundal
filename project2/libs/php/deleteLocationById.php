@@ -35,7 +35,7 @@
 
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
-	$refQuery = $query = $conn->prepare('SELECT * FROM personnel WHERE departmentID = ?');
+	$refQuery = $query = $conn->prepare('SELECT * FROM department WHERE locationID = ?');
 	$refQuery->bind_param("i", $_POST['id']);
 	$refQuery->execute();
 
@@ -56,7 +56,7 @@
 
 	}	
 
-	$query = $conn->prepare('DELETE FROM department WHERE id = ?');
+	$query = $conn->prepare('DELETE FROM location WHERE id = ?');
 	
 	$query->bind_param("i", $_POST['id']);
 

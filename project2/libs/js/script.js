@@ -622,16 +622,25 @@ $(document).ready(() => {
   $("#employee-search").keyup((e) => {
     //debugger;
     searchPersonnel(e.target.value);
+    if (e.target.value == "") {
+      getAllEmployeeInfo();
+    }
   });
 
   $("#department-search").keyup((e) => {
     // debugger;
     searchDepartments(e.target.value);
+    if (e.target.value == "") {
+      getAllDepartments();
+    }
   });
 
   $("#location-search").keyup((e) => {
     // debugger;
     searchLocations(e.target.value);
+    if (e.target.value == "") {
+      getLocationInformation();
+    }
   });
 });
 // -----------------------------------------

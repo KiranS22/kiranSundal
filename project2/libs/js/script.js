@@ -1,3 +1,5 @@
+let searchableData = [];
+
 // -------TOAST NOTIFICATION FUNCTION -------
 const generateToast = (text, backgroundColor) => {
   Toastify({
@@ -77,11 +79,11 @@ const getAllEmployeeInfo = () => {
   $.ajax({
     type: "POST",
     url: "libs/php/getAll.php",
-    data: "data",
     dataType: "json",
     success: (response) => {
       let code = response.status.code;
       if (code == "200") {
+        searchableData.push(response.data);
         populateEmployeeData(response.data);
         generateToast("Employee Data loaded sucessfully!", "green");
       }
@@ -285,12 +287,15 @@ const deleteDepartmentById = (id) => {
     data: { id: id },
     dataType: "json",
     success: (response) => {
+      console.log("delete department", response);
       let code = response.status.code;
-      if ((code = "200")) {
+      if (code == "200") {
         generateToast("Department deleted successfully", "green");
         getAllDepartments();
       }
+
       if (code == "500") {
+        console.log(500);
         generateToast(
           "Sorry, you cannot delete this department as employees are assigned to it",
           "red"
@@ -398,10 +403,11 @@ const deleteLocationById = (id) => {
     dataType: "json",
     success: (response) => {
       let code = response.status.code;
-      if ((code = "200")) {
+      if (code == "200") {
         generateToast("Department deleted successfully", "green");
         getLocationInformation();
-      } else if (code == "500") {
+      }
+      if (code == "500") {
         generateToast(
           "Sorry, you cannot delete this location as it is assigned to departments",
           "red"
@@ -420,6 +426,7 @@ $(document).ready(() => {
   getAllEmployeeInfo();
   getAllDepartments();
   getLocationInformation();
+  
 
   //Opening add form functions
   $("#employee-add-btn").click((e) => {

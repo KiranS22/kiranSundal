@@ -12,8 +12,25 @@ const generateToast = (text, backgroundColor) => {
     backgroundColor: backgroundColor,
   }).showToast();
 };
+const searchPersonnel = (value) => {
+  let personnelData = searchableData.filter(
+    (data) =>
+      data.firstName.toLowerCase().includes(value.toLowerCase()) ||
+      data.lastName.toLowerCase().includes(value.toLowerCase()) ||
+      data.department.toLowerCase().includes(value.toLowerCase())
+  );
+  1;
+  populateEmployeeData(personnelData);
+};
 
-// ---------------------------------
+const searchDepartments = (value) => {
+  let departmentData = searchableData.filter((data) =>
+    console.log("dep data ", data)
+  );
+
+  populateDepartmentData(departmentData);
+};
+
 // Populating tables functions
 const populateEmployeeData = (data) => {
   let content = "";
@@ -83,9 +100,8 @@ const getAllEmployeeInfo = () => {
     success: (response) => {
       let code = response.status.code;
       if (code == "200") {
-        searchableData.push(response.data);
+        searchableData = response.data;
         populateEmployeeData(response.data);
-        generateToast("Employee Data loaded sucessfully!", "green");
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
@@ -185,7 +201,8 @@ const deleteAnEmployeeById = (id) => {
     success: (response) => {
       let code = response.status.code;
       if (code == "200") {
-        generateToast("Employee Deleted Sucessfully!", "red");
+        generateToast("Employee Deleted Sucessfully!", "green");
+        $("#employee-del-modal").modal("hide");
         getAllEmployeeInfo();
       }
     },
@@ -205,10 +222,10 @@ const getAllDepartments = () => {
     dataType: "json",
     success: (response) => {
       let code = response.status.code;
+      searchableData = response.data;
       if (code == "200") {
         populateDepartmentData(response.data);
         populateDepartmentDropdownForEmployeeData(response.data);
-        generateToast("Department data loaded Sucessfully!", "green");
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
@@ -280,22 +297,21 @@ const updateDepartmentInformation = (departmentName, locationID, id) => {
   });
 };
 const deleteDepartmentById = (id) => {
-  console.log("del department running");
   $.ajax({
     type: "POST",
     url: "libs/php/deleteDepartmentByID.php",
     data: { id: id },
     dataType: "json",
     success: (response) => {
-      console.log("delete department", response);
       let code = response.status.code;
       if (code == "200") {
         generateToast("Department deleted successfully", "green");
+        $("#department-del-modal").modal("hide");
         getAllDepartments();
       }
 
       if (code == "500") {
-        console.log(500);
+        $("#department-del-modal").modal("hide");
         generateToast(
           "Sorry, you cannot delete this department as employees are assigned to it",
           "red"
@@ -319,7 +335,6 @@ const getLocationInformation = () => {
     success: function (response) {
       populateLocationData(response.data);
       populateLocationDropdownForDepartment(response.data);
-      generateToast("Location data Loaded  Successfully", "green");
     },
     error: (jqXHR, textStatus, errorThrown) => {
       generateToast("Could not load location data", "red");
@@ -356,14 +371,12 @@ const getLocationById = (id) => {
   });
 };
 const createLocation = (name) => {
-  console.log("create location Running");
   $.ajax({
     type: "POST",
     url: "libs/php/insertLocation.php",
     data: { name },
     dataType: "json",
     success: (response) => {
-      console.log("new location", response.data);
       let code = response.status.code;
       if (code == "200") {
         generateToast("Location added  successfully", "green");
@@ -404,7 +417,8 @@ const deleteLocationById = (id) => {
     success: (response) => {
       let code = response.status.code;
       if (code == "200") {
-        generateToast("Department deleted successfully", "green");
+        generateToast("Location deleted successfully", "green");
+        $("#location-del-modal").modal("hide");
         getLocationInformation();
       }
       if (code == "500") {
@@ -426,7 +440,6 @@ $(document).ready(() => {
   getAllEmployeeInfo();
   getAllDepartments();
   getLocationInformation();
-  
 
   //Opening add form functions
   $("#employee-add-btn").click((e) => {
@@ -471,40 +484,48 @@ $(document).ready(() => {
   // --------------------------------------------
 
   // Delete functions
-
+  // employee delete btn in table
   $(document).on("click", ".employee-del-btn", (e) => {
-    e.stopPropagation();
     e.preventDefault();
-    const confirmation = confirm("Are you sure you want to delete this user?");
-    let delID = e.target.getAttribute("id");
-    if (confirmation) {
-      deleteAnEmployeeById(delID);
-    }
-  });
 
+    $("#employee-del-modal").modal("show");
+
+    let delID = e.target.getAttribute("id");
+    $("#confirm-emplee-del-btn").attr("data-emp-id", delID);
+  });
+  // employee delete btn in confirmation modal
+  $("#confirm-emplee-del-btn").click((e) => {
+    let empId = e.target.getAttribute("data-emp-id");
+    deleteAnEmployeeById(empId);
+  });
+  // --------------------------------------------
+  // department delete btn in table
   $(document).on("click", ".dep-del-btn", (e) => {
-    e.stopPropagation();
     e.preventDefault();
+    $("#employee-del-modal").modal("show");
     let delID = e.target.getAttribute("id");
-
-    const confirmation = confirm(
-      "Are you sure you want to delete this department?"
-    );
-    if (confirmation) {
-      deleteDepartmentById(delID);
-    }
+    $("#confirm-department-del-btn").attr("data-dep-id", delID);
   });
+  // department delete btn in confirmation modal
+  $("#confirm-department-del-btn").click((e) => {
+    let depId = e.target.getAttribute("data-dep-id");
+    deleteAnEmployeeById(depId);
+  });
+  // --------------------------------------------
 
   $(document).on("click", ".location-del-btn", (e) => {
-    e.stopPropagation();
     e.preventDefault();
-    const confirmation = confirm("Are you sure you want to delete this user?");
+    $("#location-del-modal").modal("show");
     let delID = e.target.getAttribute("id");
-    if (confirmation) {
-      deleteLocationById(delID);
-    }
+    $("#confirm-location-del-btn").attr("data-loc-id", delID);
+  });
+  // department delete btn in confirmation modal
+  $("#confirm-location-del-btn").click((e) => {
+    let locId = e.target.getAttribute("data-loc-id");
+    deleteLocationById(locId);
   });
   // --------------------------------------------------
+
   // FORM SUBMITTIONS
   // Submitting the Add new staff form
   $("#addForm").on("submit", (e) => {
@@ -544,20 +565,23 @@ $(document).ready(() => {
   // Submitting employee edit form
   $("#editForm").on("submit", (e) => {
     e.preventDefault();
-    const confirmation = confirm("Are you sure you want to update this user?");
-    if (confirmation) {
-      updateEmployeeInformation(
-        $("#edit-firstName").val(),
-        $("#edit-lastName").val(),
-        $("#edit-jobTitle").val(),
-        $("#edit-email").val(),
-        $("#edit-Department").val(),
-        $("#edit-id").val()
-      );
-    }
     $("#editForm").modal("hide");
+    $("#employee-update-modal").modal("show");
+
+    // const confirmation = confirm("Are you sure you want to update this user?");
   });
   //-----------------------------------
+
+  $("#confirm-emplee-update-btn").click((e) => {
+    updateEmployeeInformation(
+      $("#edit-firstName").val(),
+      $("#edit-lastName").val(),
+      $("#edit-jobTitle").val(),
+      $("#edit-email").val(),
+      $("#edit-Department").val(),
+      $("#edit-id").val()
+    );
+  });
 
   // Submitting department edit form
   $("#editDepartmentForm").on("submit", (e) => {
@@ -588,5 +612,10 @@ $(document).ready(() => {
       );
     }
     $("#editLocationForm").modal("hide");
+  });
+
+  $("#search").keyup((e) => {
+    searchPersonnel(e.target.value);
+    searchDepartments(e.target.value);
   });
 });

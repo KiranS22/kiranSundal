@@ -1,4 +1,4 @@
-let searchableData = [];
+let searchableData = { staff: [], departments: [], locations: [] };
 
 // -------TOAST NOTIFICATION FUNCTION -------
 const generateToast = (text, backgroundColor) => {
@@ -82,7 +82,7 @@ const getAllEmployeeInfo = () => {
     success: (response) => {
       let code = response.status.code;
       if (code == "200") {
-        searchableData = response.data;
+        searchableData["staff"] = response.data;
         populateEmployeeData(response.data);
       }
     },
@@ -204,7 +204,7 @@ const getAllDepartments = () => {
     dataType: "json",
     success: (response) => {
       let code = response.status.code;
-      searchableData = response.data;
+      searchableData["departments"] = response.data;
       if (code == "200") {
         populateDepartmentData(response.data);
         populateDepartmentDropdownForEmployeeData(response.data);
@@ -298,6 +298,7 @@ const deleteDepartmentById = (id) => {
           "Sorry, you cannot delete this department as employees are assigned to it",
           "red"
         );
+        getAllDepartments();
       }
     },
     error: (jqXHR, textStatus, errorThrown) => {
@@ -315,7 +316,7 @@ const getLocationInformation = () => {
     data: "",
     dataType: "json",
     success: function (response) {
-      searchableData = response.data;
+      searchableData["locations"] = response.data;
       populateLocationData(response.data);
       populateLocationDropdownForDepartment(response.data);
     },
@@ -421,7 +422,7 @@ const deleteLocationById = (id) => {
 
 // Functions for allowing searching in tables
 const searchPersonnel = (value) => {
-  let personnelData = searchableData.filter(
+  let personnelData = searchableData["staff"].filter(
     (data) =>
       data.firstName.toLowerCase().includes(value.toLowerCase()) ||
       data.lastName.toLowerCase().includes(value.toLowerCase()) ||
@@ -432,7 +433,7 @@ const searchPersonnel = (value) => {
 };
 
 const searchDepartments = (value) => {
-  let departmentData = searchableData.filter(
+  let departmentData = searchableData["departments"].filter(
     (data) =>
       data.location.toLowerCase().includes(value.toLowerCase()) ||
       data.name.toLowerCase().includes(value.toLowerCase())
@@ -442,7 +443,7 @@ const searchDepartments = (value) => {
 };
 
 const searchLocations = (value) => {
-  let locationData = searchableData.filter((data) =>
+  let locationData = searchableData["locations"].filter((data) =>
     data.name.toLowerCase().includes(value)
   );
 
@@ -516,14 +517,14 @@ $(document).ready(() => {
   // department delete btn in table
   $(document).on("click", ".dep-del-btn", (e) => {
     e.preventDefault();
-    $("#employee-del-modal").modal("show");
+    $("#department-del-modal").modal("show");
     let delID = e.target.getAttribute("id");
     $("#confirm-department-del-btn").attr("data-dep-id", delID);
   });
   // department delete btn in confirmation modal
   $("#confirm-department-del-btn").click((e) => {
     let depId = e.target.getAttribute("data-dep-id");
-    deleteAnEmployeeById(depId);
+    deleteDepartmentById(depId);
   });
   // --------------------------------------------
 
@@ -619,14 +620,17 @@ $(document).ready(() => {
 
   // Searchbar functions
   $("#employee-search").keyup((e) => {
+    //debugger;
     searchPersonnel(e.target.value);
   });
 
   $("#department-search").keyup((e) => {
+    // debugger;
     searchDepartments(e.target.value);
   });
 
   $("#location-search").keyup((e) => {
+    // debugger;
     searchLocations(e.target.value);
   });
 });

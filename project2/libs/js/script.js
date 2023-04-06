@@ -12,24 +12,6 @@ const generateToast = (text, backgroundColor) => {
     backgroundColor: backgroundColor,
   }).showToast();
 };
-const searchPersonnel = (value) => {
-  let personnelData = searchableData.filter(
-    (data) =>
-      data.firstName.toLowerCase().includes(value.toLowerCase()) ||
-      data.lastName.toLowerCase().includes(value.toLowerCase()) ||
-      data.department.toLowerCase().includes(value.toLowerCase())
-  );
-  1;
-  populateEmployeeData(personnelData);
-};
-
-const searchDepartments = (value) => {
-  let departmentData = searchableData.filter((data) =>
-    console.log("dep data ", data)
-  );
-
-  populateDepartmentData(departmentData);
-};
 
 // Populating tables functions
 const populateEmployeeData = (data) => {
@@ -333,6 +315,7 @@ const getLocationInformation = () => {
     data: "",
     dataType: "json",
     success: function (response) {
+      searchableData = response.data;
       populateLocationData(response.data);
       populateLocationDropdownForDepartment(response.data);
     },
@@ -435,6 +418,37 @@ const deleteLocationById = (id) => {
 };
 
 // --------------------------------------
+
+// Functions for allowing searching in tables
+const searchPersonnel = (value) => {
+  let personnelData = searchableData.filter(
+    (data) =>
+      data.firstName.toLowerCase().includes(value.toLowerCase()) ||
+      data.lastName.toLowerCase().includes(value.toLowerCase()) ||
+      data.department.toLowerCase().includes(value.toLowerCase())
+  );
+
+  populateEmployeeData(personnelData);
+};
+
+const searchDepartments = (value) => {
+  let departmentData = searchableData.filter(
+    (data) =>
+      data.location.toLowerCase().includes(value.toLowerCase()) ||
+      data.name.toLowerCase().includes(value.toLowerCase())
+  );
+
+  populateDepartmentData(departmentData);
+};
+
+const searchLocations = (value) => {
+  let locationData = searchableData.filter((data) =>
+    data.name.toLowerCase().includes(value)
+  );
+
+  populateLocationData(locationData);
+};
+// --------------------------------------------------------------------------
 
 $(document).ready(() => {
   getAllEmployeeInfo();
@@ -572,17 +586,6 @@ $(document).ready(() => {
   });
   //-----------------------------------
 
-  $("#confirm-emplee-update-btn").click((e) => {
-    updateEmployeeInformation(
-      $("#edit-firstName").val(),
-      $("#edit-lastName").val(),
-      $("#edit-jobTitle").val(),
-      $("#edit-email").val(),
-      $("#edit-Department").val(),
-      $("#edit-id").val()
-    );
-  });
-
   // Submitting department edit form
   $("#editDepartmentForm").on("submit", (e) => {
     e.preventDefault();
@@ -614,8 +617,17 @@ $(document).ready(() => {
     $("#editLocationForm").modal("hide");
   });
 
-  $("#search").keyup((e) => {
+  // Searchbar functions
+  $("#employee-search").keyup((e) => {
     searchPersonnel(e.target.value);
+  });
+
+  $("#department-search").keyup((e) => {
     searchDepartments(e.target.value);
   });
+
+  $("#location-search").keyup((e) => {
+    searchLocations(e.target.value);
+  });
 });
+// -----------------------------------------

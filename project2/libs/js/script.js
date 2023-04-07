@@ -18,11 +18,12 @@ const populateEmployeeData = (data) => {
   let content = "";
   for (let i = 0; i < data.length; i++) {
     const employee = data[i];
+    console.log("e", employee);
     content += `<tr>`;
-    content += `<td class="listItem" id="${employee.id}"> ${employee.firstName} ${employee.lastName}</td>`;
+    content += `<td class="listItem" title="${employee.location}" id="${employee.id}"> ${employee.firstName} ${employee.lastName}  <span class="tooltiptext">${employee.location}</span></td>`;
     content += `<td>${employee.department}</td>`;
 
-    content += `<td><button class="btn btn-dark employee-edit-btn btn-sm" id="${employee.id}">Edit</button> <button class=" btn btn-danger btn-sm employee-del-btn" id="${employee.id}">Delete</button></td>`;
+    content += `<td class="w-40"><button class="btn btn-dark employee-edit-btn btn-sm" id="${employee.id}"><i class="fa-solid fa-pen"></i> Edit</button> <button class=" btn btn-danger btn-sm employee-del-btn" id="${employee.id}"> <i class="fa-solid fa-trash-can"></i> Delete</button></td>`;
     content += `</tr>`;
   }
   $("#employeesList").html(content);
@@ -54,7 +55,7 @@ const populateDepartmentData = (data) => {
     content += `<tr>`;
     content += `<td  id="${department.id}"> ${department.name}</td>`;
     content += `<td>${department.location}</td>`;
-    content += `<td><button class="btn btn-dark dep-edit-btn  btn-sm" id="${department.id}">Edit</button> <button class=" btn btn-danger btn-sm dep-del-btn" id="${department.id}">Delete</button></td>`;
+    content += `<td class="w-40"><button class="btn btn-dark dep-edit-btn  btn-sm" id="${department.id}"><i class="fa-solid fa-pen"></i> Edit</button> <button class=" btn btn-danger btn-sm dep-del-btn" id="${department.id}"><i class="fa-solid fa-trash-can"></i> Delete</button></td>`;
     content += `</tr>`;
   }
   $("#departmentsList").html(content);
@@ -66,7 +67,7 @@ const populateLocationData = (data) => {
     content += `<tr>`;
     content += `<td  id="${location.id}"> ${location.name}</td>`;
     content += `<td>${location.id}</td>`;
-    content += `<td><button class="btn btn-dark location-edit-btn btn-sm" id="${location.id}">Edit</button> <button class=" btn btn-danger btn-sm location-del-btn"  id="${location.id}" >Delete</button></td>`;
+    content += `<td class="w-40"><button class="btn btn-dark location-edit-btn btn-sm" id="${location.id}"><i class="fa-solid fa-pen"></i> Edit</button> <button class=" btn btn-danger btn-sm location-del-btn"  id="${location.id}" ><i class="fa-solid fa-trash-can"></i> Delete</button></td>`;
     content += `</tr>`;
   }
   $("#locationsList").html(content);
@@ -86,7 +87,7 @@ const getAllEmployeeInfo = () => {
         populateEmployeeData(response.data);
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("Could load employee data", "red");
     },
   });
@@ -126,7 +127,7 @@ const getEmployeeById = (id, modalType) => {
         }
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("Something went wrong !", "red");
     },
   });
@@ -144,7 +145,7 @@ const createEmployee = (firstName, lastName, jobTitle, email, departmentID) => {
         getAllEmployeeInfo();
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("Could not add employee", "red");
     },
   });
@@ -165,11 +166,11 @@ const updateEmployeeInformation = (
     success: (response) => {
       let code = response.status.code;
       if ((code = "200")) {
-        generateToast("Employee Information Updated  Sucessfully!", "green");
+        generateToast("Employee information updated  successfully!", "green");
         getAllEmployeeInfo();
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("Could not update employee!", "red");
     },
   });
@@ -188,7 +189,7 @@ const deleteAnEmployeeById = (id) => {
         getAllEmployeeInfo();
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("Could not delete Employee!", "red");
     },
   });
@@ -210,7 +211,7 @@ const getAllDepartments = () => {
         populateDepartmentDropdownForEmployeeData(response.data);
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("Could not load department data", "red");
     },
   });
@@ -231,13 +232,15 @@ const getDepartmentById = (id) => {
 
           $("#edit-Department-name").val(department.name);
           $("#edit-dep-id").val(department.id);
-          generateToast("Data fetched sucessfully", "green");
+          $("#edit-department-location").val(department.locationID);
+
+          generateToast("Data fetched successfully", "green");
         } else {
           generateToast("Could not load departments", "red");
         }
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("Could not load departments", "red");
     },
   });
@@ -251,12 +254,12 @@ const createDepartment = (name, locationID) => {
     success: (response) => {
       let code = response.status.code;
       if (code == "200") {
-        generateToast("department added  successfully", "green");
+        generateToast("Department added  successfully", "green");
         getAllDepartments();
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
-      generateToast("cannot add department", "red");
+    error: () => {
+      generateToast("Could not add department", "red");
     },
   });
 };
@@ -269,11 +272,11 @@ const updateDepartmentInformation = (departmentName, locationID, id) => {
     success: (response) => {
       let code = response.status.code;
       if (code == "200") {
-        generateToast("Department Updated Successfully!", "green");
+        generateToast("Department updated  successfully!", "green");
         getAllDepartments();
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("Could not update department", "red");
     },
   });
@@ -301,8 +304,8 @@ const deleteDepartmentById = (id) => {
         getAllDepartments();
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
-      generateToast("connot delete department");
+    error: () => {
+      generateToast("Could not delete department");
     },
   });
 };
@@ -315,12 +318,12 @@ const getLocationInformation = () => {
     url: "libs/php/getLocation.php",
     data: "",
     dataType: "json",
-    success: function (response) {
+    success:  (response)=> {
       searchableData["locations"] = response.data;
       populateLocationData(response.data);
       populateLocationDropdownForDepartment(response.data);
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("Could not load location data", "red");
     },
   });
@@ -342,14 +345,14 @@ const getLocationById = (id) => {
 
           $("#edit-location-name").val(location.name);
           $("#edit-location-id").val(location.id);
-          generateToast("Data fetched sucessfully", "green");
+          generateToast("Data fetched successfully", "green");
           getLocationInformation();
         } else {
           generateToast("Could not load locations", "red");
         }
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("Could not load locations", "red");
     },
   });
@@ -367,7 +370,7 @@ const createLocation = (name) => {
         getAllDepartments(response.data);
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("cannot add location", "red");
     },
   });
@@ -386,7 +389,7 @@ const updateLocationInformation = (name, id) => {
         generateToast("Location Updated Successfully!", "green");
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("Could not update location", "red");
     },
   });
@@ -412,7 +415,7 @@ const deleteLocationById = (id) => {
         );
       }
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: () => {
       generateToast("connot delete department");
     },
   });
@@ -581,46 +584,43 @@ $(document).ready(() => {
   $("#editForm").on("submit", (e) => {
     e.preventDefault();
     $("#editForm").modal("hide");
-    $("#employee-update-modal").modal("show");
-
-    // const confirmation = confirm("Are you sure you want to update this user?");
+    updateEmployeeInformation(
+      $("#edit-firstName").val(),
+      $("#edit-lastName").val(),
+      $("#edit-jobTitle").val(),
+      $("#edit-email").val(),
+      $("#edit-Department").val(),
+      $("#edit-id").val()
+    );
   });
   //-----------------------------------
 
   // Submitting department edit form
   $("#editDepartmentForm").on("submit", (e) => {
     e.preventDefault();
-    const confirmation = confirm(
-      "Are you sure you want to update this department?"
+
+    updateDepartmentInformation(
+      $("#edit-Department-name").val(),
+      $("#edit-department-location").val(),
+      $("#edit-dep-id").val()
     );
-    if (confirmation) {
-      updateDepartmentInformation(
-        $("#edit-Department-name").val(),
-        $("#edit-department-location").val(),
-        $("#edit-dep-id").val()
-      );
-    }
     $("#editDepartmentForm").modal("hide");
   });
   //-----------------------------------
   // Submitting edit location form
   $("#editLocationForm").on("submit", (e) => {
     e.preventDefault();
-    const confirmation = confirm(
-      "Are you sure you want to update this location?"
+
+    updateLocationInformation(
+      $("#edit-location-name").val(),
+      $("#edit-location-id").val()
     );
-    if (confirmation) {
-      updateLocationInformation(
-        $("#edit-location-name").val(),
-        $("#edit-location-id").val()
-      );
-    }
+
     $("#editLocationForm").modal("hide");
   });
 
   // Searchbar functions
   $("#employee-search").keyup((e) => {
-    //debugger;
     searchPersonnel(e.target.value);
     if (e.target.value == "") {
       getAllEmployeeInfo();
@@ -628,7 +628,6 @@ $(document).ready(() => {
   });
 
   $("#department-search").keyup((e) => {
-    // debugger;
     searchDepartments(e.target.value);
     if (e.target.value == "") {
       getAllDepartments();
@@ -636,7 +635,6 @@ $(document).ready(() => {
   });
 
   $("#location-search").keyup((e) => {
-    // debugger;
     searchLocations(e.target.value);
     if (e.target.value == "") {
       getLocationInformation();

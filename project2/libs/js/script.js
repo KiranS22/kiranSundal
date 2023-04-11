@@ -318,7 +318,7 @@ const getLocationInformation = () => {
     url: "libs/php/getLocation.php",
     data: "",
     dataType: "json",
-    success:  (response)=> {
+    success: (response) => {
       searchableData["locations"] = response.data;
       populateLocationData(response.data);
       populateLocationDropdownForDepartment(response.data);
@@ -367,7 +367,7 @@ const createLocation = (name) => {
       let code = response.status.code;
       if (code == "200") {
         generateToast("Location added  successfully", "green");
-        getAllDepartments(response.data);
+        getLocationInformation();
       }
     },
     error: () => {
@@ -576,7 +576,7 @@ $(document).ready(() => {
   $("#addLocationForm").on("submit", (e) => {
     e.preventDefault();
     createLocation($("#add-location-name").val());
-    $("addLocationForm").modal("hide");
+    $("#addLocationForm").modal("hide");
   });
 
   // -------------------------------------------------

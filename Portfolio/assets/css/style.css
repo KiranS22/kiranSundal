@@ -1045,3 +1045,9 @@ span.skill {
     padding-right: 20px 15px;
   }
 }
+
+#successmsg,
+#errorMsg {
+  display: none;
+  text-align: center;
+}

@@ -22,7 +22,7 @@ $mail = new PHPMailer(true);
 
 try {
     //Server settings
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'smtp.hostinger.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
@@ -36,17 +36,32 @@ try {
     $mail->addAddress('krnsundal@gmail.com', 'Kiran Sundal');     //Add a recipient
 
 
-   
+
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = $subject;
     $mail->Body    = $message;
 
-$url = 'https://kiransundal.co.uk/portfolio';
+// $url = 'https://kiransundal.co.uk/#contact';
+
     $mail->send();
-    header("Location: $url");
+    // header("Location: $url");
+
+		$output['status']['code'] = "200";
+		$output['status']['name'] = "ok";
+		$output['status']['description'] = "success";
+
+
+
+
+		echo json_encode($output);
 } catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+
+
+		$output['status']['code'] = "500";
+		$output['status']['name'] = "error";
+		$output['status']['description'] = "something went wrong";
+        echo json_encode($output);
 }
 ?>

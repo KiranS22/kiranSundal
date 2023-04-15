@@ -191,7 +191,7 @@
                       <i class="bi bi-chevron-right"></i> <strong>Age:</strong>
                       <span>23</span>
                     </li>
-                    
+
                     <li>
                       <i class="bi bi-chevron-right"></i>
                       <strong>Looking for:</strong> <span>Remote Work</span>
@@ -221,35 +221,14 @@
               <div class="skill">
                 <span class="skill">HTML</span>
               </div>
-
-              <div class="skill">
-                <span class="skill">CSS</span>
-              </div>
-
-              <div class="skill">
-                <span class="skill">JavaScript </span>
-              </div>
               <div class="skill">
                 <span class="skill">JQuery </span>
               </div>
               <div class="skill">
+                <span class="skill">Nodejs</span>
+              </div>
+              <div class="skill">
                 <span class="skill">Visual Studio Code </span>
-              </div>
-            </div>
-
-            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-              <div class="skill">
-                <span class="skill">PostgresQL</span>
-              </div>
-
-              <div class="skill">
-                <span class="skill">Express</span>
-              </div>
-              <div class="skill">
-                <span class="skill">React</span>
-              </div>
-              <div class="skill">
-                <span class="skill">Git/GitHub/GitBash</span>
               </div>
               <div class="skill">
                 <span class="skill">PHP</span>
@@ -258,16 +237,36 @@
 
             <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
               <div class="skill">
+                <span class="skill">CSS</span>
+              </div>
+              <div class="skill">
+                <span class="skill">React</span>
+              </div>
+              <div class="skill">
+                <span class="skill">Express</span>
+              </div>
+
+              <div class="skill">
+                <span class="skill">Git/GitHub/GitBash</span>
+              </div>
+
+              <div class="skill">
+                <span class="skill">MYSQL</span>
+              </div>
+            </div>
+
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+              <div class="skill">
+                <span class="skill">JavaScript </span>
+              </div>
+              <div class="skill">
                 <span class="skill">Redux</span>
               </div>
               <div class="skill">
-                <span class="skill">Nodejs</span>
+                <span class="skill">PostgreSQL</span>
               </div>
               <div class="skill">
                 <span class="skill">Command Line </span>
-              </div>
-              <div class="skill">
-                <span class="skill">MYSQL</span>
               </div>
             </div>
           </div>
@@ -464,18 +463,22 @@
             <h2>Contact</h2>
             <p>
               Please do not hesitate to reach out to me using the form below.I
-              willrely to you within 1-2 working days.
+              will reply to you within 1-2 working days.
             </p>
           </div>
 
           <div class="row" data-aos="fade-in">
             <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-center">
               <form
-                action="forms/contact.php"
                 method="post"
                 role="form"
                 class="php-email-form"
+                id="contact-form"
               >
+                <p id="successmsg" class="text-success">
+                  Form submitted successfully
+                </p>
+                <p id="errorMsg" class="text-danger">Could not submit form</p>
                 <div class="row">
                   <div class="form-group col-md-6">
                     <label for="name">Your Name</label>
@@ -514,6 +517,7 @@
                     class="form-control"
                     name="message"
                     rows="10"
+                    id="message"
                     required
                   ></textarea>
                 </div>
@@ -569,7 +573,7 @@
     <script src="assets/vendor/typed.js/typed.min.js"></script>
     <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
-
+    <script src="assets/js/jquery-3.6.3.min.js"></script>
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
   </body>

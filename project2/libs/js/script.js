@@ -12,7 +12,37 @@ const generateToast = (text, backgroundColor) => {
     backgroundColor: backgroundColor,
   }).showToast();
 };
+// show Diffrent modals on the same add-btn
+const tabSelector = () => {
+  if ($("#employee-tab").hasClass("active")) {
+    $("#department-search").hide();
+    $("#location-search").hide();
+    $("#employee-search").show();
+    $("#add").click((e) => {
+      e.preventDefault();
+      $("#addForm").modal("show");
+    });
+  } else if ($("#department-tab").hasClass("active")) {
+    $("#location-search").hide();
+    $("#employee-search").hide();
+    $("#department-search").show();
 
+    $("#add").click((e) => {
+      e.preventDefault();
+      $("#addDepartmentForm").modal("show");
+    });
+  } else if ($("#location-tab").hasClass("active")) {
+    $("#employee-search").hide();
+    $("#department-search").hide();
+    $("#location-search").show();
+
+    $("#add").click((e) => {
+      e.preventDefault();
+      $("#addLocationForm").modal("show");
+    });
+  }
+};
+// --------------------------------------------
 // Populating tables functions
 const populateEmployeeData = (data) => {
   let content = "";
@@ -20,7 +50,7 @@ const populateEmployeeData = (data) => {
     const employee = data[i];
     content += `<tr>`;
     content += `<td class="listItem" title="${employee.location}" id="${employee.id}"> ${employee.firstName} ${employee.lastName}  <span class="tooltiptext">${employee.location}</span></td>`;
-    content += `<td>${employee.department}</td>`;
+    content += `<td class="d-none d-sm-block">${employee.department}</td>`;
 
     content += `<td class="float-right"><button class="btn btn-dark employee-edit-btn btn-sm" id="${employee.id}"><i class="fa-solid fa-pen"></i></button></td>`;
 
@@ -55,7 +85,7 @@ const populateDepartmentData = (data) => {
     const department = data[i];
     content += `<tr>`;
     content += `<td  id="${department.id}"> ${department.name}</td>`;
-    content += `<td>${department.location}</td>`;
+    content += `<td class="d-none d-sm-block">${department.location}</td>`;
     content += `<td ><button class="btn btn-dark dep-edit-btn  btn-sm" id="${department.id}"><i class="fa-solid fa-pen"></i></button></td>`;
     content += `<td><button class=" btn btn-danger btn-sm dep-del-btn" id="${department.id}"><i class="fa-solid fa-trash-can"></i></button></td>`;
     content += `</tr>`;
@@ -460,32 +490,12 @@ $(document).ready(() => {
   getAllEmployeeInfo();
   getAllDepartments();
   getLocationInformation();
+  tabSelector();
 
   //Opening add forms and hiding search bars functions
-  if ($("#employee-tab").hasClass("active")) {
-    $("#department-search").hide();
-    $("#location-search").hide();
-    $("#add").click((e) => {
-      e.preventDefault();
-      $("#addForm").modal("show");
-    });
-  } else if ($("#department-tab").hasClass("active")) {
-    $("#location-search").hide();
-    $("#employee-search").hide();
-    $("#department-add-btn").click((e) => {
-      e.preventDefault();
-      $("#addDepartmentForm").modal("show");
-    });
-  } else if ($("#location-tab").hasClass("active")) {
-    $("#employee-search").hide();
-    $("#department-search").hide();
-
-    $("#location-add-btn").click((e) => {
-      e.preventDefault();
-      $("#addLocationForm").modal("show");
-    });
-  }
-
+  $(".nav-link").click(() => {
+    tabSelector();
+  });
   // ------------------------------------------------
 
   // Read more Employee info

@@ -6,12 +6,13 @@
 .wrapper {
   height: 100vh;
   width: 100%;
-  overflow: auto;
+}
+tr th,
+.sticky-div {
+  position: sticky;
+  top: 0;
 }
 
-.w-40 {
-  width: 40%;
-}
 .listItem:hover {
   color: rgb(0, 0, 224);
   text-decoration: underline;

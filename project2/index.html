@@ -14,52 +14,82 @@
   </head>
 
   <body>
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs pt-4" id="myTab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link active"
-          id="employee-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#employee-data"
-          type="button"
-          role="tab"
-          aria-controls="home"
-          aria-selected="true"
-        >
-          Employee Data
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link"
-          id="department-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#department-data"
-          type="button"
-          role="tab"
-          aria-controls="profile"
-          aria-selected="false"
-        >
-          Departments
-        </button>
-      </li>
+    <div class="sticky-div">
+      <input
+        class="form-control me-2 mt-2"
+        type="search"
+        placeholder="Search Employees"
+        aria-label="Search"
+        id="employee-search"
+      />
 
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link"
-          id="location-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#location-data"
-          type="button"
-          role="tab"
-          aria-controls="profile"
-          aria-selected="false"
-        >
-          Locations
+      <input
+        class="form-control me-2 mt-2"
+        type="search"
+        placeholder="Search Departments"
+        aria-label="Search"
+        id="department-search"
+      />
+      <input
+        class="form-control me-2 mt-2"
+        type="search"
+        placeholder="Search Locations"
+        aria-label="Search"
+        id="location-search"
+      />
+
+      <ul class="nav nav-tabs pt-4" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="employee-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#employee-data"
+            type="button"
+            role="tab"
+            aria-controls="home"
+            aria-selected="true"
+          >
+            Employees
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="department-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#department-data"
+            type="button"
+            role="tab"
+            aria-controls="profile"
+            aria-selected="false"
+          >
+            Departments
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="location-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#location-data"
+            type="button"
+            role="tab"
+            aria-controls="profile"
+            aria-selected="false"
+          >
+            Locations
+          </button>
+        </li>
+      </ul>
+      <div class="d-flex">
+        <button class="btn btn-outline-secondary mt-4" id="employee-add-btn">
+          <i class="fa-solid fa-plus" id="add"></i> Add
         </button>
-      </li>
-    </ul>
+      </div>
+    </div>
+    <!-- Nav tabs -->
 
     <!-- Tab panes -->
     <div class="tab-content mt-3">
@@ -71,28 +101,13 @@
       >
         <!-- Employee Data table -->
         <div class="container wrapper">
-          <input
-            class="form-control me-2 mt-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            id="employee-search"
-          />
-          <div class="d-flex justify-content-end">
-            <button
-              class="btn btn-outline-secondary mt-4"
-              id="employee-add-btn"
-            >
-              <i class="fa-solid fa-plus add"></i> Add
-            </button>
-          </div>
-
           <table class="table">
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Department</th>
-                <th>Actions</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody id="employeesList"></tbody>
@@ -108,28 +123,13 @@
       >
         <!-- Department Data table -->
         <div class="container wrapper">
-          <input
-            class="form-control me-2 mt-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            id="department-search"
-          />
-          <div class="d-flex justify-content-end">
-            <button
-              class="btn btn-outline-secondary mt-4"
-              id="department-add-btn"
-            >
-              <i class="fa-solid fa-plus add"></i> Add
-            </button>
-          </div>
-
           <table class="table">
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Location</th>
-                <th>Actions</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody id="departmentsList"></tbody>
@@ -145,28 +145,12 @@
       >
         <!-- Location Data table -->
         <div class="container wrapper">
-          <input
-            class="form-control me-2 mt-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            id="location-search"
-          />
-          <div class="d-flex justify-content-end">
-            <button
-              class="btn btn-outline-secondary mt-4"
-              id="location-add-btn"
-            >
-              <i class="fa-solid fa-plus add"></i> Add
-            </button>
-          </div>
-
           <table class="table">
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Location ID</th>
-                <th>Actions</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody id="locationsList"></tbody>

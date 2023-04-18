@@ -18,12 +18,13 @@ const populateEmployeeData = (data) => {
   let content = "";
   for (let i = 0; i < data.length; i++) {
     const employee = data[i];
-    console.log("e", employee);
     content += `<tr>`;
     content += `<td class="listItem" title="${employee.location}" id="${employee.id}"> ${employee.firstName} ${employee.lastName}  <span class="tooltiptext">${employee.location}</span></td>`;
     content += `<td>${employee.department}</td>`;
 
-    content += `<td class="w-40"><button class="btn btn-dark employee-edit-btn btn-sm" id="${employee.id}"><i class="fa-solid fa-pen"></i> Edit</button> <button class=" btn btn-danger btn-sm employee-del-btn" id="${employee.id}"> <i class="fa-solid fa-trash-can"></i> Delete</button></td>`;
+    content += `<td class="float-right"><button class="btn btn-dark employee-edit-btn btn-sm" id="${employee.id}"><i class="fa-solid fa-pen"></i></button></td>`;
+
+    content += `<td><button class=" btn btn-danger btn-sm employee-del-btn" id="${employee.id}"> <i class="fa-solid fa-trash-can"></i> </button></td>`;
     content += `</tr>`;
   }
   $("#employeesList").html(content);
@@ -55,7 +56,8 @@ const populateDepartmentData = (data) => {
     content += `<tr>`;
     content += `<td  id="${department.id}"> ${department.name}</td>`;
     content += `<td>${department.location}</td>`;
-    content += `<td class="w-40"><button class="btn btn-dark dep-edit-btn  btn-sm" id="${department.id}"><i class="fa-solid fa-pen"></i> Edit</button> <button class=" btn btn-danger btn-sm dep-del-btn" id="${department.id}"><i class="fa-solid fa-trash-can"></i> Delete</button></td>`;
+    content += `<td ><button class="btn btn-dark dep-edit-btn  btn-sm" id="${department.id}"><i class="fa-solid fa-pen"></i></button></td>`;
+    content += `<td><button class=" btn btn-danger btn-sm dep-del-btn" id="${department.id}"><i class="fa-solid fa-trash-can"></i></button></td>`;
     content += `</tr>`;
   }
   $("#departmentsList").html(content);
@@ -66,8 +68,8 @@ const populateLocationData = (data) => {
     const location = data[i];
     content += `<tr>`;
     content += `<td  id="${location.id}"> ${location.name}</td>`;
-    content += `<td>${location.id}</td>`;
-    content += `<td class="w-40"><button class="btn btn-dark location-edit-btn btn-sm" id="${location.id}"><i class="fa-solid fa-pen"></i> Edit</button> <button class=" btn btn-danger btn-sm location-del-btn"  id="${location.id}" ><i class="fa-solid fa-trash-can"></i> Delete</button></td>`;
+
+    content += `<td ><button class="btn btn-dark location-edit-btn btn-sm" id="${location.id}"><i class="fa-solid fa-pen"></i> </button></td> <td><button class=" btn btn-danger btn-sm location-del-btn"  id="${location.id}" ><i class="fa-solid fa-trash-can"></i></button></td>`;
     content += `</tr>`;
   }
   $("#locationsList").html(content);
@@ -459,17 +461,31 @@ $(document).ready(() => {
   getAllDepartments();
   getLocationInformation();
 
-  //Opening add form functions
-  $("#employee-add-btn").click((e) => {
-    $("#addForm").modal("show");
-  });
+  //Opening add forms and hiding search bars functions
+  if ($("#employee-tab").hasClass("active")) {
+    $("#department-search").hide();
+    $("#location-search").hide();
+    $("#add").click((e) => {
+      e.preventDefault();
+      $("#addForm").modal("show");
+    });
+  } else if ($("#department-tab").hasClass("active")) {
+    $("#location-search").hide();
+    $("#employee-search").hide();
+    $("#department-add-btn").click((e) => {
+      e.preventDefault();
+      $("#addDepartmentForm").modal("show");
+    });
+  } else if ($("#location-tab").hasClass("active")) {
+    $("#employee-search").hide();
+    $("#department-search").hide();
 
-  $("#department-add-btn").click((e) => {
-    $("#addDepartmentForm").modal("show");
-  });
-  $("#location-add-btn").click((e) => {
-    $("#addLocationForm").modal("show");
-  });
+    $("#location-add-btn").click((e) => {
+      e.preventDefault();
+      $("#addLocationForm").modal("show");
+    });
+  }
+
   // ------------------------------------------------
 
   // Read more Employee info

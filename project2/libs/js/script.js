@@ -490,7 +490,6 @@ const countDepartmentByLocation = (locId) => {
     data: { id: locId },
     dataType: "json",
     success: (response) => {
-      console.log(response.data);
       let locationCount = response.data.location[0].locationCount;
       let locationName = response.data.location[0].locationName;
       if (locationCount > 0) {
@@ -561,7 +560,6 @@ $(document).ready(() => {
 
   $("#add-button").on("click", (e) => {
     e.preventDefault();
-    console.log("Add clicked");
     showCorrectAddForm();
   });
   // ------------------------------------------------
@@ -577,9 +575,8 @@ $(document).ready(() => {
   // Edit form Functions
   $(document).on("click", ".employee-edit-btn", (e) => {
     e.stopPropagation();
-    console.log(e.target);
+    ;
     let editId = e.target.getAttribute("data-id");
-    console.log(editId);
     getEmployeeById(editId, "edit");
     $("#editForm").modal("show");
   });

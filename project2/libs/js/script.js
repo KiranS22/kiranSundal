@@ -12,7 +12,7 @@ const generateToast = (text, backgroundColor) => {
     backgroundColor: backgroundColor,
   }).showToast();
 };
-// show Diffrent modals on the same add-btn
+// Toggling which search bar to show  on which tab
 const tabSelector = () => {
   if ($("#employee-tab").hasClass("active")) {
     $("#department-search").hide();
@@ -28,6 +28,14 @@ const tabSelector = () => {
     $("#location-search").show();
   }
 };
+// ---------------------------------------------
+const customizeDeletemodals = (modal, itemToDelete) => {
+  $(`#${modal}.modal-body p`).html(
+    `Are you sure you want to delete ${itemToDelete}? This cannot be undone`
+  );
+};
+// --------------------------------------------------------------------------
+// show Diffrent modals on the same add-btn
 const showCorrectAddForm = () => {
   if ($("#employee-tab").hasClass("active")) {
     $("#addForm").modal("show");
@@ -47,9 +55,9 @@ const populateEmployeeData = (data) => {
     content += `<td class="listItem" title="${employee.location}" id="${employee.id}"> ${employee.firstName} ${employee.lastName}  <span class="tooltiptext">${employee.location}</span></td>`;
     content += `<td class="d-none d-sm-block">${employee.department}</td>`;
 
-    content += `<td><button class="btn btn-dark employee-edit-btn btn-sm float-right" id="${employee.id}"><i class="fa-solid fa-pen"></i></button></td>`;
+    content += `<td><button class="btn btn-dark employee-edit-btn btn-sm float-right" data-id="${employee.id}"><i class="fa-solid fa-pen"></i></button></td>`;
 
-    content += `<td><button class=" float-right btn btn-danger btn-sm employee-del-btn" id="${employee.id}"> <i class="fa-solid fa-trash-can"></i> </button></td>`;
+    content += `<td><button class=" float-right btn btn-danger btn-sm employee-del-btn" data-id="${employee.id}"> <i class="fa-solid fa-trash-can"></i> </button></td>`;
     content += `</tr>`;
   }
   $("#employeesList").html(content);
@@ -81,8 +89,8 @@ const populateDepartmentData = (data) => {
     content += `<tr>`;
     content += `<td  id="${department.id}"> ${department.name}</td>`;
     content += `<td class="d-none d-sm-block">${department.location}</td>`;
-    content += `<td ><button class=" float-right btn btn-dark dep-edit-btn  btn-sm" id="${department.id}"><i class="fa-solid fa-pen"></i></button></td>`;
-    content += `<td><button class="float-right  btn btn-danger btn-sm dep-del-btn" id="${department.id}"><i class="fa-solid fa-trash-can"></i></button></td>`;
+    content += `<td ><button class=" float-right btn btn-dark dep-edit-btn  btn-sm" data-id="${department.id}"><i class="fa-solid fa-pen"></i></button></td>`;
+    content += `<td><button class="float-right btn btn-danger btn-sm dep-del-btn" data-id="${department.id}"><i class="fa-solid fa-trash-can"></i></button></td>`;
     content += `</tr>`;
   }
   $("#departmentsList").html(content);
@@ -94,7 +102,7 @@ const populateLocationData = (data) => {
     content += `<tr>`;
     content += `<td  id="${location.id}"> ${location.name}</td>`;
 
-    content += `<td ><button class=" float-right btn btn-dark location-edit-btn btn-sm" id="${location.id}"><i class="fa-solid fa-pen"></i> </button></td> <td><button class="float-right btn btn-danger btn-sm location-del-btn"  id="${location.id}" ><i class="fa-solid fa-trash-can"></i></button></td>`;
+    content += `<td ><button class=" float-right btn btn-dark location-edit-btn btn-sm" data-id="${location.id}"><i class="fa-solid fa-pen"></i> </button></td> <td><button class="float-right btn btn-danger btn-sm location-del-btn"  data-id="${location.id}" ><i class="fa-solid fa-trash-can"></i></button></td>`;
     content += `</tr>`;
   }
   $("#locationsList").html(content);
@@ -479,7 +487,6 @@ const searchLocations = (value) => {
 
   populateLocationData(locationData);
 };
-// --------------------------------------------------------------------------
 
 $(document).ready(() => {
   getAllEmployeeInfo();
@@ -510,33 +517,38 @@ $(document).ready(() => {
   // Edit form Functions
   $(document).on("click", ".employee-edit-btn", (e) => {
     e.stopPropagation();
-    let editId = e.target.getAttribute("id");
+    console.log(e.target);
+    let editId = e.target.getAttribute("data-id");
+    console.log(editId);
     getEmployeeById(editId, "edit");
     $("#editForm").modal("show");
   });
   $(document).on("click", ".dep-edit-btn", (e) => {
     e.stopPropagation();
-    let depId = e.target.getAttribute("id");
+    let depId = e.target.getAttribute("data-id");
     getDepartmentById(depId);
     $("#editDepartmentForm").modal("show");
   });
   $(document).on("click", ".location-edit-btn", (e) => {
     e.stopPropagation();
-    let editId = e.target.getAttribute("id");
+    let editId = e.target.getAttribute("data-id");
     getLocationById(editId);
     $("#editLocationForm").modal("show");
   });
   // --------------------------------------------
-
+  $("i svg").click((e) => {
+    e.stopPropagation();
+  });
   // Delete functions
   // employee delete btn in table
   $(document).on("click", ".employee-del-btn", (e) => {
     e.preventDefault();
-
+    console.log(e.target);
     $("#employee-del-modal").modal("show");
 
-    let delID = e.target.getAttribute("id");
+    let delID = e.target.getAttribute("data-id");
     $("#confirm-emplee-del-btn").attr("data-emp-id", delID);
+    console.log(delID);
   });
   // employee delete btn in confirmation modal
   $("#confirm-emplee-del-btn").click((e) => {
@@ -548,7 +560,7 @@ $(document).ready(() => {
   $(document).on("click", ".dep-del-btn", (e) => {
     e.preventDefault();
     $("#department-del-modal").modal("show");
-    let delID = e.target.getAttribute("id");
+    let delID = e.target.getAttribute("data-id");
     $("#confirm-department-del-btn").attr("data-dep-id", delID);
   });
   // department delete btn in confirmation modal
@@ -561,7 +573,7 @@ $(document).ready(() => {
   $(document).on("click", ".location-del-btn", (e) => {
     e.preventDefault();
     $("#location-del-modal").modal("show");
-    let delID = e.target.getAttribute("id");
+    let delID = e.target.getAttribute("data-id");
     $("#confirm-location-del-btn").attr("data-loc-id", delID);
   });
   // department delete btn in confirmation modal

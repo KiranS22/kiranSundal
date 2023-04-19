@@ -18,30 +18,25 @@ const tabSelector = () => {
     $("#department-search").hide();
     $("#location-search").hide();
     $("#employee-search").show();
-    $("#add").click((e) => {
-      e.preventDefault();
-      $("#addForm").modal("show");
-    });
   } else if ($("#department-tab").hasClass("active")) {
     $("#location-search").hide();
     $("#employee-search").hide();
     $("#department-search").show();
-
-    $("#add").click((e) => {
-      e.preventDefault();
-      $("#addDepartmentForm").modal("show");
-    });
   } else if ($("#location-tab").hasClass("active")) {
     $("#employee-search").hide();
     $("#department-search").hide();
     $("#location-search").show();
-
-    $("#add").click((e) => {
-      e.preventDefault();
-      $("#addLocationForm").modal("show");
-    });
   }
 };
+// const showCorrectAddForm = () => {
+//   if ($("#employee-tab").hasClass("active")) {
+//     $("#addForm").modal("show");
+//   } else if ($("#department-tab").hasClass("active")) {
+//     $("#addDepartmentForm").modal("show");
+//   } else if ($("#location-tab").hasClass("active")) {
+//     $("#addLocationForm").modal("show");
+//   }
+// };
 // --------------------------------------------
 // Populating tables functions
 const populateEmployeeData = (data) => {
@@ -496,6 +491,19 @@ $(document).ready(() => {
   $(".nav-link").click(() => {
     tabSelector();
   });
+
+  $("#add").click((e) => {
+    e.preventDefault();
+    // showCorrectAddForm();
+    if ($("#employee-tab").hasClass("active")) {
+      $("#addForm").modal("show");
+    } else if ($("#department-tab").hasClass("active")) {
+      $("#addDepartmentForm").modal("show");
+    } else if ($("#location-tab").hasClass("active")) {
+      $("#addLocationForm").modal("show");
+    }
+  });
+
   // ------------------------------------------------
 
   // Read more Employee info

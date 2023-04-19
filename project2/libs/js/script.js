@@ -28,15 +28,15 @@ const tabSelector = () => {
     $("#location-search").show();
   }
 };
-// const showCorrectAddForm = () => {
-//   if ($("#employee-tab").hasClass("active")) {
-//     $("#addForm").modal("show");
-//   } else if ($("#department-tab").hasClass("active")) {
-//     $("#addDepartmentForm").modal("show");
-//   } else if ($("#location-tab").hasClass("active")) {
-//     $("#addLocationForm").modal("show");
-//   }
-// };
+const showCorrectAddForm = () => {
+  if ($("#employee-tab").hasClass("active")) {
+    $("#addForm").modal("show");
+  } else if ($("#department-tab").hasClass("active")) {
+    $("#addDepartmentForm").modal("show");
+  } else if ($("#location-tab").hasClass("active")) {
+    $("#addLocationForm").modal("show");
+  }
+};
 // --------------------------------------------
 // Populating tables functions
 const populateEmployeeData = (data) => {
@@ -47,9 +47,9 @@ const populateEmployeeData = (data) => {
     content += `<td class="listItem" title="${employee.location}" id="${employee.id}"> ${employee.firstName} ${employee.lastName}  <span class="tooltiptext">${employee.location}</span></td>`;
     content += `<td class="d-none d-sm-block">${employee.department}</td>`;
 
-    content += `<td class="float-right"><button class="btn btn-dark employee-edit-btn btn-sm" id="${employee.id}"><i class="fa-solid fa-pen"></i></button></td>`;
+    content += `<td><button class="btn btn-dark employee-edit-btn btn-sm float-right" id="${employee.id}"><i class="fa-solid fa-pen"></i></button></td>`;
 
-    content += `<td><button class=" btn btn-danger btn-sm employee-del-btn" id="${employee.id}"> <i class="fa-solid fa-trash-can"></i> </button></td>`;
+    content += `<td><button class=" float-right btn btn-danger btn-sm employee-del-btn" id="${employee.id}"> <i class="fa-solid fa-trash-can"></i> </button></td>`;
     content += `</tr>`;
   }
   $("#employeesList").html(content);
@@ -81,8 +81,8 @@ const populateDepartmentData = (data) => {
     content += `<tr>`;
     content += `<td  id="${department.id}"> ${department.name}</td>`;
     content += `<td class="d-none d-sm-block">${department.location}</td>`;
-    content += `<td ><button class="btn btn-dark dep-edit-btn  btn-sm" id="${department.id}"><i class="fa-solid fa-pen"></i></button></td>`;
-    content += `<td><button class=" btn btn-danger btn-sm dep-del-btn" id="${department.id}"><i class="fa-solid fa-trash-can"></i></button></td>`;
+    content += `<td ><button class=" float-right btn btn-dark dep-edit-btn  btn-sm" id="${department.id}"><i class="fa-solid fa-pen"></i></button></td>`;
+    content += `<td><button class="float-right  btn btn-danger btn-sm dep-del-btn" id="${department.id}"><i class="fa-solid fa-trash-can"></i></button></td>`;
     content += `</tr>`;
   }
   $("#departmentsList").html(content);
@@ -94,7 +94,7 @@ const populateLocationData = (data) => {
     content += `<tr>`;
     content += `<td  id="${location.id}"> ${location.name}</td>`;
 
-    content += `<td ><button class="btn btn-dark location-edit-btn btn-sm" id="${location.id}"><i class="fa-solid fa-pen"></i> </button></td> <td><button class=" btn btn-danger btn-sm location-del-btn"  id="${location.id}" ><i class="fa-solid fa-trash-can"></i></button></td>`;
+    content += `<td ><button class=" float-right btn btn-dark location-edit-btn btn-sm" id="${location.id}"><i class="fa-solid fa-pen"></i> </button></td> <td><button class="float-right btn btn-danger btn-sm location-del-btn"  id="${location.id}" ><i class="fa-solid fa-trash-can"></i></button></td>`;
     content += `</tr>`;
   }
   $("#locationsList").html(content);
@@ -492,18 +492,11 @@ $(document).ready(() => {
     tabSelector();
   });
 
-  $("#add").click((e) => {
+  $("#add-button").on("click", (e) => {
     e.preventDefault();
-    // showCorrectAddForm();
-    if ($("#employee-tab").hasClass("active")) {
-      $("#addForm").modal("show");
-    } else if ($("#department-tab").hasClass("active")) {
-      $("#addDepartmentForm").modal("show");
-    } else if ($("#location-tab").hasClass("active")) {
-      $("#addLocationForm").modal("show");
-    }
+    console.log("Add clicked");
+    showCorrectAddForm();
   });
-
   // ------------------------------------------------
 
   // Read more Employee info

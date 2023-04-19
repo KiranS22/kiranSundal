@@ -451,7 +451,67 @@ const deleteLocationById = (id) => {
       }
     },
     error: () => {
-      generateToast("connot delete department");
+      generateToast("connot delete department", "red");
+    },
+  });
+};
+const getEmployeeCountByDepartment = (depId) => {
+  $.ajax({
+    type: "POST",
+    url: "libs/php/countEmployeesByDepartment.php",
+    data: { id: depId },
+    dataType: "json",
+    success: (response) => {
+      let departmentCount = response.data.department[0].departmentCount;
+      let departmentName = response.data.department[0].departmentName;
+      if (departmentCount > 0) {
+        generateToast(
+          ` Sorry, you cannot delete ${departmentName} as there are ${departmentCount} employees are assigned to it`,
+          "red"
+        );
+      } else {
+        $("#confirm-department-del-btn").attr("data-dep-id", depId);
+        $("#department-del-modal .modal-body p").html(
+          `Are you sure you want to delete ${departmentName}? This cannot be undone`
+        );
+        $("#department-del-modal").modal("show");
+      }
+    },
+    error: () => {
+      generateToast("Something went wromg", "red");
+    },
+  });
+};
+
+const countDepartmentByLocation = (locId) => {
+  $.ajax({
+    type: "POST",
+    url: "libs/php/countDepartmentByLocation.php",
+    data: { id: locId },
+    dataType: "json",
+    success: (response) => {
+      console.log(response.data);
+      let locationCount = response.data.location[0].locationCount;
+      let locationName = response.data.location[0].locationName;
+      if (locationCount > 0) {
+        generateToast(
+          ` Sorry, you cannot delete ${locationName} as there are ${locationCount} departments are assigned to it`,
+          "red"
+        );
+      } else {
+        $("#confirm-location-del-btn").attr("data-loc-id", locId);
+        $("#location-del-modal .modal-body p").html(
+          `Are you sure you want to delete ${locationName}? This cannot be undone`
+        );
+        $("#location-del-modal").modal("show");
+      }
+    },
+    error: () => {
+      generateToast("Something went wromg", "red");
+
+      /*
+
+      */
     },
   });
 };
@@ -543,12 +603,10 @@ $(document).ready(() => {
   // employee delete btn in table
   $(document).on("click", ".employee-del-btn", (e) => {
     e.preventDefault();
-    console.log(e.target);
     $("#employee-del-modal").modal("show");
 
     let delID = e.target.getAttribute("data-id");
     $("#confirm-emplee-del-btn").attr("data-emp-id", delID);
-    console.log(delID);
   });
   // employee delete btn in confirmation modal
   $("#confirm-emplee-del-btn").click((e) => {
@@ -559,9 +617,8 @@ $(document).ready(() => {
   // department delete btn in table
   $(document).on("click", ".dep-del-btn", (e) => {
     e.preventDefault();
-    $("#department-del-modal").modal("show");
     let delID = e.target.getAttribute("data-id");
-    $("#confirm-department-del-btn").attr("data-dep-id", delID);
+    getEmployeeCountByDepartment(delID);
   });
   // department delete btn in confirmation modal
   $("#confirm-department-del-btn").click((e) => {
@@ -572,9 +629,8 @@ $(document).ready(() => {
 
   $(document).on("click", ".location-del-btn", (e) => {
     e.preventDefault();
-    $("#location-del-modal").modal("show");
     let delID = e.target.getAttribute("data-id");
-    $("#confirm-location-del-btn").attr("data-loc-id", delID);
+    countDepartmentByLocation(delID);
   });
   // department delete btn in confirmation modal
   $("#confirm-location-del-btn").click((e) => {

@@ -7,18 +7,6 @@
 .add-btn-container {
   background: transparent;
 }
-/* .wrapper {
-  position: relative;
-} */
-/* .sticky-head {
-  position: sticky;
-  top: 0;
-}
-.sticky-div {0
-  position: sticky;
-  top: 0;
-  background-color: #fff;
-} */
 
 .listItem:hover {
   color: rgb(0, 0, 224);
@@ -40,9 +28,9 @@
 
   /* Position the tooltip */
   position: absolute;
-  z-index: 1;
+  z-index: 20;
   bottom: 80%;
-  left: 30%;
+  left: 40%;
   margin-left: -60px;
 }
 .listItem:hover .tooltiptext {
@@ -60,7 +48,6 @@ svg {
   overflow-x: hidden;
 }
 
-/*Harry*/
 table {
   text-align: left;
   position: relative;

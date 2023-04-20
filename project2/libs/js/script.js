@@ -52,12 +52,12 @@ const populateEmployeeData = (data) => {
   for (let i = 0; i < data.length; i++) {
     const employee = data[i];
     content += `<tr>`;
-    content += `<td class="listItem" title="${employee.location}" id="${employee.id}"> ${employee.firstName} ${employee.lastName}  <span class="tooltiptext">${employee.location}</span></td>`;
+    content += `<td class="listItem" title="${employee.location}" data-id="${employee.id}"> ${employee.firstName} ${employee.lastName}  <span class="tooltiptext">${employee.location}</span></td>`;
     content += `<td class="d-none d-sm-block">${employee.department}</td>`;
 
     content += `<td><button class="btn btn-dark employee-edit-btn btn-sm float-right" data-id="${employee.id}"><i class="fa-solid fa-pen"></i></button></td>`;
 
-    content += `<td><button class=" float-right btn btn-danger btn-sm employee-del-btn" data-id="${employee.id}"> <i class="fa-solid fa-trash-can"></i> </button></td>`;
+    content += `<td><button class=" float-right btn btn-danger btn-sm employee-del-btn" data-id="${employee.id}" data-name="${employee.firstName} ${employee.lastName}"> <i class="fa-solid fa-trash-can"></i> </button></td>`;
     content += `</tr>`;
   }
   $("#employeesList").html(content);
@@ -371,6 +371,7 @@ const getLocationById = (id) => {
     data: { id: Number(id) },
     dataType: "json",
     success: (response) => {
+      console.log(response);
       let code = response.status.code;
       if (code === "200") {
         let location = response.data;
@@ -567,7 +568,7 @@ $(document).ready(() => {
   // Read more Employee info
 
   $(document).on("click", ".listItem", (e) => {
-    let personId = e.target.getAttribute("id");
+    let personId = e.target.getAttribute("data-id");
     getEmployeeById(personId, "read");
     $("#readOnlyForm").modal("show");
   });
@@ -575,7 +576,6 @@ $(document).ready(() => {
   // Edit form Functions
   $(document).on("click", ".employee-edit-btn", (e) => {
     e.stopPropagation();
-    ;
     let editId = e.target.getAttribute("data-id");
     getEmployeeById(editId, "edit");
     $("#editForm").modal("show");
@@ -593,13 +593,15 @@ $(document).ready(() => {
     $("#editLocationForm").modal("show");
   });
   // --------------------------------------------
-  $("i svg").click((e) => {
-    e.stopPropagation();
-  });
+
   // Delete functions
   // employee delete btn in table
   $(document).on("click", ".employee-del-btn", (e) => {
     e.preventDefault();
+    let employeeName = e.target.getAttribute("data-name");
+    $("#employee-del-modal .modal-body p").html(
+      `Are you sure you want to delete ${employeeName}? This cannot be undone`
+    );
     $("#employee-del-modal").modal("show");
 
     let delID = e.target.getAttribute("data-id");
@@ -709,6 +711,18 @@ $(document).ready(() => {
     );
 
     $("#editLocationForm").modal("hide");
+  });
+  // --------------------------------------
+  $("#addForm").on("hidden.bs.modal", () => {
+    $("#addEmployeeForm")[0].reset();
+  });
+
+  $("#addDepartmentForm").on("hidden.bs.modal", () => {
+    $("#createDepForm")[0].reset();
+  });
+
+  $("#addLocationForm").on("hidden.bs.modal", () => {
+    $("#createLocForm")[0].reset();
   });
 
   // Searchbar functions

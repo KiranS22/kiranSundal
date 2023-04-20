@@ -14,79 +14,82 @@
   </head>
 
   <body>
-    <div class="sticky-div">
-      <input
-        class="form-control me-2 mt-2"
-        type="search"
-        placeholder="Search Employees"
-        aria-label="Search"
-        id="employee-search"
-      />
+    <div class="wrapper">
+      <div class="sticky-div">
+        <div class="d-flex justify-content-evenly">
+          <input
+            class="form-control me-2 mt-2 w-75"
+            type="search"
+            placeholder="Search Employees"
+            aria-label="Search"
+            id="employee-search"
+          />
 
-      <input
-        class="form-control me-2 mt-2"
-        type="search"
-        placeholder="Search Departments"
-        aria-label="Search"
-        id="department-search"
-      />
-      <input
-        class="form-control me-2 mt-2"
-        type="search"
-        placeholder="Search Locations"
-        aria-label="Search"
-        id="location-search"
-      />
+          <input
+            class="form-control me-2 mt-2 w-75"
+            type="search"
+            placeholder="Search Departments"
+            aria-label="Search"
+            id="department-search"
+          />
+          <input
+            class="form-control me-2 mt-2 w-75"
+            type="search"
+            placeholder="Search Locations"
+            aria-label="Search"
+            id="location-search"
+          />
+          <button class="btn btn-outline-secondary mt-4" id="add-button">
+            <i class="fa-solid fa-plus"></i> Add
+          </button>
+        </div>
 
-      <ul class="nav nav-tabs pt-4" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link active"
-            id="employee-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#employee-data"
-            type="button"
-            role="tab"
-            aria-controls="home"
-            aria-selected="true"
-          >
-            Employees
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            id="department-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#department-data"
-            type="button"
-            role="tab"
-            aria-controls="profile"
-            aria-selected="false"
-          >
-            Departments
-          </button>
-        </li>
+        <ul class="nav nav-tabs pt-4" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="employee-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#employee-data"
+              type="button"
+              role="tab"
+              aria-controls="home"
+              aria-selected="true"
+            >
+              Employees
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="department-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#department-data"
+              type="button"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
+            >
+              Departments
+            </button>
+          </li>
 
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            id="location-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#location-data"
-            type="button"
-            role="tab"
-            aria-controls="profile"
-            aria-selected="false"
-          >
-            Locations
-          </button>
-        </li>
-      </ul>
-      <div class="d-flex justify-content-end">
-        <button class="btn btn-outline-secondary mt-4" id="add-button">
-          <i class="fa-solid fa-plus"></i> Add
-        </button>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="location-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#location-data"
+              type="button"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
+            >
+              Locations
+            </button>
+          </li>
+        </ul>
+        <div class="add-btn-container"></div>
       </div>
     </div>
     <!-- Nav tabs -->
@@ -102,7 +105,7 @@
         <!-- Employee Data table -->
         <div class="container wrapper">
           <table class="table">
-            <thead>
+            <thead class="sticky-head">
               <tr>
                 <th>Name</th>
                 <th class="d-none d-sm-block">Department</th>
@@ -373,7 +376,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form id="addEmployeeForm">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group mt-2">
@@ -528,7 +531,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form id="createDepForm">
               <input type="hidden" class="form-control" id="edit-id" value="" />
               <div class="row">
                 <div class="col-md-6">
@@ -644,7 +647,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form id  ="createLocForm">
               <input type="hidden" class="form-control" id="edit-id" value="" />
               <div class="row">
                 <div class="col-md-6">
@@ -684,9 +687,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <p>
-
-            </p>
+            <p></p>
             <div class="d-flex justify-content-center">
               <button
                 type="button"
@@ -723,9 +724,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <p>
-
-            </p>
+            <p></p>
             <div class="d-flex justify-content-center">
               <button
                 type="button"
@@ -762,9 +761,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <p>
-           
-            </p>
+            <p></p>
             <div class="d-flex justify-content-center">
               <button
                 type="button"

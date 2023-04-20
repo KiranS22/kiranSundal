@@ -5,17 +5,21 @@
 }
 
 .add-btn-container {
-  margin-top: -58px;
-  width: 90%;
+  background: transparent;
 }
-/* .wrapper {
-  height: 100vh;
-  width: 100%;
-} */
-tr th,
+.wrapper {
+  /* border: 2px solid blue; */
+  position: relative;
+}
+.sticky-head {
+  position: sticky;
+  top: 0;
+}
 .sticky-div {
   position: sticky;
   top: 0;
+  background-color: #fff;
+  /* border: 2px solid red; */
 }
 
 .listItem:hover {
@@ -45,4 +49,9 @@ tr th,
 }
 .listItem:hover .tooltiptext {
   visibility: visible;
+}
+
+i.fa-solid,
+svg {
+  pointer-events: none;
 }

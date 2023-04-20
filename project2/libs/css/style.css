@@ -7,18 +7,18 @@
 .add-btn-container {
   background: transparent;
 }
-.wrapper {
+/* .wrapper {
   position: relative;
-}
-.sticky-head {
+} */
+/* .sticky-head {
   position: sticky;
   top: 0;
 }
-.sticky-div {
+.sticky-div {0
   position: sticky;
   top: 0;
   background-color: #fff;
-}
+} */
 
 .listItem:hover {
   color: rgb(0, 0, 224);
@@ -52,4 +52,34 @@
 i.fa-solid,
 svg {
   pointer-events: none;
+}
+
+.table-wrapper {
+  max-height: 750px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/*Harry*/
+table {
+  text-align: left;
+  position: relative;
+  border-collapse: collapse;
+}
+th,
+td {
+  padding: 0.25rem;
+}
+
+th {
+  background: white;
+  position: sticky;
+  top: 0;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+
+tr.white th {
+  background: white;
+  color: black;
+  z-index: 20;
 }

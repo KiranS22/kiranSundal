@@ -27,7 +27,7 @@ const tabSelector = () => {
     $("#department-search").hide();
     $("#location-search").show();
   }
-}
+};
 // --------------------------------------------------------------------------
 // show Diffrent modals on the same add-btn
 const showCorrectAddForm = () => {
@@ -46,16 +46,17 @@ const populateEmployeeData = (data) => {
   for (let i = 0; i < data.length; i++) {
     const employee = data[i];
     content += `<tr>`;
-    content += `<td class="listItem" title="${employee.location}" data-id="${employee.id}"> ${employee.firstName} ${employee.lastName}  <span class="tooltiptext">${employee.location}</span></td>`;
-    content += `<td class="d-none d-sm-block">${employee.department}</td>`;
+    content += `<td class="listItem" title="${employee.location}" data-bs-toggle="modal" data-bs-target="#readOnlyForm" data-id="${employee.id}"> ${employee.firstName} ${employee.lastName}  <span class="tooltiptext">${employee.location}</span></td>`;
+    content += `<td class="">${employee.department}</td>`;
 
-    content += `<td><button class="btn btn-dark employee-edit-btn btn-sm float-right" data-id="${employee.id}"><i class="fa-solid fa-pen"></i></button></td>`;
+    content += `<td><button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#editForm" employee-edit-btn " data-id="${employee.id}"><i class="fa-solid fa-pen"></i></button></td>`;
 
-    content += `<td><button class=" float-right btn btn-danger btn-sm employee-del-btn" data-id="${employee.id}" data-name="${employee.firstName} ${employee.lastName}"> <i class="fa-solid fa-trash-can"></i> </button></td>`;
+    content += `<td><button class="btn btn-danger btn-sm employee-del-btn" data-bs-toggle="modal" data-bs-target="#employee-del-modal" data-id="${employee.id}" data-name="${employee.firstName} ${employee.lastName}"> <i class="fa-solid fa-trash-can"></i> </button></td>`;
     content += `</tr>`;
   }
   $("#employeesList").html(content);
 };
+
 const populateDepartmentDropdownForEmployeeData = (data) => {
   let content = "<option value='' >Choose Department</option>";
   for (let i = 0; i < data.length; i++) {
@@ -83,8 +84,8 @@ const populateDepartmentData = (data) => {
     content += `<tr>`;
     content += `<td  id="${department.id}"> ${department.name}</td>`;
     content += `<td class="d-none d-sm-block">${department.location}</td>`;
-    content += `<td ><button class=" float-right btn btn-dark dep-edit-btn  btn-sm" data-id="${department.id}"><i class="fa-solid fa-pen"></i></button></td>`;
-    content += `<td><button class="float-right btn btn-danger btn-sm dep-del-btn" data-id="${department.id}"><i class="fa-solid fa-trash-can"></i></button></td>`;
+    content += `<td ><button class=" float-right btn btn-dark dep-edit-btn  btn-sm" data-id="${department.id}"  data-bs-toggle="modal" data-bs-target="#editDepartmentForm"><i class="fa-solid fa-pen"></i></button></td>`;
+    content += `<td><button class="float-right btn btn-danger btn-sm dep-del-btn" data-id="${department.id}" data-bs-toggle="modal" data-bs-target="#department-del-modal"><i class="fa-solid fa-trash-can"></i></button></td>`;
     content += `</tr>`;
   }
   $("#departmentsList").html(content);
@@ -96,7 +97,7 @@ const populateLocationData = (data) => {
     content += `<tr>`;
     content += `<td  id="${location.id}"> ${location.name}</td>`;
 
-    content += `<td ><button class=" float-right btn btn-dark location-edit-btn btn-sm" data-id="${location.id}"><i class="fa-solid fa-pen"></i> </button></td> <td><button class="float-right btn btn-danger btn-sm location-del-btn"  data-id="${location.id}" ><i class="fa-solid fa-trash-can"></i></button></td>`;
+    content += `<td ><button class=" float-right btn btn-dark location-edit-btn btn-sm" data-id="${location.id}" data-bs-toggle="modal" data-bs-target="#editLocationForm"><i class="fa-solid fa-pen"></i> </button></td> <td><button class="float-right btn btn-danger btn-sm location-del-btn"  data-id="${location.id}"><i class="fa-solid fa-trash-can"></i></button></td>`;
     content += `</tr>`;
   }
   $("#locationsList").html(content);
@@ -502,7 +503,6 @@ const countDepartmentByLocation = (locId) => {
     },
     error: () => {
       generateToast("Something went wromg", "red");
-
     },
   });
 };
@@ -557,49 +557,37 @@ $(document).ready(() => {
   // ------------------------------------------------
 
   // Read more Employee info
-
-  $(document).on("click", ".listItem", (e) => {
-    let personId = e.target.getAttribute("data-id");
-    getEmployeeById(personId, "read");
-    $("#readOnlyForm").modal("show");
+  $("#readOnlyForm").on("show.bs.modal", function (e) {
+    getEmployeeById($(e.relatedTarget).attr("data-id"), "read");
   });
   // ------------------------------------------------
   // Edit form Functions
-  $(document).on("click", ".employee-edit-btn", (e) => {
-    e.stopPropagation();
-    let editId = e.target.getAttribute("data-id");
-    getEmployeeById(editId, "edit");
-    $("#editForm").modal("show");
+  $("#editForm").on("show.bs.modal", function (e) {
+    getEmployeeById($(e.relatedTarget).attr("data-id"), "edit");
   });
-  $(document).on("click", ".dep-edit-btn", (e) => {
-    e.stopPropagation();
-    let depId = e.target.getAttribute("data-id");
-    getDepartmentById(depId);
-    $("#editDepartmentForm").modal("show");
+  $("#editDepartmentForm").on("show.bs.modal", function (e) {
+    getDepartmentById($(e.relatedTarget).attr("data-id"));
   });
-  $(document).on("click", ".location-edit-btn", (e) => {
-    e.stopPropagation();
-    let editId = e.target.getAttribute("data-id");
-    getLocationById(editId);
-    $("#editLocationForm").modal("show");
+
+  $("#editLocationForm").on("show.bs.modal", function (e) {
+    getLocationById($(e.relatedTarget).attr("data-id"));
   });
   // --------------------------------------------
 
   // Delete functions
   // employee delete btn in table
-  $(document).on("click", ".employee-del-btn", (e) => {
-    e.preventDefault();
-    let employeeName = e.target.getAttribute("data-name");
+  $("#employee-del-modal").on("show.bs.modal", function (e) {
+    let employeeName = $(e.relatedTarget).attr("data-name");
     $("#employee-del-modal .modal-body p").html(
       `Are you sure you want to delete ${employeeName}? This cannot be undone`
     );
-    $("#employee-del-modal").modal("show");
 
-    let delID = e.target.getAttribute("data-id");
-    $("#confirm-emplee-del-btn").attr("data-emp-id", delID);
+    let delID = $(e.relatedTarget).attr("data-id");
+    $("#confirm-employee-del-btn").attr("data-emp-id", delID);
   });
+
   // employee delete btn in confirmation modal
-  $("#confirm-emplee-del-btn").click((e) => {
+  $("#confirm-employee-del-btn").click((e) => {
     let empId = e.target.getAttribute("data-emp-id");
     deleteAnEmployeeById(empId);
   });

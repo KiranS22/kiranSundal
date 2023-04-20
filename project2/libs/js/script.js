@@ -85,7 +85,7 @@ const populateDepartmentData = (data) => {
     content += `<td  id="${department.id}"> ${department.name}</td>`;
     content += `<td class="d-none d-sm-block">${department.location}</td>`;
     content += `<td class="text-right"><button class="  btn btn-dark dep-edit-btn  btn-sm" data-id="${department.id}"  data-bs-toggle="modal" data-bs-target="#editDepartmentForm"><i class="fa-solid fa-pen"></i></button></td>`;
-    content += `<td class="text-right"><button class=" btn btn-danger btn-sm dep-del-btn" data-id="${department.id}" data-bs-toggle="modal" data-bs-target="#department-del-modal"><i class="fa-solid fa-trash-can"></i></button></td>`;
+    content += `<td class="text-right"><button class=" btn btn-danger btn-sm dep-del-btn" data-id="${department.id}"><i class="fa-solid fa-trash-can"></i></button></td>`;
     content += `</tr>`;
   }
   $("#departmentsList").html(content);
@@ -97,7 +97,7 @@ const populateLocationData = (data) => {
     content += `<tr>`;
     content += `<td  id="${location.id}"> ${location.name}</td>`;
 
-    content += `<td class="text-right" ><button class="  btn btn-dark location-edit-btn btn-sm" data-id="${location.id}" data-bs-toggle="modal" data-bs-target="#editLocationForm"><i class="fa-solid fa-pen"></i> </button></td> <td class="text-right"><button class=" btn btn-danger btn-sm location-del-btn" data-id="${location.id}" data-bs-toggle="modal" data-bs-target="#location-del-modal"><i class="fa-solid fa-trash-can"></i></button></td>`;
+    content += `<td class="text-right" ><button class="  btn btn-dark location-edit-btn btn-sm" data-id="${location.id}" data-bs-toggle="modal" data-bs-target="#editLocationForm"><i class="fa-solid fa-pen"></i> </button></td> <td class="text-right"><button class=" btn btn-danger btn-sm location-del-btn" data-id="${location.id}"><i class="fa-solid fa-trash-can"></i></button></td>`;
     content += `</tr>`;
   }
   $("#locationsList").html(content);
@@ -580,7 +580,8 @@ $(document).ready(() => {
 
   // Delete functions
   // employee delete btn in table
-  $("#employee-del-modal").on("show.bs.modal", (e) => {
+  // employee delete btn in table
+  $("#employee-del-modal").on("show.bs.modal", function (e) {
     let employeeName = $(e.relatedTarget).attr("data-name");
     $("#employee-del-modal .modal-body p").html(
       `Are you sure you want to delete ${employeeName}? This cannot be undone`
@@ -591,27 +592,23 @@ $(document).ready(() => {
   });
 
   // employee delete btn in confirmation modal
-  $("#confirm-employee-del-btn").click((e) => {
-    let empId = $(e.relatedTarget).attr("data-emp-id");
+  $("#confirm-emplee-del-btn").click((e) => {
+    let empId = e.target.getAttribute("data-emp-id");
     deleteAnEmployeeById(empId);
   });
   // --------------------------------------------
-  $("#department-del-modal").on("show.bs.modal", (e) => {
-    let delID = $(e.relatedTarget).attr("data-id");
-    console.log(delID);
+  // department delete btn in table
+  $(document).on("click", ".dep-del-btn", (e) => {
+    e.preventDefault();
+    let delID = e.target.getAttribute("data-id");
     getEmployeeCountByDepartment(delID);
   });
-
-  // department delete btn in table
-  // $(document).on("click", ".dep-del-btn", (e) => {
-  //   e.preventDefault();
-
-  // // department delete btn in confirmation modal
-  // $("#confirm-department-del-btn").click((e) => {
-  //   let depId = e.target.getAttribute("data-dep-id");
-  //   deleteDepartmentById(depId);
-  // });
-  // // --------------------------------------------
+  // department delete btn in confirmation modal
+  $("#confirm-department-del-btn").click((e) => {
+    let depId = e.target.getAttribute("data-dep-id");
+    deleteDepartmentById(depId);
+  });
+  // --------------------------------------------
 
   $(document).on("click", ".location-del-btn", (e) => {
     e.preventDefault();

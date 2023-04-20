@@ -27,13 +27,7 @@ const tabSelector = () => {
     $("#department-search").hide();
     $("#location-search").show();
   }
-};
-// ---------------------------------------------
-const customizeDeletemodals = (modal, itemToDelete) => {
-  $(`#${modal}.modal-body p`).html(
-    `Are you sure you want to delete ${itemToDelete}? This cannot be undone`
-  );
-};
+}
 // --------------------------------------------------------------------------
 // show Diffrent modals on the same add-btn
 const showCorrectAddForm = () => {
@@ -509,9 +503,6 @@ const countDepartmentByLocation = (locId) => {
     error: () => {
       generateToast("Something went wromg", "red");
 
-      /*
-
-      */
     },
   });
 };

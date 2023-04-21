@@ -4,10 +4,6 @@
   box-sizing: border-box;
 }
 
-.add-btn-container {
-  background: transparent;
-}
-
 .listItem:hover {
   color: rgb(0, 0, 224);
   text-decoration: underline;
@@ -53,20 +49,31 @@ table {
   position: relative;
   border-collapse: collapse;
 }
-th,
-td {
+/* th, */
+/* td {
   padding: 0.25rem;
-}
+} */
 
-th {
-  background: white;
+.table thead {
   position: sticky;
-  top: 0;
-  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+  top: -2px;
+  z-index: 15;
 }
 
 tr.white th {
   background: white;
   color: black;
   z-index: 20;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+
+.w-12 {
+  width: 12%;
+}
+.w-17 {
+  width: 17%;
+}
+
+.text-right {
+  text-align: right;
 }

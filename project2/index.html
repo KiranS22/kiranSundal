@@ -14,8 +14,8 @@
   </head>
 
   <body>
-    <div class="wrapper">
-      <div class="sticky-div">
+    <div>
+      <div>
         <div class="d-flex justify-content-evenly">
           <input
             class="form-control me-2 mt-2 w-75"
@@ -103,14 +103,14 @@
         aria-labelledby="home-tab"
       >
         <!-- Employee Data table -->
-        <div class="container wrapper table-wrapper">
+        <div class="container table-wrapper">
           <table class="table">
-            <thead class="sticky-head">
+            <thead>
               <tr class="white">
                 <th>Name</th>
-                <th class="">Department</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th class="d-none d-sm-table-cell">Department</th>
+                <th class="text-right">Edit</th>
+                <th class="text-right">Delete</th>
               </tr>
             </thead>
             <tbody id="employeesList"></tbody>
@@ -125,14 +125,14 @@
         aria-labelledby="location-tab"
       >
         <!-- Department Data table -->
-        <div class="container wrapper table-wrapper">
+        <div class="container table-wrapper">
           <table class="table">
             <thead>
               <tr class="white">
                 <th>Name</th>
-                <th class="d-none d-sm-block">Location</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th class="d-none d-sm-table-cell">Location</th>
+                <th class="text-right">Edit</th>
+                <th class="text-right">Delete</th>
               </tr>
             </thead>
             <tbody id="departmentsList"></tbody>
@@ -147,13 +147,13 @@
         aria-labelledby="messages-tab"
       >
         <!-- Location Data table -->
-        <div class="container wrapper table-wrapper">
+        <div class="container table-wrapper">
           <table class="table">
             <thead>
               <tr class="white">
                 <th>Name</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th class="text-right">Edit</th>
+                <th class="text-right">Delete</th>
               </tr>
             </thead>
             <tbody id="locationsList"></tbody>

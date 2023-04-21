@@ -47,11 +47,12 @@ const populateEmployeeData = (data) => {
     const employee = data[i];
     content += `<tr>`;
     content += `<td class="listItem" title="${employee.location}" data-bs-toggle="modal" data-bs-target="#readOnlyForm" data-id="${employee.id}"> ${employee.firstName} ${employee.lastName}  <span class="tooltiptext">${employee.location}</span></td>`;
-    content += `<td class="">${employee.department}</td>`;
+    content += `<td class="d-none d-sm-block">${employee.department}</td>`;
 
-    content += `<td class="text-right"><button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#editForm" employee-edit-btn " data-id="${employee.id}"><i class="fa-solid fa-pen"></i></button></td>`;
+    content += `<td class="w-17"><div class="d-flex justify-content-end"><button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#editForm" employee-edit-btn " data-id="${employee.id}"><i class="fa-solid fa-pen"></i></button></div></td>`;
 
-    content += `<td class="text-right"><button class="btn btn-danger btn-sm employee-del-btn" data-bs-toggle="modal" data-bs-target="#employee-del-modal" data-id="${employee.id}" data-name="${employee.firstName} ${employee.lastName}"> <i class="fa-solid fa-trash-can"></i> </button></td>`;
+    content += `<td class="w-12"><div class="d-flex justify-content-end">
+    <button class="btn btn-danger btn-sm employee-del-btn" data-bs-toggle="modal" data-bs-target="#employee-del-modal" data-id="${employee.id}" data-name="${employee.firstName} ${employee.lastName}"> <i class="fa-solid fa-trash-can"></i> </button></div></td>`;
     content += `</tr>`;
   }
   $("#employeesList").html(content);
@@ -84,8 +85,8 @@ const populateDepartmentData = (data) => {
     content += `<tr>`;
     content += `<td  id="${department.id}"> ${department.name}</td>`;
     content += `<td class="d-none d-sm-block">${department.location}</td>`;
-    content += `<td class="text-right"><button class="  btn btn-dark dep-edit-btn  btn-sm" data-id="${department.id}"  data-bs-toggle="modal" data-bs-target="#editDepartmentForm"><i class="fa-solid fa-pen"></i></button></td>`;
-    content += `<td class="text-right"><button class=" btn btn-danger btn-sm dep-del-btn" data-id="${department.id}"><i class="fa-solid fa-trash-can"></i></button></td>`;
+    content += `<td class="w-17"><div class="d-flex justify-content-end"><button class="  btn btn-dark dep-edit-btn  btn-sm" data-id="${department.id}"  data-bs-toggle="modal" data-bs-target="#editDepartmentForm"><i class="fa-solid fa-pen"></i></button></div></td>`;
+    content += `<td class="w-12"><div class="d-flex justify-content-end"><button class=" btn btn-danger btn-sm dep-del-btn" data-id="${department.id}"><i class="fa-solid fa-trash-can"></i></button></div></td>`;
     content += `</tr>`;
   }
   $("#departmentsList").html(content);
@@ -97,7 +98,7 @@ const populateLocationData = (data) => {
     content += `<tr>`;
     content += `<td  id="${location.id}"> ${location.name}</td>`;
 
-    content += `<td class="text-right" ><button class="  btn btn-dark location-edit-btn btn-sm" data-id="${location.id}" data-bs-toggle="modal" data-bs-target="#editLocationForm"><i class="fa-solid fa-pen"></i> </button></td> <td class="text-right"><button class=" btn btn-danger btn-sm location-del-btn" data-id="${location.id}"><i class="fa-solid fa-trash-can"></i></button></td>`;
+    content += `<td class="w-17"><div class="d-flex justify-content-end"><button class="  btn btn-dark location-edit-btn btn-sm" data-id="${location.id}" data-bs-toggle="modal" data-bs-target="#editLocationForm"><i class="fa-solid fa-pen"></i> </button></div></td> <td class="w-12"><div class="d-flex justify-content-end"><button class=" btn btn-danger btn-sm location-del-btn" data-id="${location.id}"><i class="fa-solid fa-trash-can"></i></button></div></td>`;
     content += `</tr>`;
   }
   $("#locationsList").html(content);
@@ -143,7 +144,6 @@ const getEmployeeById = (id, modalType) => {
             $("#edit-jobTitle").val(person.jobTitle);
             $("#edit-id").val(person.id);
             $("#edit-Department").val(person.departmentID);
-            generateToast("Data fetched Sucessfully!", "green");
             getAllEmployeeInfo();
           } else {
             $("#lastName").val(person.lastName);
@@ -263,8 +263,6 @@ const getDepartmentById = (id) => {
           $("#edit-Department-name").val(department.name);
           $("#edit-dep-id").val(department.id);
           $("#edit-department-location").val(department.locationID);
-
-          generateToast("Data fetched successfully", "green");
         } else {
           generateToast("Could not load departments", "red");
         }
@@ -366,7 +364,6 @@ const getLocationById = (id) => {
     data: { id: Number(id) },
     dataType: "json",
     success: (response) => {
-      console.log(response);
       let code = response.status.code;
       if (code === "200") {
         let location = response.data;
@@ -376,7 +373,6 @@ const getLocationById = (id) => {
 
           $("#edit-location-name").val(location.name);
           $("#edit-location-id").val(location.id);
-          generateToast("Data fetched successfully", "green");
           getLocationInformation();
         } else {
           generateToast("Could not load locations", "red");
@@ -452,24 +448,20 @@ const deleteLocationById = (id) => {
   });
 };
 const getEmployeeCountByDepartment = (depId) => {
-  console.log(depId);
   $.ajax({
     type: "POST",
     url: "libs/php/countEmployeesByDepartment.php",
     data: { id: depId },
     dataType: "json",
     success: (response) => {
-      console.log(response);
       let departmentCount = response.data.department[0].departmentCount;
       let departmentName = response.data.department[0].departmentName;
       if (departmentCount > 0) {
-        console.log("if running");
         generateToast(
           ` Sorry, you cannot delete ${departmentName} as there are ${departmentCount} employees are assigned to it`,
           "red"
         );
       } else {
-        console.log("if running");
         $("#confirm-department-del-btn").attr("data-dep-id", depId);
         $("#department-del-modal .modal-body p").html(
           `Are you sure you want to delete ${departmentName}? This cannot be undone`
@@ -581,7 +573,7 @@ $(document).ready(() => {
   // Delete functions
   // employee delete btn in table
   // employee delete btn in table
-  $("#employee-del-modal").on("show.bs.modal", function (e) {
+  $("#employee-del-modal").on("show.bs.modal", (e) => {
     let employeeName = $(e.relatedTarget).attr("data-name");
     $("#employee-del-modal .modal-body p").html(
       `Are you sure you want to delete ${employeeName}? This cannot be undone`

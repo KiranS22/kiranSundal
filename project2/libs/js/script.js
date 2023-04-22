@@ -173,6 +173,10 @@ const createEmployee = (firstName, lastName, jobTitle, email, departmentID) => {
       if (code == "200") {
         generateToast("Employee Added  Sucessfully!", "green");
         getAllEmployeeInfo();
+      } else if (code == "500") {
+        generateToast("Invalid data added", "red");
+      } else if (code == "1062") {
+        generateToast("These credentails are already taken", "red");
       }
     },
     error: () => {
@@ -280,7 +284,9 @@ const createDepartment = (name, locationID) => {
     data: { name, locationID },
     dataType: "json",
     success: (response) => {
+      console.log("create department course", response);
       let code = response.status.code;
+
       if (code == "200") {
         generateToast("Department added  successfully", "green");
         getAllDepartments();
@@ -395,6 +401,10 @@ const createLocation = (name) => {
       if (code == "200") {
         generateToast("Location added  successfully", "green");
         getLocationInformation();
+      } else if (code == "500") {
+        generateToast("Invalid data added", "red");
+      } else if (code == "1062") {
+        generateToast("These credentails are already taken", "red");
       }
     },
     error: () => {
@@ -584,7 +594,7 @@ $(document).ready(() => {
   });
 
   // employee delete btn in confirmation modal
-  $("#confirm-emplee-del-btn").click((e) => {
+  $("#confirm-employee-del-btn").click((e) => {
     let empId = e.target.getAttribute("data-emp-id");
     deleteAnEmployeeById(empId);
   });

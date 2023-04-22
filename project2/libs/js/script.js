@@ -420,10 +420,15 @@ const updateLocationInformation = (name, id) => {
     data: { name, id },
     dataType: "json",
     success: (response) => {
+      
       let code = response.status.code;
       if (code == "200") {
         getLocationInformation();
         generateToast("Location Updated Successfully!", "green");
+      } else if (code == "500") {
+        generateToast("Invalid data added", "red");
+      } else if (code == "1062") {
+        generateToast("These credentails are already taken", "red");
       }
     },
     error: () => {

@@ -4,14 +4,14 @@
 	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=<id>
 
 	// remove next two lines for production
-	
+
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL);
 
 	$executionStartTime = microtime(true);
-	
+
 	// this includes the login details
-	
+
 	include("config.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
@@ -19,7 +19,7 @@
 	$conn = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
 
 	if (mysqli_connect_errno()) {
-		
+
 		$output['status']['code'] = "300";
 		$output['status']['name'] = "failure";
 		$output['status']['description'] = "database unavailable";
@@ -32,7 +32,42 @@
 
 		exit;
 
-	}	
+	}
+
+	// check if any inputs are empty
+	if(empty($_POST['name']) || empty($_POST['locationID'])){
+		$output['status']['code'] = "500";
+		$output['status']['name'] = "failure";
+		$output['status']['description'] = "referential integrity compromised";
+		$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
+		$output['data'] = [];
+
+		mysqli_close($conn);
+
+		echo json_encode($output);
+
+		exit;
+	}
+
+	// check if values already exist in the database
+	$query = $conn->prepare('SELECT * FROM department WHERE name=? AND locationID=?');
+	$query->bind_param("si", $_POST['name'], $_POST['locationID']);
+	$query->execute();
+	$result = $query->get_result();
+
+	if($result->num_rows > 0){
+		$output['status']['code'] = "1062";
+		$output['status']['name'] = "failure";
+		$output['status']['description'] = "duplicate entries";
+		$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
+		$output['data'] = [];
+
+		mysqli_close($conn);
+
+		echo json_encode($output);
+
+		exit;
+	}
 
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_POST used for development / debugging. Remember to change to $_POST for production
@@ -42,17 +77,17 @@
 	$query->bind_param("si", $_POST['name'], $_POST['locationID']);
 
 	$query->execute();
-	
+
 	if (false === $query) {
 
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
-		$output['status']['description'] = "query failed";	
+		$output['status']['description'] = "query failed";
 		$output['data'] = [];
 
 		mysqli_close($conn);
 
-		echo json_encode($output); 
+		echo json_encode($output);
 
 		exit;
 
@@ -63,9 +98,8 @@
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
 	$output['data'] = [];
-	
+
 	mysqli_close($conn);
 
-	echo json_encode($output); 
-
-?>
+	echo json_encode($output);
+	?>

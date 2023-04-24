@@ -32,7 +32,7 @@ if (mysqli_connect_errno()) {
 }
 
 // Check if any of the inputs are empty
-if (empty($_POST['firstName']) || empty($_POST['lastName']) || empty($_POST['jobTitle']) || empty($_POST['email']) || empty($_POST['departmentID'])) {
+if (empty($_POST['firstName']) || empty($_POST['lastName'])  || empty($_POST['email']) || empty($_POST['departmentID'])) {
 
     $output['status']['code'] = "500";
     $output['status']['name'] = "error";

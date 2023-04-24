@@ -176,7 +176,7 @@ const createEmployee = (firstName, lastName, jobTitle, email, departmentID) => {
       } else if (code == "500") {
         generateToast("Invalid data added", "red");
       } else if (code == "1062") {
-        generateToast("These credentails are already taken", "red");
+        generateToast("These credentials are already taken", "red");
       }
     },
     error: () => {
@@ -293,7 +293,7 @@ const createDepartment = (name, locationID) => {
       } else if (code == "500") {
         generateToast("Invalid data added", "red");
       } else if (code == "1062") {
-        generateToast("These credentails are already taken", "red");
+        generateToast("These credentials are already taken", "red");
       }
     },
     error: () => {
@@ -408,7 +408,7 @@ const createLocation = (name) => {
       } else if (code == "500") {
         generateToast("Invalid data added", "red");
       } else if (code == "1062") {
-        generateToast("These credentails are already taken", "red");
+        generateToast("These credentials are already taken", "red");
       }
     },
     error: () => {
@@ -431,7 +431,7 @@ const updateLocationInformation = (name, id) => {
       } else if (code == "500") {
         generateToast("Invalid data added", "red");
       } else if (code == "1062") {
-        generateToast("These credentails are already taken", "red");
+        generateToast("These credentials are already taken", "red");
       }
     },
     error: () => {

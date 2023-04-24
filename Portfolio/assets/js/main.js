@@ -5,6 +5,23 @@
  * Author: BootstrapMade.com
  * License: https://bootstrapmade.com/license/
  */
+// Download Cv Button
+$(document).ready(function () {
+  $("#download-pdf-button").click(function () {
+    window, open("assets/docs/KiranSundal-2023.pdf", "_blank");
+  });
+});
+
+// Pre-loader function to only show when content is rendering
+$(window).on("load", function () {
+  if ($("#preloader").length) {
+    $("#preloader")
+      .delay(1000)
+      .fadeOut("slow", function () {
+        $(this).remove();
+      });
+  }
+});
 (function () {
   "use strict";
 

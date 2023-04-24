@@ -48,6 +48,7 @@
   </head>
 
   <body>
+    <div id="preloader"></div>
     <!-- ======= Mobile nav toggle button ======= -->
     <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 
@@ -93,7 +94,8 @@
             </li>
             <li>
               <a href="#resume" class="nav-link scrollto"
-                ><i class="bx bx-file-blank"></i> <span>Resume</span></a
+                ><i class="bx bx-file-blank"></i>
+                <span>Curriculum Vitae</span></a
               >
             </li>
             <li>
@@ -174,10 +176,7 @@
               <div class="row">
                 <div class="col-lg-6">
                   <ul>
-                    <li>
-                      <i class="bi bi-chevron-right"></i>
-                      <strong>Birthday:</strong> <span>19 February 2000</span>
-                    </li>
+                    <li></li>
 
                     <li>
                       <i class="bi bi-chevron-right"></i>
@@ -187,11 +186,6 @@
                 </div>
                 <div class="col-lg-6">
                   <ul>
-                    <li>
-                      <i class="bi bi-chevron-right"></i> <strong>Age:</strong>
-                      <span>23</span>
-                    </li>
-
                     <li>
                       <i class="bi bi-chevron-right"></i>
                       <strong>Looking for:</strong> <span>Remote Work</span>
@@ -278,7 +272,7 @@
       <section id="resume" class="resume">
         <div class="container">
           <div class="section-title">
-            <h2>Resume</h2>
+            <h2>Curriculum Vitae</h2>
             <p>
               Now let's have a deep-dive into my skills, experience and
               education.
@@ -287,7 +281,7 @@
 
           <div class="row">
             <div class="col-lg-6" data-aos="fade-up">
-              <h3 class="resume-title">Sumary</h3>
+              <h3 class="resume-title">Summary</h3>
               <div class="resume-item pb-0">
                 <h4>Kiran Sundal</h4>
                 <p>
@@ -302,8 +296,6 @@
                 </p>
                 <ul>
                   <li>49-53 Darlaston Road Walsall West Midlands,</li>
-                  <li>(+44) 773 219 0028</li>
-                  <li>krnsundal@gmail.com</li>
                 </ul>
               </div>
 
@@ -319,39 +311,6 @@
                 <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
               </div>
               <div class="resume-item">
-                <h4>GCSE English Literature</h4>
-                <h5>2015</h5>
-                <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
-              </div>
-              <div class="resume-item">
-                <h4>GCSE Leisure and Tourism</h4>
-                <h5>2015</h5>
-                <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
-              </div>
-              <div class="resume-item">
-                <h4>GCSE History</h4>
-                <h5>2015</h5>
-                <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
-              </div>
-
-              <div class="resume-item">
-                <h4>BTEC Dip Health and Social Care Level 2</h4>
-                <h5>2015</h5>
-                <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
-              </div>
-
-              <div class="resume-item">
-                <h4>BTEC Extended Dip Health and Social Care Level 3</h4>
-                <h5>2016</h5>
-                <p>
-                  <em
-                    >Walsall College, Wisemore Campus, unit 10 Day St, Walsall
-                    WS2 8EJ</em
-                  >
-                </p>
-              </div>
-
-              <div class="resume-item">
                 <h4>GCSE English Language</h4>
                 <h5>2018</h5>
                 <p>
@@ -362,14 +321,22 @@
                 </p>
               </div>
               <div class="resume-item">
-                <h4>QCF Business Administration</h4>
-                <h5>2019</h5>
-                <p>
-                  <em
-                    >Walsall College, Wisemore Campus, unit 10 Day St, Walsall
-                    WS2 8EJ</em
-                  >
-                </p>
+                <h4>GCSE English Literature</h4>
+                <h5>2015</h5>
+                <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
+              </div>
+              <div class="resume-item">
+                <h4>GCSE History</h4>
+                <h5>2015</h5>
+                <p><em>Queslett Road East, Sutton Coldfield B74 2EX</em></p>
+              </div>
+              <div class="resume-item">
+                <button
+                  id="download-pdf-button"
+                  class="btn btn-danger text-white"
+                >
+                  Download Full Curriculum Vitae
+                </button>
               </div>
             </div>
 
@@ -414,7 +381,7 @@
                     href="assets/img/portfolio/Gazetteer.png"
                     data-gallery="portfolioGallery"
                     class="portfolio-lightbox"
-                    title="A interactive map, built with a'mobile first' approach,  using Leafetjs,PHP,Qjuery HTML, Bootstrap and JavaScript. The map highlights country borders and displays  information about each country. "
+                    title="An interactive map, built with a 'mobile first' approach, was developed using the LAMP (Linux, Apache, MySQL, PHP) stack, Bootstrap, and JQuery/JavaScript. The map utilizes the Bootstrap framework to ensure mobile responsiveness and highlights country borders while displaying valuable information about each country."
                     ><i class="bx bx-plus"></i
                   ></a>
                   <a
@@ -439,7 +406,7 @@
                     href="assets/img/portfolio/companyDirectory.png"
                     data-gallery="portfolioGallery"
                     class="portfolio-lightbox"
-                    title="A database lookup-stystem, built with a'mobile first' approach,  using MYSQL,PHP,Qjuery HTML, Bootstrap and JavaScript. Users of the application can read, create, update and delete employees,departments and locations. "
+                    title="A database lookup-system, designed with a 'mobile first' approach, was created using the LAMP (Linux, Apache, MySQL, PHP) stack, jQuery, HTML, Bootstrap, and JQueryJavaScript. The system allows users to efficiently manage employee records, departments, and locations, with the ability to read, create, update, and delete records. The MySQL database is utilized to store, organize, and retrieve data for the user interface. "
                     ><i class="bx bx-plus"></i
                   ></a>
                   <a

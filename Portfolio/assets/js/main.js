@@ -8,7 +8,7 @@
 // Download Cv Button
 $(document).ready(function () {
   $("#download-pdf-button").click(function () {
-    window, open("assets/docs/KiranSundal-2023.pdf", "_blank");
+    window, open("assets/docs/KiranSundal-2023.docx.pdf", "_blank");
   });
 });
 
@@ -166,41 +166,6 @@ $(window).on("load", function () {
       backDelay: 2000,
     });
   }
-
-  /**
-
-   * Porfolio isotope and filter
-   */
-  // window.addEventListener("load", () => {
-  //   let portfolioContainer = select(".portfolio-container");
-  //   if (portfolioContainer) {
-  //     let portfolioIsotope = new Isotope(portfolioContainer, {
-  //       itemSelector: ".portfolio-item",
-  //     });
-
-  //     let portfolioFilters = select("#portfolio-flters li", true);
-
-  //     on(
-  //       "click",
-  //       "#portfolio-flters li",
-  //       function (e) {
-  //         e.preventDefault();
-  //         portfolioFilters.forEach(function (el) {
-  //           el.classList.remove("filter-active");
-  //         });
-  //         this.classList.add("filter-active");
-
-  //         portfolioIsotope.arrange({
-  //           filter: this.getAttribute("data-filter"),
-  //         });
-  //         portfolioIsotope.on("arrangeComplete", function () {
-  //           AOS.refresh();
-  //         });
-  //       },
-  //       true
-  //     );
-  //   }
-  // });
 
   /**
    * Initiate portfolio lightbox

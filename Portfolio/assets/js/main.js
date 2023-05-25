@@ -8,7 +8,7 @@
 // Download Cv Button
 $(document).ready(function () {
   $("#download-pdf-button").click(function () {
-    window, open("assets/docs/KiranSundal-2023.docx.pdf", "_blank");
+    window, open("./assets/docs/Kiran Sundal CV.pdf", "_blank");
   });
 });
 

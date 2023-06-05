@@ -568,7 +568,7 @@ $(document).ready(() => {
 
         content += `<tbody>
              <tr>
-            
+
                <td>${usd}</td>
                <td>${gbp}</td>
                <td>${eur}</td>
@@ -659,7 +659,7 @@ $(document).ready(() => {
         <tr  class="bg-info text-dark">
           <th class="thead-styling">Name</th>
           <th class="thead-styling">Date</th>
-        
+
         </tr>
        </thead>`;
 
@@ -671,7 +671,7 @@ $(document).ready(() => {
              <td>${holiday.name}</td>
 
 
-             
+
              <td>${Date.parse(holiday.date).toString("ddd dS MMM")}</td>
 
            </tr>`;
@@ -711,7 +711,7 @@ $(document).ready(() => {
            <tr>
              <td><a class="news-link" href="${headline.url}">${headline.title}</a></td>
              <td>${headline.author}</td>
-          
+
            </tr>`;
         }
         content += "</table>";
@@ -907,8 +907,8 @@ $(document).ready(() => {
          <td class="fw-bold">Name</td>
            <td>${singleRestCountry.name.common}</td>
            </tr>
-           <tr class="row-styling bg-info text-dark"> 
-           <td class="fw-bold">Capital</td>  
+           <tr class="row-styling bg-info text-dark">
+           <td class="fw-bold">Capital</td>
             <td>${singleRestCountry.capital[0]}</td>
             </tr>
             <tr>
@@ -918,7 +918,7 @@ $(document).ready(() => {
            <tr class="row-styling bg-info text-dark">
            <td class="fw-bold">Flag</td>
            <td><img class="flag" src="${singleRestCountry.flags.png}"/></td>
-           
+
            </tr>
          `;
 

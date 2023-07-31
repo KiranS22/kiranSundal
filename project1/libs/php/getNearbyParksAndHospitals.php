@@ -10,8 +10,8 @@ curl_setopt($ch,CURLOPT_TIMEOUT , 30);
 curl_setopt($ch,CURLOPT_HTTP_VERSION , CURL_HTTP_VERSION_1_1);
 curl_setopt($ch,CURLOPT_CUSTOMREQUEST , "GET");
 curl_setopt($ch,CURLOPT_HTTPHEADER , [
-	"X-RapidAPI-Host: trueway-places.p.rapidapi.com",
-	"X-RapidAPI-Key: c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f"
+	"X-RapidAPI-Host:". TRUEWAY_PLACES_API_HOST,
+	"X-RapidAPI-Key:" . TRUE_WAY_PLACES_API_KEY
 ]);
 
 $executionStartTime = microtime(true);
@@ -26,7 +26,7 @@ $result=curl_exec($ch);
 curl_close($ch);
 
 
-$decode = json_decode($result,true);	
+$decode = json_decode($result,true);
 
 $output['status']['code'] = "200";
 $output['status']['name'] = "ok";
@@ -36,6 +36,5 @@ $output['data'] = $decode['results'];
 
 header('Content-Type: application/json; charset=UTF-8');
 
-echo json_encode($output); 
+echo json_encode($output);
 ?>
-

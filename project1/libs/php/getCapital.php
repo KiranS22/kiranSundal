@@ -1,5 +1,6 @@
 <?php
-$url = 'http://api.geonames.org/searchJSON?q='.$_REQUEST['place'].'&country='.$_REQUEST['code'].'&maxRows=1&username=flightltd';
+require "config.php";
+$url = 'http://api.geonames.org/searchJSON?q='.$_REQUEST['place'].'&country='.$_REQUEST['code'].'&maxRows=1&username=' . GEONAMES_USERNAME;
 
 $executionStartTime = microtime(true);
 
@@ -14,7 +15,7 @@ $result=curl_exec($ch);
 curl_close($ch);
 
 
-$decode = json_decode($result,true);	
+$decode = json_decode($result,true);
 
 $output['status']['code'] = "200";
 $output['status']['name'] = "ok";
@@ -24,5 +25,5 @@ $output['data'] = $decode['geonames'];
 
 header('Content-Type: application/json; charset=UTF-8');
 
-echo json_encode($output); 
+echo json_encode($output);
 ?>

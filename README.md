@@ -1,6 +1,21 @@
-## Final IT Career Switch Projects
+# Final IT Career Switch Projects
 
-### Portfolio Project #1: Gazetteer
+## Installation and Setup - Gazetteer
+
+1. Clone the repository from GitHub:
+
+   ```
+   git clone <repository-url>
+   ```
+
+2. Rename the `config.example.php` file in the `php` directory to `config.php`:
+
+   - Add the respective API keys and username values in the `config.php` file for your project.
+
+3. Rename the `config.example.js` file to `config.js`:
+   - Add your API key for the chosen tile layer in the `config.js` file.
+
+## Portfolio Project #1: Gazetteer
 
 The first portfolio project, "Gazetteer," involved creating a map-based app to provide information on countries, with a specific focus on a "mobile-first" development approach. The project required the use of a framework to develop HTML, CSS, and JavaScript with JQuery modules, incorporating PHP server-based components to fetch data from third-party APIs such as Geonames and OpenWeather. The success of the solution was assessed based on its adherence to the specifications, functionality, and usability.
 
@@ -11,13 +26,13 @@ During this project, I had the opportunity to learn and work with Leafletjs, alo
 I faced challenges while locating and including all the necessary files to run Leafletjs without encountering errors in the console. Additionally, debugging issues arose when utilizing free API services, as there were limitations on the number of requests that could be made to the server.
 
 **What I would improve?**
-Given the chance to improve my Gazeteer project, I would implement the following enhancements:
+Given the chance to improve my Gazetteer project, I would implement the following enhancements:
 
 - Incorporate an overlay at the bottom of the page to display images of the selected country.
 - Add markers for airports in each country for improved user navigation.
 - Revise the color scheme to create a more cohesive and uniform design.
 
-### Portfolio Project #2: Company Directory
+## Portfolio Project #2: Company Directory
 
 The second portfolio project, "Company Directory," demanded a more comprehensive approach as it necessitated the creation of a user requirements document. The project could only progress once the document was approved, which then triggered the release of SQL to develop a "mobile-first" application for maintaining a company personnel database using MySQL.
 

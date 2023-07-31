@@ -1,7 +1,7 @@
 <?php
 require "config.php";
-// 
-$url = "http://api.openweathermap.org/data/2.5/forecast?lat=".$_REQUEST['lat'] . "&"."lon=".$_REQUEST['long']. "&" ."appid=e37dcbdbb7ab46945197d7d733a7e68c";
+
+$url = "http://api.openweathermap.org/data/2.5/forecast?lat=".$_REQUEST['lat'] . "&"."lon=".$_REQUEST['long']. "&" ."appid=" . WEATHER_API_KEY;
 $executionStartTime = microtime(true);
 
 $ch = curl_init();
@@ -14,7 +14,7 @@ $result=curl_exec($ch);
 curl_close($ch);
 
 
-$decode = json_decode($result,true);	
+$decode = json_decode($result,true);
 
 $output['status']['code'] = "200";
 $output['status']['name'] = "ok";
@@ -24,5 +24,5 @@ $output['data'] = $decode;
 
 header('Content-Type: application/json; charset=UTF-8');
 
-echo json_encode($output); 
+echo json_encode($output);
 ?>

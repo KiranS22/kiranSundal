@@ -1,6 +1,7 @@
-<?php 
+<?php
+require "config.php";
 
-$url ="https://newsapi.org/v2/top-headlines?country=". $_REQUEST['countryCode']."&apiKey=d14ee14877fc4359b367a0395e95845a" ;
+$url ="https://newsapi.org/v2/top-headlines?country=". $_REQUEST['countryCode']."&apiKey=". NEWS_API_KEY ;
 
 $executionStartTime = microtime(true);
 
@@ -10,8 +11,8 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_URL,$url);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  "Authorization: d14ee14877fc4359b367a0395e95845a",
-  "Content-Type: application/json", 
+  "Authorization:" . NEWS_API_KEY,
+  "Content-Type: application/json",
   "User-Agent: MyAppName/1.0.0",
 
 ));
@@ -20,7 +21,7 @@ $result=curl_exec($ch);
 
 curl_close($ch);
 
-$decode = json_decode($result,true);	
+$decode = json_decode($result,true);
 
 
 $output['status']['code'] = "200";

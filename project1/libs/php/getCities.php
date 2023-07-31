@@ -1,8 +1,7 @@
 
-
-
 <?php
-$url = "http://api.geonames.org/searchJSON?country=" .$_REQUEST['countryCode']. "&cities=cities15000&username=flightltd&maxRows=50";
+require "comnfig.php";
+$url = "http://api.geonames.org/searchJSON?country=" .$_REQUEST['countryCode']. "&cities=cities15000&username=".GEONAMES_USERNAME .  "&maxRows=50";
 
 $executionStartTime = microtime(true);
 
@@ -17,7 +16,7 @@ $result=curl_exec($ch);
 curl_close($ch);
 
 
-$decode = json_decode($result,true);	
+$decode = json_decode($result,true);
 
 $output['status']['code'] = "200";
 $output['status']['name'] = "ok";
@@ -27,6 +26,5 @@ $output['data'] = $decode['geonames'];
 
 header('Content-Type: application/json; charset=UTF-8');
 
-echo json_encode($output); 
+echo json_encode($output);
 ?>
-

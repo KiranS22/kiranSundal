@@ -25,11 +25,11 @@ map.setView([51.509865, -0.118092], 4);
 
 // tile layer
 L.tileLayer(
-  "https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f",
+  `https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=${LAYER1_API_KEY}`,
   {
     attribution:
       '&copy; <a href="http://www.maptilesapi.com/">MapTiles API</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    apikey: "c4edb04533mshba882524ef1f0e1p1f0643jsna3c2c78e057f",
+    apikey:LAYER1_API_KEY ,
     maxZoom: 19,
     minZoom: 4,
   }
@@ -597,7 +597,7 @@ $(document).ready(() => {
       data: { lat: lat, long: long },
       dataType: "json",
       success: (response) => {
-        if (response.data.geonames.length > 0) {
+        if (response.data.length > 0) {
           let content = ` <h3 class="caption">Wikipedia Links </h3> <table class="table table-striped w-100">`;
           content += `<thead>
           <tr class="bg-info text-dark">
@@ -605,7 +605,7 @@ $(document).ready(() => {
 
           content += `<tbody>`;
 
-          let wikiInfo = response.data.geonames;
+          let wikiInfo = response.data;
           let linksToDisplay = wikiInfo.map((url) => {
             let fullUrl = "https://" + url.wikipediaUrl;
             return fullUrl;

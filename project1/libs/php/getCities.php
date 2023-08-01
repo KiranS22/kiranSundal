@@ -1,6 +1,6 @@
 
 <?php
-require "comnfig.php";
+require "config.php";
 $url = "http://api.geonames.org/searchJSON?country=" .$_REQUEST['countryCode']. "&cities=cities15000&username=".GEONAMES_USERNAME .  "&maxRows=50";
 
 $executionStartTime = microtime(true);

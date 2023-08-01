@@ -647,7 +647,7 @@ $(document).ready(() => {
       data: { countryCode: countryCode, year: currentYear },
       dataType: "json",
       success: (response) => {
-        let holidayInformation = response;
+        let holidayInformation = response.data;
 
         const duplicatehols = holidayInformation.map((o) => o.name);
         const filteredHolidays = holidayInformation.filter(
@@ -681,6 +681,7 @@ $(document).ready(() => {
         $("#ph-info-1").html(content);
       },
       error: () => {
+
         Toastify({
           text: "Could not load public holidays",
           duration: 3000,

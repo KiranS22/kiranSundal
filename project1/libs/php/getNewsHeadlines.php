@@ -1,7 +1,7 @@
 <?php
 require "config.php";
 
-$url ="https://newsapi.org/v2/top-headlines?country=". $_REQUEST['countryCode']."&apiKey=". NEWS_API_KEY ;
+$url ="https://newsapi.org/v2/top-headlines?country=". $_REQUEST['countryCode']."&apiKey=".NEWS_API_KEY;
 
 $executionStartTime = microtime(true);
 

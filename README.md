@@ -3,13 +3,11 @@
 ## Installation and Setup - Gazetteer
 
 1. Clone the repository from GitHub:
-
    ```
-   git clone <repository-url>
+   git clone https://github.com/KiranS22/kiranSundal.git
    ```
 
 2. Rename the `config.example.php` file in the `php` directory to `config.php`:
-
    - Add the respective API keys and username values in the `config.php` file for your project.
 
 3. Rename the `config.example.js` file to `config.js`:
@@ -17,7 +15,16 @@
 
 ## Portfolio Project #1: Gazetteer
 
-The first portfolio project, "Gazetteer," involved creating a map-based app to provide information on countries, with a specific focus on a "mobile-first" development approach. The project required the use of a framework to develop HTML, CSS, and JavaScript with JQuery modules, incorporating PHP server-based components to fetch data from third-party APIs such as Geonames and OpenWeather. The success of the solution was assessed based on its adherence to the specifications, functionality, and usability.
+The first portfolio project, "Gazetteer," involved creating a map-based app to provide information on countries, with a specific focus on a "mobile-first" development approach. The project used the following tech stack:
+
+- HTML
+- CSS
+- jQuery
+- PHP
+- Leafletjs
+- Bootstrap 5
+
+The solution incorporated PHP server-based components to fetch data from third-party APIs such as Geonames and OpenWeather.
 
 **What I enjoyed?**
 During this project, I had the opportunity to learn and work with Leafletjs, along with cluster marker and extra marker libraries.
@@ -32,9 +39,24 @@ Given the chance to improve my Gazetteer project, I would implement the followin
 - Add markers for airports in each country for improved user navigation.
 - Revise the color scheme to create a more cohesive and uniform design.
 
+## Installation and Setup - Company Directory
+
+1. Clone the repository as detailed in the setup instructions for the Gazetteer project.
+
+2. In the `php` directory, locate the `config.php` file and add in your database name, username, and password.
+
 ## Portfolio Project #2: Company Directory
 
-The second portfolio project, "Company Directory," demanded a more comprehensive approach as it necessitated the creation of a user requirements document. The project could only progress once the document was approved, which then triggered the release of SQL to develop a "mobile-first" application for maintaining a company personnel database using MySQL.
+The second portfolio project, "Company Directory," demanded a more comprehensive approach as it necessitated the creation of a user requirements document. The project used the following tech stack:
+
+- HTML
+- CSS
+- jQuery
+- PHP
+- MySQL
+- Bootstrap 5
+
+The project involved developing a "mobile-first" application for maintaining a company personnel database using MySQL.
 
 **What I enjoyed?**
 Throughout this project, I particularly enjoyed writing MySQL queries to manipulate the database and creating the user interface.
